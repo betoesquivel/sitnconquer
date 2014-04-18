@@ -20,7 +20,7 @@ public class Jugador {
     // X crece a la derecha de acuerdo al número de mesas y Y para abajo
     private int cordX; // Coordenada en X de acuerdo al mapa de mesas de cada escenario
     private int cordY;  // Coordenada en Y de acuerdo al mapa de mesas de cada escenario
-    private Mesa mesaSeleccionada;  // Objeto mesa el cual está actualemnte seleccionado
+    private int mesaSeleccionada; 
 
     /**
      * Método constructor de Jugador para crear al objeto
@@ -29,10 +29,11 @@ public class Jugador {
      * @param c es el <code>color</code> del jugador.
      * @param n es el <code>nombre</code> del jugador.
      */
-    public Jugador(Color c, String n) {
+    public Jugador(Color c, String n, int inicial) {
 //        id = i;
         this.color = c;
         nombre = n;
+        mesaSeleccionada = inicial;
     }
 
     /**
@@ -107,7 +108,7 @@ public class Jugador {
      *
      * @return mesaSeleccionada
      */
-    public Mesa getMesaSeleccionada() {
+    public int getMesaSeleccionada() {
         return mesaSeleccionada;
     }
 
@@ -117,7 +118,7 @@ public class Jugador {
      * @param mesaSeleccionada es la <code>mesa</code>seleccionada por el
      * jugador.
      */
-    public void setMesaSeleccionada(Mesa mesaSeleccionada) {
+    public void setMesaSeleccionada(int mesaSeleccionada) {
         this.mesaSeleccionada = mesaSeleccionada;
     }
 

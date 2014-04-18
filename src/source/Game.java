@@ -34,6 +34,11 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private Image dbImage;	// Imagen a proyectar	
     private Graphics dbg;	// Objeto grafico
 
+    // Jugadores
+    Jugador j1; 
+    Jugador j2; 
+    
+    
     //Objetos...
     private Mesa table;
     private Silla chair;
@@ -95,6 +100,11 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         listaTables = new LinkedList<Mesa>();
         crearMesasYSillas();
 
+        //jugadores init
+        
+        j1 = new Jugador(Color.red, "Beto", 0);
+        j2 = new Jugador(Color.blue, "Hugo", 1);
+        
         //Controladores 
         addKeyListener(this);
         addMouseListener(this);
@@ -160,10 +170,10 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         tiempoActual = System.currentTimeMillis();
 
         while (true) {
-//            if (!pausado) {
-//                Actualiza();
-//                ChecaColision();
-//            }
+            if (state == state.GAME) {
+                Actualiza();
+                ChecaColision();
+            }
             repaint();    // Se Actualiza el <code>Applet</code> repintando el POINTSenido.
             try {
                 // El thread se duerme.
@@ -178,19 +188,22 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
      * Metodo usado para actualizar la posicion de objetos del juego
      */
     public void Actualiza() {
-
+        
+        listaTables.get(j1.getMesaSeleccionada()).setColor(j1.getColor()); 
+        listaTables.get(j2.getMesaSeleccionada()).setColor(j2.getColor()); 
+        
         //Determina el tiempo que ha transcurrido desde que el Applet 
         //inicio su ejecución
-        long tiempoTranscurrido = System.currentTimeMillis() - tiempoActual;
+//        long tiempoTranscurrido = System.currentTimeMillis() - tiempoActual;
         //Guarda el tiempo actual
-        tiempoActual += tiempoTranscurrido;
+//        tiempoActual += tiempoTranscurrido;
         //Actualiza la animación en base al tiempo transcurrido
-        travolta.actualiza(tiempoTranscurrido);
+//        travolta.actualiza(tiempoTranscurrido);
         //inicio su ejecución
         //Guarda el tiempo actual
-        tiempoActual += tiempoTranscurrido;
+//        tiempoActual += tiempoTranscurrido;
         //Actualiza la animación en base al tiempo transcurrido
-        travolta.actualiza(tiempoTranscurrido);
+//        travolta.actualiza(tiempoTranscurrido);
     }
 
     /**
@@ -255,12 +268,44 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
      *para pausar el juego
      */
     public void keyPressed(KeyEvent e) {
-        if (e.KEY_TYPED == e.VK_P) {
-            if (state == state.GAME) {
-                state = state.PAUSED;
+        if (state == state.GAME) {
+            if (e.KEY_PRESSED == e.VK_P) {
+                state = state.PAUSED; 
             }
-            if (state == state.PAUSED) {
-                state = state.GAME;
+            int ant, sig; 
+            switch (e.getKeyCode()) {
+                case KeyEvent.VK_P: state = state.PAUSED; 
+                    break;
+                
+                //Controles para el jugador 1
+                case KeyEvent.VK_RIGHT: 
+                    sig = ( j1.getMesaSeleccionada() + 1 ) % listaTables.size();
+                    listaTables.get(j1.getMesaSeleccionada()).setColor(null);
+                    j1.setMesaSeleccionada(sig);
+                    break;
+                case KeyEvent.VK_LEFT: 
+                    ant = ( j1.getMesaSeleccionada() - 1 ) % listaTables.size();
+                    listaTables.get(j1.getMesaSeleccionada()).setColor(null);
+                    j1.setMesaSeleccionada(ant);
+                    break;
+                
+                //Controles para el jugador 2
+                case KeyEvent.VK_D: 
+                    sig = ( j2.getMesaSeleccionada() + 1 ) % listaTables.size();
+                    listaTables.get(j2.getMesaSeleccionada()).setColor(null);
+                    j2.setMesaSeleccionada(sig);
+                    break;
+                case KeyEvent.VK_A: 
+                    ant = ( j2.getMesaSeleccionada() - 1 ) % listaTables.size();
+                    listaTables.get(j2.getMesaSeleccionada()).setColor(null);
+                    j2.setMesaSeleccionada(ant);
+                    break;    
+            }
+        }
+        
+        if (state == state.PAUSED) {
+            if (e.KEY_PRESSED == e.VK_P) {
+                state = state.GAME; 
             }
         }
     }

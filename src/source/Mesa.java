@@ -28,8 +28,8 @@ public class Mesa extends Base {
     private Upgrade upgrade;    // Objeto upgrade que pudiera tener la mesa
     private int tipo;
     /* tipo = 0: mesa indefinida
-    *  tipo = 1: mesa redonda con 4 sillas
-    */
+     *  tipo = 1: mesa redonda con 4 sillas
+     */
 
     /**
      * Método constructor de Mesa para definir solo la posición y crear el
@@ -46,7 +46,7 @@ public class Mesa extends Base {
         monitosSentados = new LinkedList();
         upgrade = new Upgrade();
     }
-    
+
     public Mesa(int posX, int posY, Image image) {
         super(posX, posY);
         ImageIcon icono = new ImageIcon(image);
@@ -57,7 +57,7 @@ public class Mesa extends Base {
         cantSillas = tipo = 0; // Valor default
         upgrade = new Upgrade();
     }
-    
+
     public Mesa(int posX, int posY, Image image, int t) {
         super(posX, posY);
         ImageIcon icono = new ImageIcon(image);
@@ -110,10 +110,19 @@ public class Mesa extends Base {
         upgrade = new Upgrade(tipoUpgrade);
     }
 
-    public void paint(Graphics g){
-        g.drawImage(getImageIcon().getImage(), getPosX(), getPosY(), null); 
+    public void paint(Graphics g) {
+        g.drawImage(getImageIcon().getImage(), getPosX(), getPosY(), null);
+        if (color != null) {
+            Color playerColor = new Color(color.getRed(), color.getGreen(), color.getBlue(), 50);
+            g.setColor(playerColor);
+            if (color == Color.red) {
+                g.fillRect(getPosX() - 15, getPosY() - 15, icono.getIconWidth() + 15, icono.getIconHeight() + 15);
+            } else {
+                g.fillOval(getPosX() - 15, getPosY() - 15, icono.getIconWidth() + 15, icono.getIconHeight() + 15);
+            }
+        }
     }
-    
+
     /**
      * Metodo de acceso que regresa la cantidad de personas sentadas del objeto
      *
@@ -146,8 +155,6 @@ public class Mesa extends Base {
     public void setColor(Color color) {
         this.color = color;
     }
-
-    
 
     /**
      * Metodo de acceso que regresa la lista con las sillas del objeto
@@ -223,11 +230,11 @@ public class Mesa extends Base {
             cantSillas = 4;
         }
     }
-    
+
     /**
-     * Metodo utilizado para crear las sillas correspondientes al tipo de mesa que es
-     * de manera automatica.
-     * 
+     * Metodo utilizado para crear las sillas correspondientes al tipo de mesa
+     * que es de manera automatica.
+     *
      */
     public void crearSillas() {
         if (tipo != 0) {
@@ -247,18 +254,18 @@ public class Mesa extends Base {
                 ImageIcon siDown = new ImageIcon(sillaD);
                 Silla auxLeft = new Silla(this.getPosX() - 28, this.getPosY());
                 Silla auxRight = new Silla(this.getPosX() + icono.getIconWidth() - 12, this.getPosY());
-                Silla auxUp = new Silla(this.getPosX() + icono.getIconWidth()/4, this.getPosY() - icono.getIconHeight()/2);
-                Silla auxDown = new Silla(this.getPosX() + icono.getIconWidth()/4, this.getPosY() + icono.getIconHeight()/2);
+                Silla auxUp = new Silla(this.getPosX() + icono.getIconWidth() / 4, this.getPosY() - icono.getIconHeight() / 2);
+                Silla auxDown = new Silla(this.getPosX() + icono.getIconWidth() / 4, this.getPosY() + icono.getIconHeight() / 2);
                 auxLeft.setImageIcon(siLeft);
                 auxRight.setImageIcon(siRight);
                 auxUp.setImageIcon(siUp);
                 auxDown.setImageIcon(siDown);
                 /*auxLeft.setPosX(auxLeft.getPosX() - 30);
-                auxRight.setPosX(auxRight.getPosX() + icono.getIconWidth() - 10);
-                auxUp.setPosY(auxUp.getPosY() - icono.getIconHeight()/2);
-                auxUp.setPosX(auxUp.getPosX() + icono.getIconWidth()/4);
-                auxDown.setPosX(auxDown.getPosX() + icono.getIconWidth()/4);
-                auxDown.setPosY(auxDown.getPosY() + icono.getIconHeight()/2);*/
+                 auxRight.setPosX(auxRight.getPosX() + icono.getIconWidth() - 10);
+                 auxUp.setPosY(auxUp.getPosY() - icono.getIconHeight()/2);
+                 auxUp.setPosX(auxUp.getPosX() + icono.getIconWidth()/4);
+                 auxDown.setPosX(auxDown.getPosX() + icono.getIconWidth()/4);
+                 auxDown.setPosY(auxDown.getPosY() + icono.getIconHeight()/2);*/
                 sillas.add(auxLeft);
                 sillas.add(auxRight);
                 sillas.add(auxUp);
@@ -279,7 +286,8 @@ public class Mesa extends Base {
     /**
      * Metodo modificador usado para cambiar la lista de personajes del objeto
      *
-     * @param monitosSentados es la <code>lista</code> de personajes sentados en la mesa.
+     * @param monitosSentados es la <code>lista</code> de personajes sentados en
+     * la mesa.
      */
     public void setMonitosSentados(LinkedList<Personaje> monitosSentados) {
         this.monitosSentados = monitosSentados;
