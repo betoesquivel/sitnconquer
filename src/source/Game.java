@@ -284,7 +284,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                     j1.setMesaSeleccionada(sig);
                     break;
                 case KeyEvent.VK_LEFT: 
-                    ant = ( j1.getMesaSeleccionada() - 1 ) % listaTables.size();
+                    ant = ( j1.getMesaSeleccionada() - 1 );
+                    ant = ( ant < 0 ) ? listaTables.size()-1:ant; 
                     listaTables.get(j1.getMesaSeleccionada()).setColor(null);
                     j1.setMesaSeleccionada(ant);
                     break;
@@ -296,7 +297,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                     j2.setMesaSeleccionada(sig);
                     break;
                 case KeyEvent.VK_A: 
-                    ant = ( j2.getMesaSeleccionada() - 1 ) % listaTables.size();
+                    ant = ( j2.getMesaSeleccionada() - 1 );
+                    ant = ( ant < 0 ) ? listaTables.size()-1:ant; 
                     listaTables.get(j2.getMesaSeleccionada()).setColor(null);
                     j2.setMesaSeleccionada(ant);
                     break;    
