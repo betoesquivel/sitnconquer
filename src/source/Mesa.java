@@ -20,7 +20,8 @@ import javax.swing.ImageIcon;
 public class Mesa extends Base {
 
     private int sentados;   // Variable entera pasa saber cuantos están sentados
-    private Color color;    // Color del jugador dueño de la mesa
+    private Color color1;    // Color del jugador dueño de la mesa
+    private Color color2;    // Color del jugador dueño de la mesa
 //    private int jugador;    // ID del jugador al que pertenece la mesa
     private LinkedList<Silla> sillas;   // Lista de sillas
     private LinkedList<Personaje> monitosSentados;   // Lista de personajes
@@ -112,14 +113,16 @@ public class Mesa extends Base {
 
     public void paint(Graphics g) {
         g.drawImage(getImageIcon().getImage(), getPosX(), getPosY(), null);
-        if (color != null) {
-            Color playerColor = new Color(color.getRed(), color.getGreen(), color.getBlue(), 50);
+        Color playerColor;
+        if (color1 != null) {
+            playerColor = new Color(color1.getRed(), color1.getGreen(), color1.getBlue(), 100);
             g.setColor(playerColor);
-            if (color == Color.red) {
-                g.fillRect(getPosX() - 15, getPosY() - 15, icono.getIconWidth() + 15, icono.getIconHeight() + 15);
-            } else {
-                g.fillOval(getPosX() - 15, getPosY() - 15, icono.getIconWidth() + 15, icono.getIconHeight() + 15);
-            }
+            g.fillRect(getPosX() - 15, getPosY() - 15, icono.getIconWidth() + 15, icono.getIconHeight() + 15);
+        }
+        if (color2 != null) {
+            playerColor = new Color(color2.getRed(), color2.getGreen(), color2.getBlue(), 100);
+            g.setColor(playerColor);
+            g.fillOval(getPosX() - 15, getPosY() - 15, icono.getIconWidth() + 15, icono.getIconHeight() + 15);
         }
     }
 
@@ -143,17 +146,26 @@ public class Mesa extends Base {
     }
 
     /**
-     * Metodo de acceso usado para obtener el color del jugador dueño de la mesa
+     * Metodo de acceso usado para obtener el color1 del jugador dueño de la
+     * mesa
      *
      * @param sentados es la <code>cantidad de personas sentadas</code> del
      * objeto.
      */
-    public Color getColor() {
-        return color;
+    public Color getColor1() {
+        return color1;
     }
 
-    public void setColor(Color color) {
-        this.color = color;
+    public void setColor1(Color color1) {
+        this.color1 = color1;
+    }
+
+    public Color getColor2() {
+        return color2;
+    }
+
+    public void setColor2(Color color2) {
+        this.color2 = color2;
     }
 
     /**

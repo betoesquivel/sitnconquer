@@ -189,8 +189,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
      */
     public void Actualiza() {
         
-        listaTables.get(j1.getMesaSeleccionada()).setColor(j1.getColor()); 
-        listaTables.get(j2.getMesaSeleccionada()).setColor(j2.getColor()); 
+        listaTables.get(j1.getMesaSeleccionada()).setColor1(j1.getColor()); 
+        listaTables.get(j2.getMesaSeleccionada()).setColor2(j2.getColor()); 
         
         //Determina el tiempo que ha transcurrido desde que el Applet 
         //inicio su ejecución
@@ -280,26 +280,26 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 //Controles para el jugador 1
                 case KeyEvent.VK_RIGHT: 
                     sig = ( j1.getMesaSeleccionada() + 1 ) % listaTables.size();
-                    listaTables.get(j1.getMesaSeleccionada()).setColor(null);
+                    listaTables.get(j1.getMesaSeleccionada()).setColor1(null);
                     j1.setMesaSeleccionada(sig);
                     break;
                 case KeyEvent.VK_LEFT: 
                     ant = ( j1.getMesaSeleccionada() - 1 );
                     ant = ( ant < 0 ) ? listaTables.size()-1:ant; 
-                    listaTables.get(j1.getMesaSeleccionada()).setColor(null);
+                    listaTables.get(j1.getMesaSeleccionada()).setColor1(null);
                     j1.setMesaSeleccionada(ant);
                     break;
                 
                 //Controles para el jugador 2
                 case KeyEvent.VK_D: 
                     sig = ( j2.getMesaSeleccionada() + 1 ) % listaTables.size();
-                    listaTables.get(j2.getMesaSeleccionada()).setColor(null);
+                    listaTables.get(j2.getMesaSeleccionada()).setColor2(null);
                     j2.setMesaSeleccionada(sig);
                     break;
                 case KeyEvent.VK_A: 
                     ant = ( j2.getMesaSeleccionada() - 1 );
                     ant = ( ant < 0 ) ? listaTables.size()-1:ant; 
-                    listaTables.get(j2.getMesaSeleccionada()).setColor(null);
+                    listaTables.get(j2.getMesaSeleccionada()).setColor2(null);
                     j2.setMesaSeleccionada(ant);
                     break;    
             }
