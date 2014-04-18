@@ -45,9 +45,12 @@ public interface Constantes {
     public static final String iUrlPantallaPausa = "images/pantallaPausaSinTexto.png";
     public static final String iUrlGanaste = "images/ganaste.png";
 
+    //Table types int values
+    public static final int BAR_ROUND = 0; 
+    public static final int BAR_POOL = 1; 
     
     //Dimensiones Applet
-    public static final int WIDTH = 900;
-    public static final int HEIGHT = 670;
+    public static final int GAME_WIDTH = 900;
+    public static final int GAME_HEIGHT = 600;
 
 }

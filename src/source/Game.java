@@ -9,35 +9,18 @@ package source;
  *
  * @author Ferrufino
  */
-import java.awt.Rectangle;
-import java.applet.Applet;
-import java.applet.AudioClip;
-import java.awt.AlphaComposite;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import javax.swing.JOptionPane;
-import java.util.LinkedList;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.net.URL;
 import java.util.LinkedList;
-import java.awt.Point;
 import javax.swing.JFrame;// 
-import java.util.Vector;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -64,10 +47,19 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
     //Objetos URL
     private URL fondoURL = this.getClass().getResource(iUrlFondo);
+    private URL tableURL = this.getClass().getResource(iUrlMesa);
+    private URL poolURL = this.getClass().getResource(iUrlMesaBillar1);
+
+    //Estados del juego (Para saber cuando estoy jugando on menus)
+    private enum STATE {
+        MENU,
+        GAME,
+        PAUSED
+    };
+
+    private STATE state = STATE.GAME;
 
     //Lista de booleanas
-    private boolean pausado;
-
     //Mesas y Sillas
     private LinkedList<Mesa> listaTables;
     private LinkedList<Silla> listaChairs;
@@ -85,8 +77,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
      */
     public Game() {
 
-        setSize(900, 670);
-        pausado = false; 
+        setSize(GAME_WIDTH, GAME_HEIGHT);
         //Fondo
         fondo = Toolkit.getDefaultToolkit().getImage(fondoURL);
 //        infoBar = Toolkit.getDefaultToolkit().getImage(barraInfoURL);
@@ -116,35 +107,44 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
     }
 
+    /**
+     * Metodo crearMesasYSillas que crea las mesas y sillas en base a un mapa
+     * Para crear un nuevo mapa, solamente hay que crear una matriz con 3 columnas
+     * posX | posY | tipoDeMesa
+     * El tipo de mesa es un entero constante que pusimos en nuestra clase Constantes.java
+     * También hay que modificar la URL en el switch para cada una de estas constantes
+     * y listo.
+     * Creado por beto y hugo.
+     */
     public void crearMesasYSillas() {
-//        table = new Mesa(75, 180, Toolkit.getDefaultToolkit().getImage(tableURL), 1);
-//        listaTables.add(table);
-//        table = new Mesa(75, 300, Toolkit.getDefaultToolkit().getImage(tableURL), 1);
-//        listaTables.add(table);
-//        table = new Mesa(75, 420, Toolkit.getDefaultToolkit().getImage(tableURL), 1);
-//        listaTables.add(table);
-//        table = new Mesa(370, 180, Toolkit.getDefaultToolkit().getImage(poolURL));
-//        listaTables.add(table);
-//        table = new Mesa(270, 300, Toolkit.getDefaultToolkit().getImage(tableURL), 1);
-//        listaTables.add(table);
-//        //table = new Mesa(270, 420, Toolkit.getDefaultToolkit().getImage(tableURL));
-//        //listaTables.add(table);
-//        //table = new Mesa(465, 180, Toolkit.getDefaultToolkit().getImage(tableURL));
-//        //listaTables.add(table);
-//        table = new Mesa(465, 300, Toolkit.getDefaultToolkit().getImage(tableURL), 1);
-//        listaTables.add(table);
-//        table = new Mesa(370, 420, Toolkit.getDefaultToolkit().getImage(poolURL));
-//        listaTables.add(table);
-//        table = new Mesa(660, 180, Toolkit.getDefaultToolkit().getImage(tableURL), 1);
-//        listaTables.add(table);
-//        table = new Mesa(660, 300, Toolkit.getDefaultToolkit().getImage(tableURL), 1);
-//        listaTables.add(table);
-//        table = new Mesa(660, 420, Toolkit.getDefaultToolkit().getImage(tableURL), 1);
-//        listaTables.add(table);
 
-        for (int x = 0; x < listaTables.size(); x++) {
-            Mesa aux = (Mesa) listaTables.get(x);
-            aux.crearSillas();
+        int mapa[][] = {
+            {75,  180, BAR_ROUND},
+            {75,  300, BAR_ROUND},
+            {75,  420, BAR_ROUND},
+            {370, 180, BAR_POOL},
+            {270, 300, BAR_ROUND},
+            {465, 300, BAR_ROUND},
+            {370, 420, BAR_POOL},
+            {660, 180, BAR_ROUND},
+            {660, 300, BAR_ROUND},
+            {660, 420, BAR_ROUND}
+        };
+        for (int r = 0; r < mapa.length; r++) {
+            URL url; 
+            switch (mapa[r][2]){
+                case BAR_POOL: url = poolURL;
+                    break;
+                case BAR_ROUND: url = tableURL; 
+                    break;
+                default: url = tableURL; 
+                    break;
+            }
+            table = new Mesa(mapa[r][0], mapa[r][1], Toolkit.getDefaultToolkit().getImage(url), 1);
+            listaTables.add(table);
+        }
+        for (Mesa mesa : listaTables) {
+            mesa.crearSillas();
         }
     }
 
@@ -235,11 +235,15 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
      * @paramg es el <code>objeto grafico</code> usado para dibujar.
      */
     public void paint1(Graphics g) {
-        if (!pausado) {
+        if (state == STATE.GAME) {
             g.drawImage(fondo, 0, 0, this);
-        } else {
-            //juego pausado
-//                g.drawImage(imgPantallaPausa, 0, 10, this);
+            for (Mesa mesa : listaTables){
+                mesa.paint(g);
+            }
+        }
+
+        if (state == STATE.PAUSED) {
+            //está pausado
         }
     }
 
@@ -251,8 +255,13 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
      *para pausar el juego
      */
     public void keyPressed(KeyEvent e) {
-        if (e.KEY_TYPED == e.VK_P){
-            pausado = !pausado; 
+        if (e.KEY_TYPED == e.VK_P) {
+            if (state == state.GAME) {
+                state = state.PAUSED;
+            }
+            if (state == state.PAUSED) {
+                state = state.GAME;
+            }
         }
     }
 

@@ -9,6 +9,8 @@ package source;
  *
  * @author bernardot
  */
+import java.awt.Color;
+import java.awt.Graphics;
 import java.util.LinkedList;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -18,7 +20,8 @@ import javax.swing.ImageIcon;
 public class Mesa extends Base {
 
     private int sentados;   // Variable entera pasa saber cuantos están sentados
-    private int jugador;    // ID del jugador al que pertenece la mesa
+    private Color color;    // Color del jugador dueño de la mesa
+//    private int jugador;    // ID del jugador al que pertenece la mesa
     private LinkedList<Silla> sillas;   // Lista de sillas
     private LinkedList<Personaje> monitosSentados;   // Lista de personajes
     private int cantSillas; // Variable entera con la cantidad de sillas
@@ -38,7 +41,7 @@ public class Mesa extends Base {
     public Mesa(int posX, int posY) {
         super(posX, posY);
         sentados = 0;
-        jugador = cantSillas = tipo = 0; // Valor default
+        cantSillas = tipo = 0; // Valor default
         sillas = new LinkedList();
         monitosSentados = new LinkedList();
         upgrade = new Upgrade();
@@ -51,7 +54,7 @@ public class Mesa extends Base {
         sillas = new LinkedList();
         monitosSentados = new LinkedList();
         sentados = 0;
-        jugador = cantSillas = tipo = 0; // Valor default
+        cantSillas = tipo = 0; // Valor default
         upgrade = new Upgrade();
     }
     
@@ -62,7 +65,7 @@ public class Mesa extends Base {
         sillas = new LinkedList();
         monitosSentados = new LinkedList();
         sentados = 0;
-        jugador = cantSillas = 0; // Valor default
+        cantSillas = 0; // Valor default
         tipo = t;
         if (tipo == 1) {
             cantSillas = 4;
@@ -83,7 +86,7 @@ public class Mesa extends Base {
         sillas = new LinkedList();
         monitosSentados = new LinkedList();
         sentados = 0;
-        jugador = cantSillas = tipo = 0; // Valor default
+        cantSillas = tipo = 0; // Valor default
         upgrade = new Upgrade(tipoUpgrade);
     }
 
@@ -100,13 +103,17 @@ public class Mesa extends Base {
     public Mesa(int posX, int posY, int tipoUpgrade, int numeroSillas) {
         super(posX, posY);
         sentados = 0;
-        jugador = tipo = 0; // Valor default
+        tipo = 0; // Valor default
         cantSillas = numeroSillas;
         monitosSentados = new LinkedList();
         sillas = new LinkedList();
         upgrade = new Upgrade(tipoUpgrade);
     }
 
+    public void paint(Graphics g){
+        g.drawImage(getImageIcon().getImage(), getPosX(), getPosY(), null); 
+    }
+    
     /**
      * Metodo de acceso que regresa la cantidad de personas sentadas del objeto
      *
@@ -127,22 +134,20 @@ public class Mesa extends Base {
     }
 
     /**
-     * Metodo de acceso que regresa el ID del jugador dueño del objeto
+     * Metodo de acceso usado para obtener el color del jugador dueño de la mesa
      *
-     * @return jugador
+     * @param sentados es la <code>cantidad de personas sentadas</code> del
+     * objeto.
      */
-    public int getJugador() {
-        return jugador;
+    public Color getColor() {
+        return color;
     }
 
-    /**
-     * Metodo modificador usado para cambiar el id del objeto
-     *
-     * @param jugador es el <code>ID</code> del jugador dueño del objeto.
-     */
-    public void setJugador(int jugador) {
-        this.jugador = jugador;
+    public void setColor(Color color) {
+        this.color = color;
     }
+
+    
 
     /**
      * Metodo de acceso que regresa la lista con las sillas del objeto

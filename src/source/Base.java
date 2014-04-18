@@ -90,43 +90,31 @@ public class Base {
     }
 
     /**
-     * Metodo de acceso que regresa el ancho del icono
-     *
+     * Todas las imagenes del juego van a ser animaciones, 
+     * solo que las que solamente sean imágenes las trataremos como 
+     * animaciones sin actualización.
+     * 
+     * Obtiene el ancho del objeto.
+     * 
      * @return un objeto de la clase <code>ImageIcon</code> que es el ancho del
      * icono.
      */
     public int getAncho() {
-        return icono.getIconWidth();
-    }
-
-    /**
-     * Metodo de acceso que regresa el alto del icono
-     *
-     * @return un objeto de la clase <code>ImageIcon</code> que es el alto del
-     * icono.
-     */
-    public int getAlto() {
-        return icono.getIconHeight();
-    }
-
-    /**
-     * Metodo de acceso que regresa el ancho del icono
-     *
-     * @return un objeto de la clase <code>ImageIcon</code> que es el ancho del
-     * icono.
-     */
-    public int getAnchoAnim() {
         icono = new ImageIcon(anim.getImagen());
         return icono.getIconWidth();
     }
 
     /**
-     * Metodo de acceso que regresa el alto del icono
-     *
+     * Todas las imagenes del juego van a ser animaciones, 
+     * solo que las que solamente sean imágenes las trataremos como 
+     * animaciones sin actualización.
+     * 
+     * Obtiene el alto del objeto.
+     * 
      * @return un objeto de la clase <code>ImageIcon</code> que es el alto del
      * icono.
      */
-    public int getAltoAnim() {
+    public int getAlto() {
         icono = new ImageIcon(anim.getImagen());
         return icono.getIconHeight();
     }
@@ -138,14 +126,10 @@ public class Base {
      * icono.
      */
     public Image getImagenI() {
-        //icono = new ImageIcon(anim.getImagen());
-        return icono.getImage();
-    }
-
-    public Image getImagenIAnim() {
         icono = new ImageIcon(anim.getImagen());
         return icono.getImage();
     }
+
 
     /**
      * Metodo de acceso que regresa un nuevo rectangulo
@@ -157,15 +141,6 @@ public class Base {
         return new Rectangle(getPosX(), getPosY(), getAncho(), getAlto());
     }
 
-    /**
-     * Metodo de acceso que regresa un nuevo rectangulo
-     *
-     * @return un objeto de la clase <code>Rectangle</code> que es el perimetro
-     * del rectangulo
-     */
-    public Rectangle getPerimetroBoton() {
-        return new Rectangle(getPosX(), getPosY(), 248, 160);
-    }
 
     /**
      * Checa si el objeto <code>Base</code> intersecta a otro <code>Base</code>
@@ -178,23 +153,14 @@ public class Base {
     }
 
     /**
-     * Checa si el objeto <code>Base</code> intersecta al <code>click</code>
+     * Checa si el objeto <code>Base</code> ha sido clickeado <code>click</code>
      *
      * @return un valor boleano <code>false</code> si lo intersecta
      * <code>true</code> en caso contrario
      */
     public boolean clicked(MouseEvent e) {
-        return (getPerimetro().intersects(new Rectangle(e.getX(), e.getY(), 1, 1)));
-    }
-    
-    /**
-     * Checa si el objeto <code>Base</code> intersecta al <code>click</code>
-     * Lo uso para cuando tengo botones sin imagenes. Testing... Solamente
-     * @return un valor boleano <code>false</code> si lo intersecta
-     * <code>true</code> en caso contrario
-     */
-    public boolean clickedBoton(MouseEvent e) {
-        return (getPerimetroBoton().intersects(new Rectangle(e.getX(), e.getY(), 1, 1)));
+        return getPerimetro().contains(e.getX(), e.getY());
+//        return (getPerimetro().intersects(new Rectangle(e.getX(), e.getY(), 1, 1)));
     }
 
     /**
