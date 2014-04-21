@@ -262,7 +262,9 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 mesa.paintSillasArriba(g);
                 mesa.paint(g);
                 mesa.paintSillasAbajo(g);
-                g.drawImage(cerveza, mesa.getPosX(), mesa.getPosY(), this);
+                if (mesa.getTipo() != 0) {
+                g.drawImage(cerveza, mesa.getPosX() + 27, mesa.getPosY() + 5, this);
+                }
             }
         }
 
