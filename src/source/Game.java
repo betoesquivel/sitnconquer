@@ -38,6 +38,17 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     Jugador j1;
     Jugador j2;
 
+    // Posiciones auxiliares
+    private int positionX;
+    private int positionY;
+    private int dX;
+    private int dY;
+    private int incX;
+    private int incY;
+
+    // Booleanos
+    private boolean mouseDrag;
+
     //Objetos...
     private Mesa table;
     private Silla chair;
@@ -197,6 +208,29 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
      */
     public void Actualiza() {
 
+        // Si hay drag, actualizar la posicion de pTravolta1
+        if (mouseDrag) {
+            pTravolta1.setPosX(positionX - dX);
+            pTravolta1.setPosY(positionY - dY);
+        }
+
+        //Acutalizo la posicion del pTravolta2
+        if (pTravolta1.getPosX() > pTravolta2.getPosX()) {
+            incX = 1;
+            pTravolta2.setPosX(pTravolta2.getPosX() + incX);
+        } else {
+            incX = -1;
+            pTravolta2.setPosX(pTravolta2.getPosX() + incX);
+        }
+
+        if (pTravolta1.getPosY() > pTravolta2.getPosY()) {
+            incY = 1;
+            pTravolta2.setPosY(pTravolta2.getPosY() + incY);
+        } else {
+            incY = -1;
+            pTravolta2.setPosY(pTravolta2.getPosY() + incY);
+        }
+
         listaTables.get(j1.getMesaSeleccionada()).setColor1(j1.getColor());
         listaTables.get(j2.getMesaSeleccionada()).setColor2(j2.getColor());
 
@@ -217,7 +251,34 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
      * Checa colisiones dentro del <code>JFrame</code>.
      */
     public void ChecaColision() {
+        //checa colision con el applet
+        if (pTravolta2.getPosX() + pTravolta2.getAncho() > getWidth()) {
+            pTravolta2.setPosX(pTravolta2.getPosX() - incX);
+        }
+        if (pTravolta2.getPosX() < 0) {
+            pTravolta2.setPosX(pTravolta2.getPosX() - incX);
+        }
+        if (pTravolta2.getPosY() + pTravolta2.getAlto() > getHeight()) {
+            pTravolta2.setPosY(pTravolta2.getPosY() - incY);
+        }
+        if (pTravolta2.getPosY() < 0) {
+            pTravolta2.setPosY(pTravolta2.getPosY() - incY);
+        }
 
+        for (int x = 0; x < listaTables.size(); x++) {
+            Mesa ayuda = (Mesa) listaTables.get(x);
+            if (pTravolta2.intersecta(ayuda)) {
+                if (pTravolta2.getPosX() + pTravolta2.getAncho() > ayuda.getPosX()) {
+                    pTravolta2.setPosX(pTravolta2.getPosX() - incX);
+                } else if (pTravolta2.getPosX() < ayuda.getPosX() + ayuda.getAncho()) {
+                    pTravolta2.setPosX(pTravolta2.getPosX() + incX);
+                } else if (pTravolta2.getPosY() + pTravolta2.getAlto() > ayuda.getPosY()) {
+                    pTravolta2.setPosY(pTravolta2.getPosY() - incY);
+                } else if (pTravolta2.getPosY() < ayuda.getPosY() + ayuda.getAlto()) {
+                    pTravolta2.setPosY(pTravolta2.getPosY() + incY);
+                }
+            }
+        }
     }
 
     /**
@@ -266,6 +327,9 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 }
                 mesa.paintSelectors(g);
             }
+            g.drawImage(pTravolta1.getImageI().getImage(), pTravolta1.getPosX(), pTravolta1.getPosY(), this);
+            g.drawImage(pTravolta2.getImageI().getImage(), pTravolta2.getPosX(), pTravolta2.getPosY(), this);
+
         }
 
         if (state == STATE.PAUSED) {
@@ -341,7 +405,14 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
      *dentro del applet
      */
     public void mouseClicked(MouseEvent e) {
-
+        // Si hubo click dentro del objeto pTravolta1 se guarda posicion y diferencia.
+        if (pTravolta1.clicked(e)) {
+            mouseDrag = true;
+            positionX = e.getX();
+            positionY = e.getY();
+            dX = positionX - pTravolta1.getPosX();
+            dY = positionY - pTravolta1.getPosY();
+        }
     }
 
     public void mouseEntered(MouseEvent e) { //metodo cuando entra el mouse
@@ -357,7 +428,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     }
 
     public void mouseReleased(MouseEvent e) {//metodo cuando el mouse es soltado
-
+        // La bandera se apaga cuando se deja de picar en el mouse.
+        mouseDrag = false;
     }
 
     public void mouseMoved(MouseEvent e) {  //metodos de MouseMotionListener
@@ -365,7 +437,11 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     }
 
     public void mouseDragged(MouseEvent e) {   //metodos de MouseMotionListener
-
+        // Si la bandera esta prendida, salvar los valores del drag.
+        if (mouseDrag) {
+            positionX = e.getX();
+            positionY = e.getY();
+        }
     }
 
     public void restart() {
