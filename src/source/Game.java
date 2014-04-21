@@ -33,6 +33,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     // Se declaran las variables para pintar 
     private Image dbImage;	// Imagen a proyectar	
     private Graphics dbg;	// Objeto grafico
+    
 
     // Jugadores
     Jugador j1; 
@@ -142,15 +143,19 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         };
         for (int r = 0; r < mapa.length; r++) {
             URL url; 
+            int tipo = 0;
             switch (mapa[r][2]){
                 case BAR_POOL: url = poolURL;
+                    tipo = 0;
                     break;
                 case BAR_ROUND: url = tableURL; 
+                    tipo = 1;
                     break;
-                default: url = tableURL; 
+                default: url = tableURL;
+                    tipo = 0;
                     break;
             }
-            table = new Mesa(mapa[r][0], mapa[r][1], Toolkit.getDefaultToolkit().getImage(url), 1);
+            table = new Mesa(mapa[r][0], mapa[r][1], Toolkit.getDefaultToolkit().getImage(url), tipo);
             listaTables.add(table);
         }
         for (Mesa mesa : listaTables) {
@@ -296,6 +301,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                     listaTables.get(j2.getMesaSeleccionada()).setColor2(null);
                     j2.setMesaSeleccionada(sig);
                     break;
+                    
                 case KeyEvent.VK_A: 
                     ant = ( j2.getMesaSeleccionada() - 1 );
                     ant = ( ant < 0 ) ? listaTables.size()-1:ant; 

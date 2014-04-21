@@ -43,5 +43,6 @@ public class Silla extends Base {
     public void setOcupada(boolean ocupada) {
         this.ocupada = ocupada;
     }
+    
 
 }
