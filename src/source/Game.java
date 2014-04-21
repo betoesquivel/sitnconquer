@@ -229,8 +229,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         //Actualiza la animación en base al tiempo transcurrido
         pTravolta1.anim.actualiza(tiempoTranscurrido);
         pTravolta2.anim.actualiza(tiempoTranscurrido);
-       
-        
+
         // Si hay drag, actualizar la posicion de pTravolta1
         if (mouseDrag) {
             pTravolta1.setPosX(positionX - dX);
@@ -276,29 +275,29 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         for (int x = 0; x < listaTables.size(); x++) {
             Mesa ayuda = (Mesa) listaTables.get(x);
             /*if (pTravolta2.intersecta(ayuda)) {
-                if (pTravolta2.getPosX() + pTravolta2.getAncho() > ayuda.getPosX()) {
-                    pTravolta2.setPosX(ayuda.getPosX() + ayuda.getAncho());
-                } else if (pTravolta2.getPosX() < ayuda.getPosX()) {
-                    pTravolta2.setPosX(ayuda.getPosX() + ayuda.getAncho());
-                } else if (pTravolta2.getPosY() + pTravolta2.getAlto() > ayuda.getPosY()) {
-                    pTravolta2.setPosY(ayuda.getAlto() + ayuda.getAlto());
-                } else if (pTravolta2.getPosY() < ayuda.getPosY() + ayuda.getAlto()) {
-                    pTravolta2.setPosY(ayuda.getAlto());
-                }
-            }*/
-            
+             if (pTravolta2.getPosX() + pTravolta2.getAncho() > ayuda.getPosX()) {
+             pTravolta2.setPosX(ayuda.getPosX() + ayuda.getAncho());
+             } else if (pTravolta2.getPosX() < ayuda.getPosX()) {
+             pTravolta2.setPosX(ayuda.getPosX() + ayuda.getAncho());
+             } else if (pTravolta2.getPosY() + pTravolta2.getAlto() > ayuda.getPosY()) {
+             pTravolta2.setPosY(ayuda.getAlto() + ayuda.getAlto());
+             } else if (pTravolta2.getPosY() < ayuda.getPosY() + ayuda.getAlto()) {
+             pTravolta2.setPosY(ayuda.getAlto());
+             }
+             }*/
+
             /*if (pTravolta2.getPosX() + pTravolta2.getAncho() >= ayuda.getPosX() && Math.abs(pTravolta2.getPosX() + pTravolta2.getAncho() / 2 - (ayuda.getPosX() + ayuda.getAncho() / 2)) >= Math.abs(pTravolta2.getPosY() + pTravolta2.getAlto() / 2 - (ayuda.getPosY() + ayuda.getAlto() / 2))) {
-                            pTravolta2.setPosX(ayuda.getPosX() - pTravolta2.getAncho() - 1);
-                        } else if ( pTravolta2.getPosX() <= ayuda.getPosX() + ayuda.getAncho() && Math.abs(pTravolta2.getPosX() + pTravolta2.getAncho() / 2 - (ayuda.getPosX() + ayuda.getAncho() / 2)) >= Math.abs(pTravolta2.getPosY() + pTravolta2.getAlto() / 2 - (ayuda.getPosY() + ayuda.getAlto() / 2))) {
-                            pTravolta2.setPosX(ayuda.getPosX() + ayuda.getAncho() + 1);
+             pTravolta2.setPosX(ayuda.getPosX() - pTravolta2.getAncho() - 1);
+             } else if ( pTravolta2.getPosX() <= ayuda.getPosX() + ayuda.getAncho() && Math.abs(pTravolta2.getPosX() + pTravolta2.getAncho() / 2 - (ayuda.getPosX() + ayuda.getAncho() / 2)) >= Math.abs(pTravolta2.getPosY() + pTravolta2.getAlto() / 2 - (ayuda.getPosY() + ayuda.getAlto() / 2))) {
+             pTravolta2.setPosX(ayuda.getPosX() + ayuda.getAncho() + 1);
                 
-                        } else if ( pTravolta2.getPosY() >= ayuda.getPosY() + ayuda.getAlto() - 10 && Math.abs(pTravolta2.getPosX() + pTravolta2.getAncho() / 2 - (ayuda.getPosX() + ayuda.getAncho() / 2)) <= Math.abs(pTravolta2.getPosY() + pTravolta2.getAlto() / 2 - (ayuda.getPosY() + ayuda.getAlto() / 2))) {
-                            pTravolta2.setPosY(ayuda.getPosY() + ayuda.getAlto() + 1);
+             } else if ( pTravolta2.getPosY() >= ayuda.getPosY() + ayuda.getAlto() - 10 && Math.abs(pTravolta2.getPosX() + pTravolta2.getAncho() / 2 - (ayuda.getPosX() + ayuda.getAncho() / 2)) <= Math.abs(pTravolta2.getPosY() + pTravolta2.getAlto() / 2 - (ayuda.getPosY() + ayuda.getAlto() / 2))) {
+             pTravolta2.setPosY(ayuda.getPosY() + ayuda.getAlto() + 1);
                             
-                        } else if ( pTravolta2.getPosY() <= ayuda.getPosY() && Math.abs(pTravolta2.getPosX() + pTravolta2.getAncho() / 2 - (ayuda.getPosX() + ayuda.getAncho() / 2)) <= Math.abs(pTravolta2.getPosY() + pTravolta2.getAlto() / 2 - (ayuda.getPosY() + ayuda.getAlto() / 2))) {
-                            pTravolta2.setPosY(ayuda.getPosY() - pTravolta2.getAlto() - 1);
+             } else if ( pTravolta2.getPosY() <= ayuda.getPosY() && Math.abs(pTravolta2.getPosX() + pTravolta2.getAncho() / 2 - (ayuda.getPosX() + ayuda.getAncho() / 2)) <= Math.abs(pTravolta2.getPosY() + pTravolta2.getAlto() / 2 - (ayuda.getPosY() + ayuda.getAlto() / 2))) {
+             pTravolta2.setPosY(ayuda.getPosY() - pTravolta2.getAlto() - 1);
                             
-                        }*/
+             }*/
         }
     }
 
