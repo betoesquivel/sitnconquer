@@ -199,16 +199,15 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         
         //Determina el tiempo que ha transcurrido desde que el Applet 
         //inicio su ejecución
-//        long tiempoTranscurrido = System.currentTimeMillis() - tiempoActual;
+        long tiempoTranscurrido = System.currentTimeMillis() - tiempoActual;
         //Guarda el tiempo actual
-//        tiempoActual += tiempoTranscurrido;
+        tiempoActual += tiempoTranscurrido;
         //Actualiza la animación en base al tiempo transcurrido
-//        travolta.actualiza(tiempoTranscurrido);
+        travolta.actualiza(tiempoTranscurrido);
         //inicio su ejecución
         //Guarda el tiempo actual
-//        tiempoActual += tiempoTranscurrido;
+        tiempoActual += tiempoTranscurrido;
         //Actualiza la animación en base al tiempo transcurrido
-//        travolta.actualiza(tiempoTranscurrido);
     }
 
     /**
@@ -259,6 +258,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 mesa.paintSillasArriba(g);
                 mesa.paint(g);
                 mesa.paintSillasAbajo(g);
+                mesa.paintSelectors(g);
             }
         }
 

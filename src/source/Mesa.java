@@ -114,17 +114,6 @@ public class Mesa extends Base {
     public void paint(Graphics g) {
         g.drawImage(getImageIcon().getImage(), getPosX(), getPosY(), null);
         Color playerColor;
-        int displacement = 5; //table selector size
-        if (color1 != null) {
-            playerColor = new Color(color1.getRed(), color1.getGreen(), color1.getBlue(), 100);
-            g.setColor(playerColor);
-            g.fillRect(getPosX() - displacement, getPosY() - displacement, icono.getIconWidth() + (displacement *2), icono.getIconHeight() + (displacement *2));
-        }
-        if (color2 != null) {
-            playerColor = new Color(color2.getRed(), color2.getGreen(), color2.getBlue(), 100);
-            g.setColor(playerColor);
-            g.fillOval(getPosX() - displacement, getPosY() - displacement, icono.getIconWidth() + (displacement *2), icono.getIconHeight() + (displacement *2));
-        }
     }
 
     public void paintSillasArriba(Graphics g) {
@@ -142,6 +131,21 @@ public class Mesa extends Base {
                 Silla aux = (Silla) sillas.get(x);
                 aux.paint(g);
             }
+        }
+    }
+    
+    public void paintSelectors(Graphics g){
+        Color playerColor;
+        int displacement = 5; //table selector size
+        if (color1 != null) {
+            playerColor = new Color(color1.getRed(), color1.getGreen(), color1.getBlue(), 100);
+            g.setColor(playerColor);
+            g.fillRect(getPosX() - displacement, getPosY() - displacement, icono.getIconWidth() + (displacement *2), icono.getIconHeight() + (displacement *2));
+        }
+        if (color2 != null) {
+            playerColor = new Color(color2.getRed(), color2.getGreen(), color2.getBlue(), 100);
+            g.setColor(playerColor);
+            g.fillOval(getPosX() - displacement, getPosY() - displacement, icono.getIconWidth() + (displacement *2), icono.getIconHeight() + (displacement *2));
         }
     }
 
