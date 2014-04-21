@@ -114,15 +114,16 @@ public class Mesa extends Base {
     public void paint(Graphics g) {
         g.drawImage(getImageIcon().getImage(), getPosX(), getPosY(), null);
         Color playerColor;
+        int displacement = 5; //table selector size
         if (color1 != null) {
             playerColor = new Color(color1.getRed(), color1.getGreen(), color1.getBlue(), 100);
             g.setColor(playerColor);
-            g.fillRect(getPosX() - 15, getPosY() - 15, icono.getIconWidth() + 15, icono.getIconHeight() + 15);
+            g.fillRect(getPosX() - displacement, getPosY() - displacement, icono.getIconWidth() + (displacement *2), icono.getIconHeight() + (displacement *2));
         }
         if (color2 != null) {
             playerColor = new Color(color2.getRed(), color2.getGreen(), color2.getBlue(), 100);
             g.setColor(playerColor);
-            g.fillOval(getPosX() - 15, getPosY() - 15, icono.getIconWidth() + 15, icono.getIconHeight() + 15);
+            g.fillOval(getPosX() - displacement, getPosY() - displacement, icono.getIconWidth() + (displacement *2), icono.getIconHeight() + (displacement *2));
         }
     }
 
