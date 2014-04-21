@@ -71,6 +71,7 @@ public class Animacion {
      */
     public synchronized Image getImagen() {
         if (cuadros.size() == 0) {
+            System.out.println("null");
             return null;
         } else {
             return getCuadro(indiceCuadroActual).imagen;
