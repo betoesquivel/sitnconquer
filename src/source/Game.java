@@ -73,6 +73,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
     //Personajes
     private Animacion travolta;
+    Personaje pTravolta1;
+    Personaje pTravolta2;
 
     //Variables de control de tiempo de la animación
     private long tiempoActual;
@@ -98,6 +100,11 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         travolta = new Animacion();
         travolta.sumaCuadro(travolta1, 50);
         travolta.sumaCuadro(travolta2, 50);
+
+        pTravolta1 = new Personaje(25, 25);
+        pTravolta1.setAnim(travolta);
+        pTravolta2 = new Personaje(50, 50);
+        pTravolta2.setAnim(travolta);
 
 //        bPausa = new Boton(850, 20, plateP);
         listaTables = new LinkedList<Mesa>();
@@ -206,7 +213,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         //Guarda el tiempo actual
         tiempoActual += tiempoTranscurrido;
         //Actualiza la animación en base al tiempo transcurrido
-        travolta.actualiza(tiempoTranscurrido);
+        pTravolta1.getAnim().actualiza(tiempoTranscurrido);
+        pTravolta2.getAnim().actualiza(tiempoTranscurrido);
         //inicio su ejecución
         //Guarda el tiempo actual
         tiempoActual += tiempoTranscurrido;
@@ -282,9 +290,6 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
      */
     public void keyPressed(KeyEvent e) {
         if (state == state.GAME) {
-            if (e.KEY_PRESSED == e.VK_P) {
-                state = state.PAUSED;
-            }
             int ant, sig;
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_P:
@@ -321,8 +326,12 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         }
 
         if (state == state.PAUSED) {
-            if (e.KEY_PRESSED == e.VK_P) {
-                state = state.GAME;
+            System.out.println("I am paused...");
+            switch (e.getKeyCode()) {
+                case KeyEvent.VK_P:
+                    System.out.println("I dont wanna be paused anymo...");
+                    state = state.GAME;
+                    break;
             }
         }
     }
