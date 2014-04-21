@@ -126,6 +126,24 @@ public class Mesa extends Base {
         }
     }
 
+    public void paintSillasArriba(Graphics g) {
+        if (tipo != 0) {
+            for (int x = 0; x < sillas.size() - 1; x++) {
+                Silla aux = (Silla) sillas.get(x);
+                aux.paint(g);
+            }
+        }
+    }
+
+    public void paintSillasAbajo(Graphics g) {
+        if (tipo != 0) {
+            for (int x = sillas.size() - 1; x < sillas.size(); x++) {
+                Silla aux = (Silla) sillas.get(x);
+                aux.paint(g);
+            }
+        }
+    }
+
     /**
      * Metodo de acceso que regresa la cantidad de personas sentadas del objeto
      *
