@@ -50,11 +50,13 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
     //Objetos Imagen
     private Image fondo;
+    private Image cerveza;
 
     //Objetos URL
     private URL fondoURL = this.getClass().getResource(iUrlFondo);
     private URL tableURL = this.getClass().getResource(iUrlMesa);
     private URL poolURL = this.getClass().getResource(iUrlMesaBillar1);
+    private URL cervezaURL = this.getClass().getResource(iUrlCerveza);
 
     //Estados del juego (Para saber cuando estoy jugando on menus)
     private enum STATE {
@@ -90,6 +92,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 //        plateP = Toolkit.getDefaultToolkit().getImage(pausaURL);
 
         //Images 
+        cerveza = Toolkit.getDefaultToolkit().getImage(cervezaURL);
 //        imgCreditsBoton = Toolkit.getDefaultToolkit().getImage(creditsBotonURL);
         Image travolta1 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/travolta1.png"));
         Image travolta2 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/travolta2.png"));
@@ -259,6 +262,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 mesa.paintSillasArriba(g);
                 mesa.paint(g);
                 mesa.paintSillasAbajo(g);
+                g.drawImage(cerveza, mesa.getPosX(), mesa.getPosY(), this);
             }
         }
 
