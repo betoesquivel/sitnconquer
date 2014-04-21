@@ -5,6 +5,8 @@
  */
 package source;
 
+import java.awt.Graphics;
+
 /**
  *
  * @author bernardot
@@ -26,6 +28,10 @@ public class Silla extends Base {
         ocupada = false;
     }
 
+    public void paint(Graphics g) {
+        g.drawImage(getImageIcon().getImage(), getPosX(), getPosY(), null);
+    }
+    
     /**
      * Metodo de acceso que regresa el valor booleano ocupado del objeto
      *

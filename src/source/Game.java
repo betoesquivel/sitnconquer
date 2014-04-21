@@ -256,7 +256,9 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         if (state == STATE.GAME) {
             g.drawImage(fondo, 0, 0, this);
             for (Mesa mesa : listaTables){
+                mesa.paintSillasArriba(g);
                 mesa.paint(g);
+                mesa.paintSillasAbajo(g);
             }
         }
 
