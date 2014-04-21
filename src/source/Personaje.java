@@ -11,6 +11,8 @@ package source;
  */
 public class Personaje extends Base {
 
+    int velX;
+    int velY;
     int tipo; // Se refiere al tipo de monito que es (gordo, flaco, chava, etc)
     int color; // Color del monito que va de acuerdo con el jugador que es dueño
     int valor; // Cuanto vale el monito dependiendo de su fuerza (upgrade)
@@ -116,6 +118,22 @@ public class Personaje extends Base {
      */
     public void setVelocidad(int velocidad) {
         this.velocidad = velocidad;
+    }
+
+    public int getVelX() {
+        return velX;
+    }
+
+    public void setVelX(int velX) {
+        this.velX = velX;
+    }
+
+    public int getVelY() {
+        return velY;
+    }
+
+    public void setVelY(int velY) {
+        this.velY = velY;
     }
 
 }
