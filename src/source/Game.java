@@ -33,13 +33,11 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     // Se declaran las variables para pintar 
     private Image dbImage;	// Imagen a proyectar	
     private Graphics dbg;	// Objeto grafico
-    
 
     // Jugadores
-    Jugador j1; 
-    Jugador j2; 
-    
-    
+    Jugador j1;
+    Jugador j2;
+
     //Objetos...
     private Mesa table;
     private Silla chair;
@@ -50,14 +48,17 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
     //Objetos Imagen
     private Image fondo;
+    private Image cerveza;
 
     //Objetos URL
     private URL fondoURL = this.getClass().getResource(iUrlFondo);
     private URL tableURL = this.getClass().getResource(iUrlMesa);
     private URL poolURL = this.getClass().getResource(iUrlMesaBillar1);
+    private URL cervezaURL = this.getClass().getResource(iUrlCerveza);
 
     //Estados del juego (Para saber cuando estoy jugando on menus)
     private enum STATE {
+
         MENU,
         GAME,
         PAUSED
@@ -90,6 +91,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 //        plateP = Toolkit.getDefaultToolkit().getImage(pausaURL);
 
         //Images 
+        cerveza = Toolkit.getDefaultToolkit().getImage(cervezaURL);
 //        imgCreditsBoton = Toolkit.getDefaultToolkit().getImage(creditsBotonURL);
         Image travolta1 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/travolta1.png"));
         Image travolta2 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/travolta2.png"));
@@ -102,10 +104,9 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         crearMesasYSillas();
 
         //jugadores init
-        
         j1 = new Jugador(Color.red, "Beto", 0);
         j2 = new Jugador(Color.blue, "Hugo", 1);
-        
+
         //Controladores 
         addKeyListener(this);
         addMouseListener(this);
@@ -120,19 +121,18 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
     /**
      * Metodo crearMesasYSillas que crea las mesas y sillas en base a un mapa
-     * Para crear un nuevo mapa, solamente hay que crear una matriz con 3 columnas
-     * posX | posY | tipoDeMesa
-     * El tipo de mesa es un entero constante que pusimos en nuestra clase Constantes.java
-     * También hay que modificar la URL en el switch para cada una de estas constantes
-     * y listo.
-     * Creado por beto y hugo.
+     * Para crear un nuevo mapa, solamente hay que crear una matriz con 3
+     * columnas posX | posY | tipoDeMesa El tipo de mesa es un entero constante
+     * que pusimos en nuestra clase Constantes.java También hay que modificar la
+     * URL en el switch para cada una de estas constantes y listo. Creado por
+     * beto y hugo.
      */
     public void crearMesasYSillas() {
 
         int mapa[][] = {
-            {75,  180, BAR_ROUND},
-            {75,  300, BAR_ROUND},
-            {75,  420, BAR_ROUND},
+            {75, 180, BAR_ROUND},
+            {75, 300, BAR_ROUND},
+            {75, 420, BAR_ROUND},
             {370, 180, BAR_POOL},
             {270, 300, BAR_ROUND},
             {465, 300, BAR_ROUND},
@@ -142,16 +142,19 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             {660, 420, BAR_ROUND}
         };
         for (int r = 0; r < mapa.length; r++) {
-            URL url; 
+            URL url;
             int tipo = 0;
-            switch (mapa[r][2]){
-                case BAR_POOL: url = poolURL;
+            switch (mapa[r][2]) {
+                case BAR_POOL:
+                    url = poolURL;
                     tipo = 0;
                     break;
-                case BAR_ROUND: url = tableURL; 
+                case BAR_ROUND:
+                    url = tableURL;
                     tipo = 1;
                     break;
-                default: url = tableURL;
+                default:
+                    url = tableURL;
                     tipo = 0;
                     break;
             }
@@ -193,10 +196,10 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
      * Metodo usado para actualizar la posicion de objetos del juego
      */
     public void Actualiza() {
-        
-        listaTables.get(j1.getMesaSeleccionada()).setColor1(j1.getColor()); 
-        listaTables.get(j2.getMesaSeleccionada()).setColor2(j2.getColor()); 
-        
+
+        listaTables.get(j1.getMesaSeleccionada()).setColor1(j1.getColor());
+        listaTables.get(j2.getMesaSeleccionada()).setColor2(j2.getColor());
+
         //Determina el tiempo que ha transcurrido desde que el Applet 
         //inicio su ejecución
         long tiempoTranscurrido = System.currentTimeMillis() - tiempoActual;
@@ -254,10 +257,13 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     public void paint1(Graphics g) {
         if (state == STATE.GAME) {
             g.drawImage(fondo, 0, 0, this);
-            for (Mesa mesa : listaTables){
+            for (Mesa mesa : listaTables) {
                 mesa.paintSillasArriba(g);
                 mesa.paint(g);
                 mesa.paintSillasAbajo(g);
+                if (mesa.getTipo() != 0) {
+                    g.drawImage(cerveza, mesa.getPosX() + 27, mesa.getPosY() + 5, this);
+                }
                 mesa.paintSelectors(g);
             }
         }
@@ -277,45 +283,46 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     public void keyPressed(KeyEvent e) {
         if (state == state.GAME) {
             if (e.KEY_PRESSED == e.VK_P) {
-                state = state.PAUSED; 
+                state = state.PAUSED;
             }
-            int ant, sig; 
+            int ant, sig;
             switch (e.getKeyCode()) {
-                case KeyEvent.VK_P: state = state.PAUSED; 
+                case KeyEvent.VK_P:
+                    state = state.PAUSED;
                     break;
-                
+
                 //Controles para el jugador 1
-                case KeyEvent.VK_RIGHT: 
-                    sig = ( j1.getMesaSeleccionada() + 1 ) % listaTables.size();
+                case KeyEvent.VK_RIGHT:
+                    sig = (j1.getMesaSeleccionada() + 1) % listaTables.size();
                     listaTables.get(j1.getMesaSeleccionada()).setColor1(null);
                     j1.setMesaSeleccionada(sig);
                     break;
-                case KeyEvent.VK_LEFT: 
-                    ant = ( j1.getMesaSeleccionada() - 1 );
-                    ant = ( ant < 0 ) ? listaTables.size()-1:ant; 
+                case KeyEvent.VK_LEFT:
+                    ant = (j1.getMesaSeleccionada() - 1);
+                    ant = (ant < 0) ? listaTables.size() - 1 : ant;
                     listaTables.get(j1.getMesaSeleccionada()).setColor1(null);
                     j1.setMesaSeleccionada(ant);
                     break;
-                
+
                 //Controles para el jugador 2
-                case KeyEvent.VK_D: 
-                    sig = ( j2.getMesaSeleccionada() + 1 ) % listaTables.size();
+                case KeyEvent.VK_D:
+                    sig = (j2.getMesaSeleccionada() + 1) % listaTables.size();
                     listaTables.get(j2.getMesaSeleccionada()).setColor2(null);
                     j2.setMesaSeleccionada(sig);
                     break;
-                    
-                case KeyEvent.VK_A: 
-                    ant = ( j2.getMesaSeleccionada() - 1 );
-                    ant = ( ant < 0 ) ? listaTables.size()-1:ant; 
+
+                case KeyEvent.VK_A:
+                    ant = (j2.getMesaSeleccionada() - 1);
+                    ant = (ant < 0) ? listaTables.size() - 1 : ant;
                     listaTables.get(j2.getMesaSeleccionada()).setColor2(null);
                     j2.setMesaSeleccionada(ant);
-                    break;    
+                    break;
             }
         }
-        
+
         if (state == state.PAUSED) {
             if (e.KEY_PRESSED == e.VK_P) {
-                state = state.GAME; 
+                state = state.GAME;
             }
         }
     }
