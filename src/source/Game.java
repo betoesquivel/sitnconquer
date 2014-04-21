@@ -323,10 +323,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                     j2.setMesaSeleccionada(ant);
                     break;
             }
-        }
-
-        if (state == state.PAUSED) {
-            System.out.println("I am paused...");
+        }else if (state == state.PAUSED) {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_P:
                     System.out.println("I dont wanna be paused anymo...");
@@ -334,6 +331,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                     break;
             }
         }
+
+        
     }
 
     public void keyTyped(KeyEvent e) { //metodo cuando una tecla fue typeada
