@@ -300,6 +300,40 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
         for (int x = 0; x < listaTables.size(); x++) {
             Mesa ayuda = (Mesa) listaTables.get(x);
+            if (pTravolta2.intersecta(ayuda) && !pTravolta2.isIntersecta()) {
+                pTravolta2.setIntersecta(true);
+                if (pTravolta2.getVelX() > 0 && pTravolta2.getPosX() + pTravolta2.getAncho() >= ayuda.getPosX() ) {
+                    //pTravolta2.setMoverX(ayuda.getAncho() + 2);
+                    if (pTravolta2.getPosY() + pTravolta2.getAlto() - ayuda.getPosY() < ayuda.getPosY() + ayuda.getAlto() - pTravolta2.getPosY()) {
+                        pTravolta2.setMoverY(-(pTravolta2.getPosY() + pTravolta2.getAlto() - ayuda.getPosY() + 3));
+                    } else {
+                        pTravolta2.setMoverY(ayuda.getPosY() + ayuda.getAlto() - pTravolta2.getPosY() + 3);
+                    }
+                } else if (pTravolta2.getVelX() < 0 && pTravolta2.getPosX() <= ayuda.getPosX() + ayuda.getAncho() ) {
+                    //pTravolta2.setMoverX(-(ayuda.getAncho() + 2));
+                    if (pTravolta2.getPosY() + pTravolta2.getAlto() - ayuda.getPosY() < ayuda.getPosY() + ayuda.getAlto() - pTravolta2.getPosY()) {
+                        pTravolta2.setMoverY(-(pTravolta2.getPosY() + pTravolta2.getAlto() - ayuda.getPosY() + 3));
+                    } else {
+                        pTravolta2.setMoverY(ayuda.getPosY() + ayuda.getAlto() - pTravolta2.getPosY() + 3);
+                    }
+                } else if (pTravolta2.getVelY() > 0 && pTravolta2.getPosY() + pTravolta2.getAlto() > ayuda.getPosY() ) {
+                    //pTravolta2.setMoverY(ayuda.getAlto() + 2);
+                    if ((pTravolta2.getPosX() + pTravolta2.getAncho() / 2) - ayuda.getPosX() <= ayuda.getPosX() + ayuda.getAlto() - (pTravolta2.getPosX() + pTravolta2.getAncho() / 2)) {
+                        pTravolta2.setMoverX(-(pTravolta2.getPosX() + pTravolta2.getAncho() - ayuda.getPosX() + 3));
+                    } else {
+                        pTravolta2.setMoverX(ayuda.getPosX() + ayuda.getAncho() - pTravolta2.getPosX() + 3);
+                    }
+                    pTravolta2.setPosY(ayuda.getPosY() - pTravolta2.getAlto() - 1);
+                } else if (pTravolta2.getVelY() < 0 && pTravolta2.getPosY() <= ayuda.getPosY() + ayuda.getAlto() ) {
+                    //pTravolta2.setMoverY(-(ayuda.getAlto() + 2));
+                    if ((pTravolta2.getPosX() + pTravolta2.getAncho() / 2) - ayuda.getPosX() < ayuda.getPosX() + ayuda.getAlto() - (pTravolta2.getPosX() + pTravolta2.getAncho() / 2)) {
+                        pTravolta2.setMoverX(-(pTravolta2.getPosX() + pTravolta2.getAncho() - ayuda.getPosX() + 3));
+                    } else {
+                        pTravolta2.setMoverX(ayuda.getPosX() + ayuda.getAncho() - pTravolta2.getPosX() + 3);
+                    }
+                    pTravolta2.setPosY(ayuda.getPosY() - pTravolta2.getAlto() - 1);
+                }
+            
             /*if (pTravolta2.intersecta(ayuda)) {
              if (pTravolta2.getVelX() > 0 && pTravolta2.getPosX() + pTravolta2.getAncho() >= ayuda.getPosX() && Math.abs(pTravolta2.getPosX() + pTravolta2.getAncho() / 2 - (ayuda.getPosX() + ayuda.getAncho() / 2)) >= Math.abs(pTravolta2.getPosY() + pTravolta2.getAlto() / 2 - (ayuda.getPosY() + ayuda.getAlto() / 2))) {
              pTravolta2.setPosX(ayuda.getPosX() - pTravolta2.getAncho() - 1);
@@ -312,7 +346,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
              }
              }*/
 
-            if (pTravolta2.intersecta(ayuda) && !pTravolta2.isIntersecta()) {
+            /*if (pTravolta2.intersecta(ayuda) && !pTravolta2.isIntersecta()) {
                 pTravolta2.setIntersecta(true);
                 if (pTravolta2.getVelX() > 0 && pTravolta2.getPosX() + pTravolta2.getAncho() >= ayuda.getPosX() && Math.abs(pTravolta2.getPosX() + pTravolta2.getAncho() / 2 - (ayuda.getPosX() + ayuda.getAncho() / 2)) >= Math.abs(pTravolta2.getPosY() + pTravolta2.getAlto() / 2 - (ayuda.getPosY() + ayuda.getAlto() / 2))) {
                     //pTravolta2.setMoverX(ayuda.getAncho() + 2);
@@ -344,7 +378,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                         pTravolta2.setMoverX(ayuda.getPosX() + ayuda.getAncho() - pTravolta2.getPosX() + 3);
                     }
                     pTravolta2.setPosY(ayuda.getPosY() - pTravolta2.getAlto() - 1);
-                }
+                }*/
             }
         }
     }
