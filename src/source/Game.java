@@ -106,8 +106,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         //Images 
         cerveza = Toolkit.getDefaultToolkit().getImage(cervezaURL);
 //        imgCreditsBoton = Toolkit.getDefaultToolkit().getImage(creditsBotonURL);
-        Image travolta1 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/travolta1.png"));
-        Image travolta2 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/travolta2.png"));
+        Image travolta1 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/ilDivo/azul/divo_01.png"));
+        Image travolta2 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/ilDivo/azul/divo_02.png"));
         travolta = new Animacion();
         travolta.sumaCuadro(travolta1, 400);
         travolta.sumaCuadro(travolta2, 400);
@@ -148,16 +148,16 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     public void crearMesasYSillas() {
 
         int mapa[][] = {
-            {75, 180, BAR_ROUND},
+            {75, 160, BAR_ROUND},
             {75, 300, BAR_ROUND},
-            {75, 420, BAR_ROUND},
-            {370, 180, BAR_POOL},
+            {75, 440, BAR_ROUND},
+            {370, 140, BAR_POOL},
             {270, 300, BAR_ROUND},
             {465, 300, BAR_ROUND},
-            {370, 420, BAR_POOL},
-            {660, 180, BAR_ROUND},
+            {370, 440, BAR_POOL},
+            {660, 160, BAR_ROUND},
             {660, 300, BAR_ROUND},
-            {660, 420, BAR_ROUND}
+            {660, 440, BAR_ROUND}
         };
         for (int r = 0; r < mapa.length; r++) {
             URL url;
@@ -428,10 +428,12 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                     g.drawImage(cerveza, mesa.getPosX() + 27, mesa.getPosY() + 5, this);
                 }
                 mesa.paintSelectors(g);
+                g.drawRect(mesa.getPosX() -25, mesa.getPosY() - 30, mesa.getAncho() + 50, mesa.getAlto() + 40);
             }
+            
             g.drawImage(pTravolta1.getAnim().getImagen(), pTravolta1.getPosX(), pTravolta1.getPosY(), this);
             g.drawImage(pTravolta2.getAnim().getImagen(), pTravolta2.getPosX(), pTravolta2.getPosY(), this);
-
+            g.drawRect(pTravolta2.getPosX(), pTravolta2.getPosY() +40, pTravolta2.getAncho(), pTravolta2.getAlto() - 40);
         }
 
         if (state == STATE.PAUSED) {

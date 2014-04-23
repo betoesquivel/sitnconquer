@@ -5,6 +5,8 @@
  */
 package source;
 
+import java.awt.Rectangle;
+
 /**
  *
  * @author bernardot
@@ -163,4 +165,7 @@ public class Personaje extends Base {
         this.intersecta = intersecta;
     }
 
+    public Rectangle getPerimetro() {
+        return new Rectangle(getPosX(), getPosY() + 40, getAncho(), getAlto() - 40);
+    }
 }

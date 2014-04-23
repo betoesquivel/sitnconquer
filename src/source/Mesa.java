@@ -13,6 +13,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.LinkedList;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.net.URL;
 import javax.swing.ImageIcon;
@@ -326,6 +327,10 @@ public class Mesa extends Base {
      */
     public void setMonitosSentados(LinkedList<Personaje> monitosSentados) {
         this.monitosSentados = monitosSentados;
+    }
+    
+   public Rectangle getPerimetro() {
+        return new Rectangle(getPosX() - 25, getPosY() - 30, getAncho() + 40, getAlto() + 50);
     }
 
 }
