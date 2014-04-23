@@ -293,6 +293,35 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
      */
     public void ChecaColision() {
         //checa colision con el applet
+        /*
+        Falta un for general para cada personaje
+        */
+        //////
+        //Lateral Izquiero
+        if (pTravolta2.getPosX() < 0) {
+            
+            pTravolta2.setPosX(0);
+        }
+         //Arriba       
+        if (pTravolta2.getPosY() < pTravolta2.getAlto() ) {
+            
+             pTravolta2.setPosY(pTravolta2.getAlto());
+        }
+        //Lateral Derecho
+        if (pTravolta2.getPosX() > getWidth()- pTravolta2.getAncho()) {
+        
+            pTravolta2.setPosX(getWidth() - pTravolta2.getAncho());
+        }
+        //Abajo
+        if (pTravolta2.getPosY() > getHeight() - pTravolta2.getAlto()) {
+            
+            pTravolta2.setPosY(getHeight() - pTravolta2.getAlto());
+        
+        }
+        /////
+        
+        
+        //moviendo de mono que persigue
         if (pTravolta2.getPosX() + pTravolta2.getAncho() > getWidth()) {
             pTravolta2.setPosX(pTravolta2.getPosX() - incX);
         }
@@ -305,7 +334,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         if (pTravolta2.getPosY() < 0) {
             pTravolta2.setPosY(pTravolta2.getPosY() - incY);
         }
-
+    /*
         for (int x = 0; x < listaTables.size(); x++) {
             Mesa ayuda = (Mesa) listaTables.get(x);
             if (pTravolta2.intersecta(ayuda) && !pTravolta2.isIntersecta()) {
@@ -386,9 +415,9 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                         pTravolta2.setMoverX(ayuda.getPosX() + ayuda.getAncho() - pTravolta2.getPosX() + 3);
                     }
                     pTravolta2.setPosY(ayuda.getPosY() - pTravolta2.getAlto() - 1);
-                }*/
+                }
             }
-        }
+        }*/
     }
 
     /**
