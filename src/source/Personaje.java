@@ -5,12 +5,19 @@
  */
 package source;
 
+import java.awt.Rectangle;
+
 /**
  *
  * @author bernardot
  */
 public class Personaje extends Base {
 
+    int velX;
+    int velY;
+    int moverX;
+    int moverY;
+    boolean intersecta;
     int tipo; // Se refiere al tipo de monito que es (gordo, flaco, chava, etc)
     int color; // Color del monito que va de acuerdo con el jugador que es dueño
     int valor; // Cuanto vale el monito dependiendo de su fuerza (upgrade)
@@ -118,4 +125,47 @@ public class Personaje extends Base {
         this.velocidad = velocidad;
     }
 
+    public int getVelX() {
+        return velX;
+    }
+
+    public void setVelX(int velX) {
+        this.velX = velX;
+    }
+
+    public int getVelY() {
+        return velY;
+    }
+
+    public void setVelY(int velY) {
+        this.velY = velY;
+    }
+
+    public int getMoverX() {
+        return moverX;
+    }
+
+    public void setMoverX(int moverX) {
+        this.moverX = moverX;
+    }
+
+    public int getMoverY() {
+        return moverY;
+    }
+
+    public void setMoverY(int moverY) {
+        this.moverY = moverY;
+    }
+
+    public boolean isIntersecta() {
+        return intersecta;
+    }
+
+    public void setIntersecta(boolean intersecta) {
+        this.intersecta = intersecta;
+    }
+
+    public Rectangle getPerimetro() {
+        return new Rectangle(getPosX(), getPosY() + 40, getAncho(), getAlto() - 40);
+    }
 }
