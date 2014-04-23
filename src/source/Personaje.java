@@ -5,7 +5,11 @@
  */
 package source;
 
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.net.URL;
 
 /**
  *
@@ -22,6 +26,7 @@ public class Personaje extends Base {
     int color; // Color del monito que va de acuerdo con el jugador que es dueño
     int valor; // Cuanto vale el monito dependiendo de su fuerza (upgrade)
     int velocidad; // Velocidad del monito (upgrade)
+    int sentado; // 0 es izquierda, 1 es derecha, 2 es arriba, 3 es abajo, 4 arriba
 
     /**
      * Método constructor de Personaje para definir solo la posición y crear el
@@ -168,4 +173,34 @@ public class Personaje extends Base {
     public Rectangle getPerimetro() {
         return new Rectangle(getPosX(), getPosY() + 40, getAncho(), getAlto() - 40);
     }
+    
+    public void paint(Graphics g, Silla s) {
+        URL sillaLeft = this.getClass().getResource("images/ilDivo/azul/divo_06.png");
+                Image sillaL = Toolkit.getDefaultToolkit().getImage(sillaLeft);
+                URL sillaRight = this.getClass().getResource("images/ilDivo/azul/divo_08.png");
+                Image sillaR = Toolkit.getDefaultToolkit().getImage(sillaRight);
+                URL sillaUp = this.getClass().getResource("images/ilDivo/azul/divo_05.png");
+                Image sillaU = Toolkit.getDefaultToolkit().getImage(sillaUp);
+                URL sillaDown = this.getClass().getResource("images/ilDivo/azul/divo_11.png");
+                Image sillaD = Toolkit.getDefaultToolkit().getImage(sillaDown);
+        if (sentado == 0) {
+            g.drawImage(sillaL, s.getPosX() + 5, s.getPosY() - 10, null);
+        } else if (sentado == 1) {
+            g.drawImage(sillaR, s.getPosX() - 1, s.getPosY() - 10, null);
+        } else if (sentado == 2) {
+            g.drawImage(sillaU, s.getPosX() + 5, s.getPosY() + 2, null);
+        } else if (sentado == 3) {
+            g.drawImage(sillaD, s.getPosX() + 7, s.getPosY() - 8, null);
+        }
+        
+    }
+
+    public int getSentado() {
+        return sentado;
+    }
+
+    public void setSentado(int sentado) {
+        this.sentado = sentado;
+    }
+    
 }
