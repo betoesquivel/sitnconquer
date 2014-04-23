@@ -7,7 +7,7 @@ package source;
 
 /**
  *
- * @author Ferrufino
+ * @author 
  */
 import java.awt.Graphics;
 import java.awt.Image;
@@ -33,6 +33,22 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     // Se declaran las variables para pintar 
     private Image dbImage;	// Imagen a proyectar	
     private Graphics dbg;	// Objeto grafico
+    
+    //Objetos Imagen
+    private Image imgCreditsBoton;
+    private Image imgHighScoreBoton;
+    private Image imgPlayBoton;
+    private Image imgLogoGrande;
+    private Image imgLogo;        
+    private Image imgBotonNext;
+    private Image imgSelecColor1;
+    private Image imgSelecColor2;
+    private Image imgSelecNombre1;
+    private Image imgSelecNombre2;
+    private Image imgBarraNombre;
+    private Image imgBotonBack;
+    private Image imgPantallaPausa;
+    private Image imgGanaste;
 
     // Jugadores
     Jugador j1;
@@ -45,6 +61,9 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
     //Botones
     private Boton bPausa;
+    private Boton bPlay;
+    private Boton bCredits;
+    private Boton bHighScore;
 
     //Objetos Imagen
     private Image fondo;
@@ -55,6 +74,27 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private URL tableURL = this.getClass().getResource(iUrlMesa);
     private URL poolURL = this.getClass().getResource(iUrlMesaBillar1);
     private URL cervezaURL = this.getClass().getResource(iUrlCerveza);
+    private URL imgLogoGrandeURL = this.getClass().getResource(iUrlLogoGrande);
+    private URL imgPlayBotonURL = this.getClass().getResource(iUrlBotonPlay);
+    private URL imgCreditsBotonURL = this.getClass().getResource(iUrlBotonCredits);
+    private URL imgHighScoreBotonURL = this.getClass().getResource(iUrlBotonPuntajesAltos);
+    private URL imgBotonAtrasURL = this.getClass().getResource(iUrlBotonAtras);
+    private URL imgColorAzulURL = this.getClass().getResource(iUrlColorAzul);
+    private URL imgColorGrisURL = this.getClass().getResource(iUrlColorGris);
+    private URL imgColorRojoURL = this.getClass().getResource(iUrlColorRojo);
+    private URL imgColorVerdeURL = this.getClass().getResource(iUrlColorVerde);
+    private URL imgMenuInstruccionesURL = this.getClass().getResource(iUrlMenuInstrucciones);
+    private URL imgLogoURL = this.getClass().getResource(iUrlLogo);
+    private URL imgBotonNextURL = this.getClass().getResource(iUrlBotonNext);
+    private URL imgSelecColor1URL = this.getClass().getResource(iUrlSelecColor1);
+    private URL imgSelecColor2URL = this.getClass().getResource(iUrlSelecColor2);
+    private URL imgSelecNombre1URL = this.getClass().getResource(iUrlSelecNombre1);
+    private URL imgSelecNombre2URL = this.getClass().getResource(iUrlSelecNombre2);
+    private URL imgBarraNombreURL = this.getClass().getResource(iUrlBarraNombre);
+    private URL imgBotonBackURL = this.getClass().getResource(iUrlBotonBack);
+    private URL imgPantallaPausaURL = this.getClass().getResource(iUrlPantallaPausa);
+    private URL imgGanasteURL = this.getClass().getResource(iUrlGanaste);
+    
 
     //Estados del juego (Para saber cuando estoy jugando on menus)
     private enum STATE {
@@ -64,7 +104,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         PAUSED
     };
 
-    private STATE state = STATE.GAME;
+    private STATE state = STATE.MENU;
 
     //Lista de booleanas
     //Mesas y Sillas
@@ -106,11 +146,22 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         //jugadores init
         j1 = new Jugador(Color.red, "Beto", 0);
         j2 = new Jugador(Color.blue, "Hugo", 1);
+        
+        //Images 
+        imgCreditsBoton = Toolkit.getDefaultToolkit().getImage(imgCreditsBotonURL);
+        imgPlayBoton = Toolkit.getDefaultToolkit().getImage(imgPlayBotonURL);
+        imgLogoGrande = Toolkit.getDefaultToolkit().getImage(imgLogoGrandeURL);
+        imgHighScoreBoton = Toolkit.getDefaultToolkit().getImage(imgHighScoreBotonURL);
 
         //Controladores 
         addKeyListener(this);
         addMouseListener(this);
         addMouseMotionListener(this);
+        
+        //Botones
+        bPlay = new Boton(300, 400, imgPlayBoton);
+        bCredits = new Boton(20, 400, imgCreditsBoton);
+        bHighScore = new Boton(630, 400, imgHighScoreBoton);
 
         // Declaras un hilo
         Thread th = new Thread(this);
@@ -254,6 +305,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
      *
      * @paramg es el <code>objeto grafico</code> usado para dibujar.
      */
+    
     public void paint1(Graphics g) {
         if (state == STATE.GAME) {
             g.drawImage(fondo, 0, 0, this);
@@ -270,6 +322,13 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
         if (state == STATE.PAUSED) {
             //está pausado
+        }
+       
+        if(state == STATE.MENU) {            
+            g.drawImage(imgLogoGrande, 200, 20, this);
+            g.drawImage(bPlay.getImageIcon().getImage(), bPlay.getPosX(), bPlay.getPosY(), this);
+            g.drawImage(bCredits.getImageIcon().getImage(), bCredits.getPosX(), bCredits.getPosY(), this);
+            g.drawImage(bHighScore.getImageIcon().getImage(), bHighScore.getPosX(), bHighScore.getPosY(), this);
         }
     }
 
@@ -341,6 +400,12 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
      *dentro del applet
      */
     public void mouseClicked(MouseEvent e) {
+        if (bPlay.clicked(e) && state == state.MENU) {
+            System.out.println("It was clicked...");
+            System.out.println("Sigue menu selec color...");
+            state = state.GAME;
+            
+        }
 
     }
 
