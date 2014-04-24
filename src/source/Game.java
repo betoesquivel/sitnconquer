@@ -12,6 +12,8 @@ package source;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -33,7 +35,9 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     // Se declaran las variables para pintar 
     private Image dbImage;	// Imagen a proyectar	
     private Graphics dbg;	// Objeto grafico
-
+    
+    //rectangle
+    private Rectangle rec;
     // Jugadores
     Jugador j1;
     Jugador j2;
@@ -48,6 +52,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
     // Booleanos
     private boolean mouseDrag;
+    private boolean movHorizontal;
+    private boolean movVertical;
 
     //Objetos...
     private Mesa table;
@@ -105,7 +111,6 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
         //Images 
         cerveza = Toolkit.getDefaultToolkit().getImage(cervezaURL);
-//        imgCreditsBoton = Toolkit.getDefaultToolkit().getImage(creditsBotonURL);
         Image travolta1 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/ilDivo/azul/divo_01.png"));
         Image travolta2 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/ilDivo/azul/divo_02.png"));
         travolta = new Animacion();
@@ -124,6 +129,10 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         //jugadores init
         j1 = new Jugador(Color.red, "Beto", 0);
         j2 = new Jugador(Color.blue, "Hugo", 1);
+        
+        //Booleans
+        movHorizontal = false;
+        movVertical = false;
 
         //Controladores 
         addKeyListener(this);
@@ -275,7 +284,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 pTravolta2.setVelY(-1);
             }
         }
-
+       
         pTravolta2.setPosX(pTravolta2.getPosX() + pTravolta2.getVelX());
         pTravolta2.setPosY(pTravolta2.getPosY() + pTravolta2.getVelY());
     }
@@ -310,6 +319,64 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             pTravolta2.setPosY(getHeight() - pTravolta2.getAlto());
         
         }
+        int temp=0;
+        for ( int i = 0; i < listaTables.size(); i++) {
+        
+            Mesa ayuda = (Mesa) listaTables.get(i);
+   // g.drawRect(mesa.getPosX() -25, mesa.getPosY() - 30, mesa.getAncho() + 50, mesa.getAlto() + 40);
+            rec = new Rectangle (ayuda.getPosX() -25, ayuda.getPosY() - 30, ayuda.getAncho() + 50, ayuda.getAlto() + 40);
+            
+            //Lado Izq
+                if (pTravolta2.intersecta2(rec)) {
+                    //lado Izquierdo
+                  if (ayuda.getPosX() - 50 == pTravolta2.getPosX()) {
+                       pTravolta2.setPosX(pTravolta2.getPosX() - 1);
+                       
+                       if ( pTravolta2.getPosY() > ayuda.getPosY() - (ayuda.getAlto()/2)) {
+                            pTravolta2.setPosY(pTravolta2.getPosY() + pTravolta2.getVelY() );
+                       }
+                       
+                        if ( pTravolta2.getPosY() < ayuda.getPosY() - (ayuda.getAlto()/2)) {
+                            pTravolta2.setPosY(pTravolta2.getPosY() - pTravolta2.getVelY() );
+                       }
+                           
+                        movVertical = true;
+
+                    }
+                    //Lado derecho
+                    if (ayuda.getPosX() + 100  == pTravolta2.getPosX()) {
+                       pTravolta2.setPosX(pTravolta2.getPosX() + 1);
+                       movVertical = true;
+                       
+                        if ( pTravolta2.getPosY() > (ayuda.getPosY() - (ayuda.getAlto()/2))) {
+                            pTravolta2.setPosY(pTravolta2.getPosY() + pTravolta2.getVelY() );
+                       }
+                       
+                        if ( pTravolta2.getPosY() < (ayuda.getPosY() - (ayuda.getAlto()/2))) {
+                            pTravolta2.setPosY(pTravolta2.getPosY() - pTravolta2.getVelY() );
+                       }
+                    }
+                    //Arriba
+                    if (ayuda.getPosY() - 95 ==  pTravolta2.getPosY()) {
+                    
+                        pTravolta2.setPosY(pTravolta2.getPosY() - 1);
+                        movHorizontal = true;
+                    }
+                    
+                    if (ayuda.getPosY() + 30 == pTravolta2.getPosY() ) {
+                    
+                         pTravolta2.setPosY(pTravolta2.getPosY() + 1);
+                         movHorizontal = true;
+                    }
+                    
+
+            } else {
+                movHorizontal = false;
+                movVertical = false;
+             }
+
+        }
+       
         /////
         
         
@@ -326,6 +393,16 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         if (pTravolta2.getPosY() < 0) {
             pTravolta2.setPosY(pTravolta2.getPosY() - incY);
         }
+        
+        //colision entre personaje y mesa
+       /* for (int x = 0; x < listaTables.size(); x++) {
+            Mesa ayuda = (Mesa) listaTables.get(x);
+            // g.drawRect(mesa.getPosX() -25, mesa.getPosY() - 30, mesa.getAncho() + 50, mesa.getAlto() + 40);
+
+            if(pTravolta2.intersecta2(ayuda.getPosX() -25, ayuda.getPosY() - 30, ayuda.getAncho() + 50, ayuda.getAlto() + 40)) {
+            
+            }
+        } */
     /*
         for (int x = 0; x < listaTables.size(); x++) {
             Mesa ayuda = (Mesa) listaTables.get(x);
@@ -454,7 +531,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 mesa.paint(g);
                 mesa.paintSillasAbajo(g);
                 if (mesa.getTipo() != 0) {
-                    g.drawImage(cerveza, mesa.getPosX() + 27, mesa.getPosY() + 5, this);
+                    g.drawImage(cerveza, mesa.getPosX() + 20, mesa.getPosY() + 5, this);
                 }
                 mesa.paintSelectors(g);
                 g.drawRect(mesa.getPosX() -25, mesa.getPosY() - 30, mesa.getAncho() + 50, mesa.getAlto() + 40);
@@ -463,8 +540,10 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             g.drawImage(pTravolta1.getAnim().getImagen(), pTravolta1.getPosX(), pTravolta1.getPosY(), this);
             g.drawImage(pTravolta2.getAnim().getImagen(), pTravolta2.getPosX(), pTravolta2.getPosY(), this);
             g.drawRect(pTravolta2.getPosX(), pTravolta2.getPosY() +40, pTravolta2.getAncho(), pTravolta2.getAlto() - 40);
+        
+           
         }
-
+        
         if (state == STATE.PAUSED) {
             //está pausado
         }
