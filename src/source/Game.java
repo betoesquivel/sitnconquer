@@ -121,6 +121,9 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         pTravolta1.setAnim(travolta);
         pTravolta2 = new Personaje(10, 500);
         pTravolta2.setAnim(travolta);
+        
+        Personaje pTravolta3 = new Personaje(0,0);
+        Personaje pTravolta4 = new Personaje(0,0);
 
 //        bPausa = new Boton(850, 20, plateP);
         listaTables = new LinkedList<Mesa>();
@@ -138,6 +141,11 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         addKeyListener(this);
         addMouseListener(this);
         addMouseMotionListener(this);
+        
+        listaTables.get(0).sentar(pTravolta2);
+        listaTables.get(0).sentar(pTravolta1);
+        listaTables.get(0).sentar(pTravolta3);
+        listaTables.get(0).sentar(pTravolta4);
 
         // Declaras un hilo
         Thread th = new Thread(this);
