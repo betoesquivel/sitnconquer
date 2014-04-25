@@ -117,6 +117,9 @@ public class Mesa extends Base {
     }
 
     public void paintSillasArriba(Graphics g) {
+        Color c = new Color(6,100,6,100);
+        g.setColor(c);
+        g.fillRect(getPosX() - 25, getPosY() - 30, getAncho() + 50, getAlto() + 40);
         if (tipo != 0) {
             for (int x = 0; x < sillas.size() - 1; x++) {
                 Silla aux = (Silla) sillas.get(x);

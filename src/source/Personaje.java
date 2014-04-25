@@ -23,6 +23,13 @@ public class Personaje extends Base {
     int moverY;
     boolean intersecta;
     int tipo; // Se refiere al tipo de monito que es (gordo, flaco, chava, etc)
+    /*
+    tipo = 0 es indefinido :P
+    tipo = 1 es el gamer
+    tipo = 2 es ilDivo
+    tipo = 3 es mike
+    tipo = 4 es travolta
+    */
     int color; // Color del monito que va de acuerdo con el jugador que es dueño
     int valor; // Cuanto vale el monito dependiendo de su fuerza (upgrade)
     int velocidad; // Velocidad del monito (upgrade)
