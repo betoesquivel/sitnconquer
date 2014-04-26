@@ -139,6 +139,32 @@ public class Personaje extends Base {
             aRight.sumaCuadro(aR2, 400);
             aUp.sumaCuadro(aU, 400);
             aDown.sumaCuadro(aD, 400);
+        } else if (tipo == 3) {
+            URL urlL = this.getClass().getResource("images/" + aux + "mike_06.png");
+            Image aL = Toolkit.getDefaultToolkit().getImage(urlL);
+            URL urlR = this.getClass().getResource("images/" + aux + "mike_07.png");
+            Image aR = Toolkit.getDefaultToolkit().getImage(urlR);
+            URL urlU = this.getClass().getResource("images/" + aux + "mike_05.png");
+            Image aU = Toolkit.getDefaultToolkit().getImage(urlU);
+            URL urlD = this.getClass().getResource("images/" + aux + "mike_10.png");
+            Image aD = Toolkit.getDefaultToolkit().getImage(urlD);
+            aLeft.sumaCuadro(aL, 400);
+            aRight.sumaCuadro(aR, 400);
+            aUp.sumaCuadro(aU, 400);
+            aDown.sumaCuadro(aD, 400);
+        } else if (tipo == 4) {
+            URL urlL = this.getClass().getResource("images/" + aux + "Travolta_06.png");
+            Image aL = Toolkit.getDefaultToolkit().getImage(urlL);
+            URL urlR = this.getClass().getResource("images/" + aux + "Travolta_07.png");
+            Image aR = Toolkit.getDefaultToolkit().getImage(urlR);
+            URL urlU = this.getClass().getResource("images/" + aux + "Travolta_05.png");
+            Image aU = Toolkit.getDefaultToolkit().getImage(urlU);
+            URL urlD = this.getClass().getResource("images/" + aux + "Travolta_10.png");
+            Image aD = Toolkit.getDefaultToolkit().getImage(urlD);
+            aLeft.sumaCuadro(aL, 400);
+            aRight.sumaCuadro(aR, 400);
+            aUp.sumaCuadro(aU, 400);
+            aDown.sumaCuadro(aD, 400);
         }
     }
 
@@ -278,16 +304,47 @@ public class Personaje extends Base {
     }
 
     public void paint(Graphics g, Silla s) {
-        if (sentado == 0) {
-            g.drawImage(aLeft.getImagen(), s.getPosX() + 5, s.getPosY() - 10, null);
-        } else if (sentado == 1) {
-            g.drawImage(aRight.getImagen(), s.getPosX() - 1, s.getPosY() - 10, null);
-        } else if (sentado == 2) {
-            g.drawImage(aUp.getImagen(), s.getPosX() + 5, s.getPosY() + 2, null);
-        } else if (sentado == 3) {
-            g.drawImage(aDown.getImagen(), s.getPosX() + 7, s.getPosY() - 8, null);
+        if (tipo == 1) {
+            if (sentado == 0) {
+                g.drawImage(aLeft.getImagen(), s.getPosX() + 5, s.getPosY() - 10, null);
+            } else if (sentado == 1) {
+                g.drawImage(aRight.getImagen(), s.getPosX(), s.getPosY() - 10, null);
+            } else if (sentado == 2) {
+                g.drawImage(aUp.getImagen(), s.getPosX() + 5, s.getPosY() + 2, null);
+            } else if (sentado == 3) {
+                g.drawImage(aDown.getImagen(), s.getPosX() + 5, s.getPosY() - 8, null);
+            }
+        } else if (tipo == 2) {
+            if (sentado == 0) {
+                g.drawImage(aLeft.getImagen(), s.getPosX() + 5, s.getPosY() - 10, null);
+            } else if (sentado == 1) {
+                g.drawImage(aRight.getImagen(), s.getPosX() - 1, s.getPosY() - 10, null);
+            } else if (sentado == 2) {
+                g.drawImage(aUp.getImagen(), s.getPosX() + 5, s.getPosY() + 2, null);
+            } else if (sentado == 3) {
+                g.drawImage(aDown.getImagen(), s.getPosX() + 7, s.getPosY() - 8, null);
+            }
+        } else if (tipo == 3) {
+            if (sentado == 0) {
+                g.drawImage(aLeft.getImagen(), s.getPosX() + 6, s.getPosY() - 10, null);
+            } else if (sentado == 1) {
+                g.drawImage(aRight.getImagen(), s.getPosX() - 9, s.getPosY() - 10, null);
+            } else if (sentado == 2) {
+                g.drawImage(aUp.getImagen(), s.getPosX(), s.getPosY() + 2, null);
+            } else if (sentado == 3) {
+                g.drawImage(aDown.getImagen(), s.getPosX() - 1, s.getPosY() - 6, null);
+            }
+        } else if (tipo == 4) {
+            if (sentado == 0) {
+                g.drawImage(aLeft.getImagen(), s.getPosX() + 3, s.getPosY() - 10, null);
+            } else if (sentado == 1) {
+                g.drawImage(aRight.getImagen(), s.getPosX() + 1, s.getPosY() - 10, null);
+            } else if (sentado == 2) {
+                g.drawImage(aUp.getImagen(), s.getPosX() + 5, s.getPosY() + 2, null);
+            } else if (sentado == 3) {
+                g.drawImage(aDown.getImagen(), s.getPosX() + 7, s.getPosY() - 8, null);
+            }
         }
-
     }
 
     public int getSentado() {

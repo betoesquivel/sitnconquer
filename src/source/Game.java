@@ -121,13 +121,13 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         travolta.sumaCuadro(travolta1, 400);
         travolta.sumaCuadro(travolta2, 400);
 
-        pTravolta1 = new Personaje(0, 50, 2, 1);
+        pTravolta1 = new Personaje(0, 50, 1, 1);
         pTravolta1.setAnim(travolta);
-        pTravolta2 = new Personaje(10, 500, 1, 1);
+        pTravolta2 = new Personaje(10, 500, 2, 2);
         pTravolta2.setAnim(travolta);
 
-        pTravolta3 = new Personaje(0, 0, 2, 1);
-        pTravolta4 = new Personaje(0, 0, 1, 1);
+        pTravolta3 = new Personaje(0, 0, 3, 3);
+        pTravolta4 = new Personaje(0, 0, 4, 4);
 
 //        bPausa = new Boton(850, 20, plateP);
         listaTables = new LinkedList<Mesa>();
