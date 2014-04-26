@@ -92,6 +92,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private Animacion travolta;
     Personaje pTravolta1;
     Personaje pTravolta2;
+    Personaje pTravolta3;
+    Personaje pTravolta4;
     boolean lockX;
     boolean lockY;
 
@@ -119,13 +121,13 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         travolta.sumaCuadro(travolta1, 400);
         travolta.sumaCuadro(travolta2, 400);
 
-        pTravolta1 = new Personaje(0, 50);
+        pTravolta1 = new Personaje(0, 50, 2, 1);
         pTravolta1.setAnim(travolta);
-        pTravolta2 = new Personaje(10, 500);
+        pTravolta2 = new Personaje(10, 500, 1, 1);
         pTravolta2.setAnim(travolta);
 
-        Personaje pTravolta3 = new Personaje(0, 0);
-        Personaje pTravolta4 = new Personaje(0, 0);
+        pTravolta3 = new Personaje(0, 0, 2, 1);
+        pTravolta4 = new Personaje(0, 0, 1, 1);
 
 //        bPausa = new Boton(850, 20, plateP);
         listaTables = new LinkedList<Mesa>();
@@ -144,8 +146,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         addMouseListener(this);
         addMouseMotionListener(this);
 
-        listaTables.get(0).sentar(pTravolta2);
         listaTables.get(0).sentar(pTravolta1);
+        listaTables.get(0).sentar(pTravolta2);
         listaTables.get(0).sentar(pTravolta3);
         listaTables.get(0).sentar(pTravolta4);
 
@@ -246,8 +248,10 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         //Guarda el tiempo actual
         tiempoActual += tiempoTranscurrido;
         //Actualiza la animación en base al tiempo transcurrido
-        pTravolta1.anim.actualiza(tiempoTranscurrido);
-        pTravolta2.anim.actualiza(tiempoTranscurrido);
+        pTravolta1.actualizaAnimaciones(tiempoTranscurrido);
+        pTravolta2.actualizaAnimaciones(tiempoTranscurrido);
+        pTravolta3.actualizaAnimaciones(tiempoTranscurrido);
+        pTravolta4.actualizaAnimaciones(tiempoTranscurrido);
 
         // Si hay drag, actualizar la posicion de pTravolta1
 //        if (mouseDrag) {
