@@ -13,8 +13,7 @@ public interface Constantes {
 
     //URLs Imagenes
     public static final String iUrlFondo    = "images/background1.png";
-    public static final String iUrlCerveza = "images/beer.png";
-    // el siguiente bloque de strings de urls no tienen URL en clase GAME
+    public static final String iUrlCerveza = "images/beers.png";
     public static final String iUrlBotellas = "images/bottles.png";
     public static final String iUrlSilla1 = "images/chair1.png";
     public static final String iUrlSilla2 = "images/chair2.png";
