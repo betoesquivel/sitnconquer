@@ -151,6 +151,12 @@ public class Base {
     public boolean intersecta(Base obj) {
         return getPerimetro().intersects(obj.getPerimetro());
     }
+    
+       public boolean intersecta2(Rectangle obj) {
+        return getPerimetro().intersects(obj);
+    }
+   
+ 
 
     /**
      * Checa si el objeto <code>Base</code> ha sido clickeado <code>click</code>

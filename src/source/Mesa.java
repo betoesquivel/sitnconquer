@@ -13,6 +13,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.LinkedList;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.net.URL;
 import javax.swing.ImageIcon;
@@ -113,19 +114,24 @@ public class Mesa extends Base {
 
     public void paint(Graphics g) {
         g.drawImage(getImageIcon().getImage(), getPosX(), getPosY(), null);
-        Color playerColor;
     }
 
     public void paintSillasArriba(Graphics g) {
+        Color c = new Color(6,100,6,100);
+        g.setColor(c);
+        g.fillRect(getPosX() - 25, getPosY() - 30, getAncho() + 50, getAlto() + 40);
         if (tipo != 0) {
             for (int x = 0; x < sillas.size() - 1; x++) {
                 Silla aux = (Silla) sillas.get(x);
                 aux.paint(g);
             }
+            paintMonitoIzqDer(g);
+            paintMonitoArriba(g);
         }
     }
 
     public void paintSillasAbajo(Graphics g) {
+        paintMonitoAbajo(g);
         if (tipo != 0) {
             for (int x = sillas.size() - 1; x < sillas.size(); x++) {
                 Silla aux = (Silla) sillas.get(x);
@@ -133,19 +139,48 @@ public class Mesa extends Base {
             }
         }
     }
+
+    public void paintMonitoIzqDer(Graphics g) {
+        if (tipo != 0) {
+            for (int x = 0; x < sillas.size() - 2; x++) {
+                Silla aux = (Silla) sillas.get(x);
+                if (aux.isOcupada()) {
+                    monitosSentados.get(x).paint(g, aux);
+                }
+            }
+        }
+    }
+
+    public void paintMonitoArriba(Graphics g) {
+        if (tipo != 0) {
+            Silla aux = (Silla) sillas.get(2);
+            if (aux.isOcupada()) {
+                monitosSentados.get(2).paint(g, aux);
+            }
+        }
+    }
     
-    public void paintSelectors(Graphics g){
+    public void paintMonitoAbajo(Graphics g) {
+        if (tipo != 0) {
+            Silla aux = (Silla) sillas.get(3);
+            if (aux.isOcupada()) {
+                monitosSentados.get(3).paint(g, aux);
+            }
+        }
+    }
+
+    public void paintSelectors(Graphics g) {
         Color playerColor;
         int displacement = 5; //table selector size
         if (color1 != null) {
             playerColor = new Color(color1.getRed(), color1.getGreen(), color1.getBlue(), 100);
             g.setColor(playerColor);
-            g.fillRect(getPosX() - displacement, getPosY() - displacement, icono.getIconWidth() + (displacement *2), icono.getIconHeight() + (displacement *2));
+            g.fillRect(getPosX() - displacement, getPosY() - displacement, icono.getIconWidth() + (displacement * 2), icono.getIconHeight() + (displacement * 2));
         }
         if (color2 != null) {
             playerColor = new Color(color2.getRed(), color2.getGreen(), color2.getBlue(), 100);
             g.setColor(playerColor);
-            g.fillOval(getPosX() - displacement, getPosY() - displacement, icono.getIconWidth() + (displacement *2), icono.getIconHeight() + (displacement *2));
+            g.fillOval(getPosX() - displacement, getPosY() - displacement, icono.getIconWidth() + (displacement * 2), icono.getIconHeight() + (displacement * 2));
         }
     }
 
@@ -326,6 +361,17 @@ public class Mesa extends Base {
      */
     public void setMonitosSentados(LinkedList<Personaje> monitosSentados) {
         this.monitosSentados = monitosSentados;
+    }
+
+    public Rectangle getPerimetro() {
+        return new Rectangle(getPosX() - 25, getPosY() - 30, getAncho() + 40, getAlto() + 50);
+    }
+
+    public void sentar(Personaje p) {
+        p.setSentado(sentados);
+        monitosSentados.add(sentados, p);
+        sillas.get(sentados).setOcupada(true);
+        sentados++;
     }
 
 }

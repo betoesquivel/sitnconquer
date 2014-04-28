@@ -13,7 +13,7 @@ public interface Constantes {
 
     //URLs Imagenes
     public static final String iUrlFondo    = "images/background1.png";
-    public static final String iUrlCerveza = "images/beer.png";
+    public static final String iUrlCerveza = "images/beers.png";
     public static final String iUrlBotellas = "images/bottles.png";
     public static final String iUrlSilla1 = "images/chair1.png";
     public static final String iUrlSilla2 = "images/chair2.png";
@@ -22,6 +22,7 @@ public interface Constantes {
     public static final String iUrlBarraInfo = "images/infoBar2.png";
     public static final String iUrlPausa = "images/pause.png";
     public static final String iUrlPlato1 = "images/plate1.png";
+    //
     public static final String iUrlMesaBillar1 = "images/pooltable1.png";
     public static final String iUrlMesa = "images/table1.1.png";
     public static final String iUrlBotonAtras = "images/backBoton.png";
