@@ -19,11 +19,11 @@ import java.net.URL;
 import javax.swing.ImageIcon;
 
 public class Mesa extends Base {
-
+    
     private int sentados;   // Variable entera pasa saber cuantos están sentados
     private Color color1;    // Color del jugador dueño de la mesa
     private Color color2;    // Color del jugador dueño de la mesa
-//    private int jugador;    // ID del jugador al que pertenece la mesa
+    //    private int jugador;    // ID del jugador al que pertenece la mesa
     private LinkedList<Silla> sillas;   // Lista de sillas
     private LinkedList<Personaje> monitosSentados;   // Lista de personajes
     private int cantSillas; // Variable entera con la cantidad de sillas
@@ -32,7 +32,7 @@ public class Mesa extends Base {
     /* tipo = 0: mesa indefinida
      *  tipo = 1: mesa redonda con 4 sillas
      */
-
+    
     /**
      * Método constructor de Mesa para definir solo la posición y crear el
      * objeto
@@ -48,7 +48,7 @@ public class Mesa extends Base {
         monitosSentados = new LinkedList();
         upgrade = new Upgrade();
     }
-
+    
     public Mesa(int posX, int posY, Image image) {
         super(posX, posY);
         ImageIcon icono = new ImageIcon(image);
@@ -59,7 +59,7 @@ public class Mesa extends Base {
         cantSillas = tipo = 0; // Valor default
         upgrade = new Upgrade();
     }
-
+    
     public Mesa(int posX, int posY, Image image, int t) {
         super(posX, posY);
         ImageIcon icono = new ImageIcon(image);
@@ -74,7 +74,7 @@ public class Mesa extends Base {
         }
         upgrade = new Upgrade();
     }
-
+    
     /**
      * Método constructor de Mesa para definir la posición, el upgrade y crear
      * el objeto
@@ -91,7 +91,7 @@ public class Mesa extends Base {
         cantSillas = tipo = 0; // Valor default
         upgrade = new Upgrade(tipoUpgrade);
     }
-
+    
     /**
      * Método constructor de Mesa para definir la posición, el upgrade, cantidad
      * de sillas y crear el objeto
@@ -111,11 +111,11 @@ public class Mesa extends Base {
         sillas = new LinkedList();
         upgrade = new Upgrade(tipoUpgrade);
     }
-
+    
     public void paint(Graphics g) {
         g.drawImage(getImageIcon().getImage(), getPosX(), getPosY(), null);
     }
-
+    
     public void paintSillasArriba(Graphics g) {
         Color c = new Color(6,100,6,100);
         g.setColor(c);
@@ -129,7 +129,7 @@ public class Mesa extends Base {
             paintMonitoArriba(g);
         }
     }
-
+    
     public void paintSillasAbajo(Graphics g) {
         paintMonitoAbajo(g);
         if (tipo != 0) {
@@ -139,23 +139,23 @@ public class Mesa extends Base {
             }
         }
     }
-
+    
     public void paintMonitoIzqDer(Graphics g) {
         if (tipo != 0) {
             for (int x = 0; x < sillas.size() - 2; x++) {
                 Silla aux = (Silla) sillas.get(x);
                 if (aux.isOcupada()) {
-                    monitosSentados.get(x).paint(g, aux);
+                    monitosSentados.get(x).paintSentado(g, aux);
                 }
             }
         }
     }
-
+    
     public void paintMonitoArriba(Graphics g) {
         if (tipo != 0) {
             Silla aux = (Silla) sillas.get(2);
             if (aux.isOcupada()) {
-                monitosSentados.get(2).paint(g, aux);
+                monitosSentados.get(2).paintSentado(g, aux);
             }
         }
     }
@@ -164,11 +164,11 @@ public class Mesa extends Base {
         if (tipo != 0) {
             Silla aux = (Silla) sillas.get(3);
             if (aux.isOcupada()) {
-                monitosSentados.get(3).paint(g, aux);
+                monitosSentados.get(3).paintSentado(g, aux);
             }
         }
     }
-
+    
     public void paintSelectors(Graphics g) {
         Color playerColor;
         int displacement = 5; //table selector size
@@ -183,7 +183,7 @@ public class Mesa extends Base {
             g.fillOval(getPosX() - displacement, getPosY() - displacement, icono.getIconWidth() + (displacement * 2), icono.getIconHeight() + (displacement * 2));
         }
     }
-
+    
     /**
      * Metodo de acceso que regresa la cantidad de personas sentadas del objeto
      *
@@ -192,7 +192,7 @@ public class Mesa extends Base {
     public int getSentados() {
         return sentados;
     }
-
+    
     /**
      * Metodo modificador usado para cambiar la cantidad de sentados del objeto
      *
@@ -202,7 +202,7 @@ public class Mesa extends Base {
     public void setSentados(int sentados) {
         this.sentados = sentados;
     }
-
+    
     /**
      * Metodo de acceso usado para obtener el color1 del jugador dueño de la
      * mesa
@@ -213,19 +213,19 @@ public class Mesa extends Base {
     public Color getColor1() {
         return color1;
     }
-
+    
     public void setColor1(Color color1) {
         this.color1 = color1;
     }
-
+    
     public Color getColor2() {
         return color2;
     }
-
+    
     public void setColor2(Color color2) {
         this.color2 = color2;
     }
-
+    
     /**
      * Metodo de acceso que regresa la lista con las sillas del objeto
      *
@@ -234,7 +234,7 @@ public class Mesa extends Base {
     public LinkedList<Silla> getSillas() {
         return sillas;
     }
-
+    
     /**
      * Metodo modificador usado para cambiar la lista de sillas del objeto
      *
@@ -243,7 +243,7 @@ public class Mesa extends Base {
     public void setSillas(LinkedList<Silla> sillas) {
         this.sillas = sillas;
     }
-
+    
     /**
      * Metodo de acceso que regresa la cantidad de sillas del objeto
      *
@@ -252,7 +252,7 @@ public class Mesa extends Base {
     public int getCantSillas() {
         return cantSillas;
     }
-
+    
     /**
      * Metodo modificador usado para cambiar la cantidad de sillas del objeto
      *
@@ -261,7 +261,7 @@ public class Mesa extends Base {
     public void setCantSillas(int cantSillas) {
         this.cantSillas = cantSillas;
     }
-
+    
     /**
      * Metodo de acceso que regresa el upgrade del objeto
      *
@@ -270,7 +270,7 @@ public class Mesa extends Base {
     public Upgrade getUpgrade() {
         return upgrade;
     }
-
+    
     /**
      * Metodo modificador usado para cambiar el upgrade del objeto
      *
@@ -279,7 +279,7 @@ public class Mesa extends Base {
     public void setUpgrade(Upgrade upgrade) {
         this.upgrade = upgrade;
     }
-
+    
     /**
      * Metodo de acceso que regresa el tipo de mesa del objeto
      *
@@ -288,7 +288,7 @@ public class Mesa extends Base {
     public int getTipo() {
         return tipo;
     }
-
+    
     /**
      * Metodo modificador usado para cambiar el tipo del objeto
      *
@@ -300,7 +300,7 @@ public class Mesa extends Base {
             cantSillas = 4;
         }
     }
-
+    
     /**
      * Metodo utilizado para crear las sillas correspondientes al tipo de mesa
      * que es de manera automatica.
@@ -343,7 +343,7 @@ public class Mesa extends Base {
             }
         }
     }
-
+    
     /**
      * Metodo de acceso que regresa la lista de personajes sentados del objeto
      *
@@ -352,7 +352,7 @@ public class Mesa extends Base {
     public LinkedList<Personaje> getMonitosSentados() {
         return monitosSentados;
     }
-
+    
     /**
      * Metodo modificador usado para cambiar la lista de personajes del objeto
      *
@@ -362,16 +362,16 @@ public class Mesa extends Base {
     public void setMonitosSentados(LinkedList<Personaje> monitosSentados) {
         this.monitosSentados = monitosSentados;
     }
-
+    
     public Rectangle getPerimetro() {
         return new Rectangle(getPosX() - 25, getPosY() - 30, getAncho() + 40, getAlto() + 50);
     }
-
+    
     public void sentar(Personaje p) {
         p.setSentado(sentados);
         monitosSentados.add(sentados, p);
         sillas.get(sentados).setOcupada(true);
         sentados++;
     }
-
+    
 }

@@ -348,6 +348,10 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         pTravolta3.actualizaAnimaciones(tiempoTranscurrido);
         pTravolta4.actualizaAnimaciones(tiempoTranscurrido);
 
+        // Actualizar el tiempo para la generacion de monitos y las animaciones de los monitos que tienen
+        j1.actualiza(tiempoTranscurrido);
+        j2.actualiza(tiempoTranscurrido);
+        
         // Si hay drag, actualizar la posicion de pTravolta1
 //        if (mouseDrag) {
 //            pTravolta1.setPosX(positionX - dX);
@@ -660,7 +664,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             g.drawImage(pTravolta1.getAnim().getImagen(), pTravolta1.getPosX(), pTravolta1.getPosY(), this);
             g.drawImage(pTravolta2.getAnim().getImagen(), pTravolta2.getPosX(), pTravolta2.getPosY(), this);
             g.drawRect(pTravolta2.getPosX(), pTravolta2.getPosY() + 40, pTravolta2.getAncho(), pTravolta2.getAlto() - 40);
-
+            j1.paint(g);
+            j2.paint(g);
         }
 
         if (state == STATE.PAUSED) {
