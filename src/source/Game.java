@@ -67,6 +67,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private Image imgSelectColor2;
     private Image imgSelectName1;
     private Image imgSelectName2;
+    private Image imgInstruccionesMovimiento;
+    private Image imgLetreroPausado;
 
     //rectangle
     private Rectangle rec;
@@ -143,6 +145,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private URL imgSelectName2URL = this.getClass().getResource(iUrlSelectName2);
     private URL imgInstruccionesMenuColorURL = this.getClass().getResource(iUrlInstruccionesMenuColor);
     private URL imgInstruccionesMenuNombreURL = this.getClass().getResource(iUrlInstruccionesMenuNombre);
+    private URL imgInstruccionesMovimientoURL = this.getClass().getResource(iUrlInstruccionesMovimiento);
+    private URL imgLetreroPausadoURL = this.getClass().getResource(iUrlLetreroPausado);
 
     //Estados del juego (Para saber cuando estoy jugando on menus)
     private enum STATE {
@@ -153,7 +157,12 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         PLAYER_NAME_1,
         PLAYER_NAME_2,
         GAME,
-        PAUSED
+        PAUSED,
+        INSTRUCCIONES,
+        GANADOR,
+        MENU_POSTJUEGO,
+        CREDITS,
+        HIGHSCORE
     };
 
     private STATE state = STATE.MENU_MAIN;
@@ -236,6 +245,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         imgSelectName2 = Toolkit.getDefaultToolkit().getImage(imgSelectName2URL);
         imgInstruccionesMenuColor = Toolkit.getDefaultToolkit().getImage(imgInstruccionesMenuColorURL);
         imgInstruccionesMenuNombre = Toolkit.getDefaultToolkit().getImage(imgInstruccionesMenuNombreURL);
+        imgInstruccionesMovimiento = Toolkit.getDefaultToolkit().getImage(imgInstruccionesMovimientoURL);
+        imgLetreroPausado = Toolkit.getDefaultToolkit().getImage(imgLetreroPausadoURL);
 
         //Booleans
         movHorizontal = false;
@@ -374,6 +385,10 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 //        for (Personaje p : j1.listaPersonajes) {
         pTravolta2.actualizaPosicion();
 //        }
+        
+        if(Ganaste != -1) {
+            state = state.MENU_POSTJUEGO;
+        }
     }
 
     /**
@@ -529,6 +544,15 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
         if (state == STATE.PAUSED) {
             //está pausado
+            g.drawImage(imgLogoGrande, 200, 20, this);
+            g.drawImage(imgLetreroPausado, 300, 420, this);
+            g.drawString("Para quitar la pausa volver a presionar la letra 'p' ", 200, 520);
+        }
+        
+        if (state == STATE.INSTRUCCIONES) {
+            //está pausado
+            g.drawImage(imgInstruccionesMovimiento, 100, 100, this);
+            g.drawString("Para quitar las instrucciones volver a presionar la letra 'i' ", 200, 520);
         }
 
         if (state == STATE.MENU_MAIN) {
@@ -598,6 +622,27 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             g.drawImage(bBack.getImageIcon().getImage(), bBack.getPosX(), bBack.getPosY(), this);
             g.drawImage(bNext.getImageIcon().getImage(), bNext.getPosX(), bNext.getPosY(), this);
         }
+        
+        if (state == state.CREDITS) {
+            g.drawImage(imgLogoGrande, 200, 20, this);
+            g.drawString("DESARROLLADO POR RUM", 350, 420);
+            g.drawString("Hugo León ", 300, 440);
+            g.drawString("Bernardo Treviño", 300, 460);
+            g.drawString("José Alberto Esquivel", 300, 480);
+            g.drawString("Gustavo Ferrufino", 300, 500);
+            g.drawImage(bBack.getImageIcon().getImage(), bBack.getPosX(), bBack.getPosY(), this);
+        }
+        
+        if (state == state.HIGHSCORE) {
+            g.drawImage(imgLogoGrande, 200, 20, this);
+            g.drawString("HIGH SCORE: ", 350, 420);
+            g.drawString("1.- ", 300, 435);
+            g.drawString("2.- ", 300, 450);
+            g.drawString("3.- ", 300, 465);
+            g.drawImage(bBack.getImageIcon().getImage(), bBack.getPosX(), bBack.getPosY(), this);
+            
+        }
+        
     }
 
     /**
@@ -690,6 +735,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                     break;
                 case KeyEvent.VK_W:
                     listaTables.get(j2.getMesaSeleccionada()).parar(j2);
+                case KeyEvent.VK_I:
+                    state = state.INSTRUCCIONES;
                     break;
                     
                     
@@ -705,6 +752,13 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_P:
                     System.out.println("I dont wanna be paused anymo...");
+                    state = state.GAME;
+                    break;
+            }
+        } else if(state == state.INSTRUCCIONES) {
+            switch (e.getKeyCode()) {
+                case KeyEvent.VK_I:
+                    System.out.println("No more instructions... I want to play!");
                     state = state.GAME;
                     break;
             }
@@ -737,10 +791,34 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             dX = positionX - pTravolta1.getPosX();
             dY = positionY - pTravolta1.getPosY();
         }
-
+                
         if (state == state.MENU_MAIN) {
+            
             if (bPlay.clicked(e)) {
                 state = state.SELECT_COLOR_1;
+            }
+            
+            if(bCredits.clicked(e)) {
+                state = state.CREDITS;
+            }
+
+            if(bHighScore.clicked(e)) {
+                state = state.HIGHSCORE;
+            }
+            
+        }
+        
+        if(state == state.CREDITS) {
+            if(back) {
+                state = state.MENU_MAIN;
+                back = false;
+            }
+        }
+        
+        if(state == state.HIGHSCORE) {
+            if(back) {
+                state = state.MENU_MAIN;
+                back = false;
             }
         }
 
