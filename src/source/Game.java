@@ -13,6 +13,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Color;
 import java.awt.Rectangle;
+import java.awt.TextField;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -34,7 +35,11 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     // Se declaran las variables para pintar 
     private Image dbImage;	// Imagen a proyectar	
     private Graphics dbg;	// Objeto grafico
-
+    
+    //Cajas de Texto para introducir el nombre
+    private TextField jugador1;
+    private TextField jugador2;
+    
     //Objetos Imagen
     private Image imgCreditsBoton;
     private Image imgHighScoreBoton;
@@ -56,6 +61,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private Image imgBackBoton;
     private Image imgNextBoton;
     private Image imgInstruccionesMenu;
+    private Image imgInstruccionesMenuColor;
+    private Image imgInstruccionesMenuNombre;
     private Image imgSelectColor1;
     private Image imgSelectColor2;
     private Image imgSelectName1;
@@ -80,7 +87,9 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private boolean movHorizontal;
     private boolean movVertical;
     private boolean azul, rojo, verde, gris; // booleanas para indicar que boton de color de jugador se debe prender
-
+    private int Ganaste = -1; //Numero entero que actua como booleana para indicar si ya gano alguien -1=no ha ganado nadie, id de jugador para indicar que ya gano
+    private int colorJ1 = -1; //booleanas para indicar color seleccionado por jugadores
+    private int colorJ2 = -1; // 1 = rojo, 2 = gris, 3 = azul, 4 = verde
     //Objetos...
     private Mesa table;
     private Silla chair;
@@ -132,6 +141,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private URL imgSelectColor2URL = this.getClass().getResource(iUrlSelectColor2);
     private URL imgSelectName1URL = this.getClass().getResource(iUrlSelectName1);
     private URL imgSelectName2URL = this.getClass().getResource(iUrlSelectName2);
+    private URL imgInstruccionesMenuColorURL = this.getClass().getResource(iUrlInstruccionesMenuColor);
+    private URL imgInstruccionesMenuNombreURL = this.getClass().getResource(iUrlInstruccionesMenuNombre);
 
     //Estados del juego (Para saber cuando estoy jugando on menus)
     private enum STATE {
@@ -200,6 +211,12 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         //jugadores init
         j1 = new Jugador(Color.red, "Beto", 0);
         j2 = new Jugador(Color.blue, "Hugo", 1);
+        
+        //Cajas de texto para nombres de jugadores
+        jugador1 = new TextField();
+        jugador2 = new TextField();
+        jugador1.setBounds(new Rectangle(25, 250, 300, 50));
+        jugador2.setBounds(new Rectangle(25, 250, 300, 50));
 
         //Images 
         imgCreditsBoton = Toolkit.getDefaultToolkit().getImage(imgCreditsBotonURL);
@@ -217,7 +234,9 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         imgSelectColor2 = Toolkit.getDefaultToolkit().getImage(imgSelectColor2URL);
         imgSelectName1 = Toolkit.getDefaultToolkit().getImage(imgSelectName1URL);
         imgSelectName2 = Toolkit.getDefaultToolkit().getImage(imgSelectName2URL);
-
+        imgInstruccionesMenuColor = Toolkit.getDefaultToolkit().getImage(imgInstruccionesMenuColorURL);
+        imgInstruccionesMenuNombre = Toolkit.getDefaultToolkit().getImage(imgInstruccionesMenuNombreURL);
+        
         //Booleans
         movHorizontal = false;
         movVertical = false;
@@ -236,10 +255,10 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         bPlay = new Boton(300, 400, imgPlayBoton);
         bCredits = new Boton(20, 400, imgCreditsBoton);
         bHighScore = new Boton(630, 400, imgHighScoreBoton);
-        bColorAzul = new Boton(20, 300, imgColorAzul);
-        bColorVerde = new Boton(170, 300, imgColorVerde);
-        bColorGris = new Boton(170, 200, imgColorGris);
-        bColorRojo = new Boton(20, 200, imgColorRojo);
+        bColorAzul = new Boton(15, 335, imgColorAzul);
+        bColorVerde = new Boton(180, 335, imgColorVerde);
+        bColorGris = new Boton(180, 225, imgColorGris);
+        bColorRojo = new Boton(15, 225, imgColorRojo);
         //bContinue = new Boton(20, 20);
         //bPausa = new Boton(850, 20, plateP);
         bNext = new Boton(750, 490, imgNextBoton);
@@ -537,7 +556,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             g.drawImage(bColorAzul.getImageIcon().getImage(), bColorAzul.getPosX(), bColorAzul.getPosY(), this);
             g.drawImage(bColorGris.getImageIcon().getImage(), bColorGris.getPosX(), bColorGris.getPosY(), this);
             g.drawImage(bColorVerde.getImageIcon().getImage(), bColorVerde.getPosX(), bColorVerde.getPosY(), this);
-            g.drawImage(imgInstruccionesMenu, 350, 50, this);
+            g.drawImage(imgInstruccionesMenuColor, 350, 50, this);
             g.drawImage(bBack.getImageIcon().getImage(), bBack.getPosX(), bBack.getPosY(), this);
             g.drawImage(bNext.getImageIcon().getImage(), bNext.getPosX(), bNext.getPosY(), this);
 
@@ -545,8 +564,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
         if (state == state.PLAYER_NAME_1) {
             g.drawImage(imgSelectName1, 20, 20, this);
-            g.drawImage(imgBarraNombre, 40, 300, this);
-            g.drawImage(imgInstruccionesMenu, 350, 50, this);
+            g.drawImage(imgInstruccionesMenuNombre, 350, 50, this);
             g.drawImage(bBack.getImageIcon().getImage(), bBack.getPosX(), bBack.getPosY(), this);
             g.drawImage(bNext.getImageIcon().getImage(), bNext.getPosX(), bNext.getPosY(), this);
         }
@@ -569,15 +587,14 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             g.drawImage(bColorAzul.getImageIcon().getImage(), bColorAzul.getPosX(), bColorAzul.getPosY(), this);
             g.drawImage(bColorGris.getImageIcon().getImage(), bColorGris.getPosX(), bColorGris.getPosY(), this);
             g.drawImage(bColorVerde.getImageIcon().getImage(), bColorVerde.getPosX(), bColorVerde.getPosY(), this);
-            g.drawImage(imgInstruccionesMenu, 350, 50, this);
-            g.drawImage(bBack.getImageIcon().getImage(), bBack.getPosX(), bBack.getPosY(), this);
+            g.drawImage(imgInstruccionesMenuColor, 350, 50, this);
+//            g.drawImage(bBack.getImageIcon().getImage(), bBack.getPosX(), bBack.getPosY(), this);
             g.drawImage(bNext.getImageIcon().getImage(), bNext.getPosX(), bNext.getPosY(), this);
         }
 
         if (state == state.PLAYER_NAME_2) {
             g.drawImage(imgSelectName2, 20, 20, this);
-            g.drawImage(imgBarraNombre, 40, 300, this);
-            g.drawImage(imgInstruccionesMenu, 350, 50, this);
+            g.drawImage(imgInstruccionesMenuNombre, 350, 50, this);
             g.drawImage(bBack.getImageIcon().getImage(), bBack.getPosX(), bBack.getPosY(), this);
             g.drawImage(bNext.getImageIcon().getImage(), bNext.getPosX(), bNext.getPosY(), this);
         }
@@ -713,11 +730,22 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             }
         }
 
-        if (state == state.SELECT_COLOR_1) {
-            azul = rojo = verde = gris = false;
-            if (next) {
+        if(state == state.SELECT_COLOR_1) {
+            rojo = true;
+            azul = verde = gris = false;
+            if(next) {
                 state = state.PLAYER_NAME_1;
                 next = false;
+                if(rojo) {
+                    colorJ1 = 1;
+                } else if (gris) {
+                    colorJ1 = 2;
+                } else if (azul) {
+                    colorJ1 = 3;
+                } else if (verde) {
+                    colorJ1 = 4;
+                }
+                this.add(jugador1, null);
             }
             if (bColorAzul.clicked(e)) {
                 azul = true;
@@ -742,23 +770,40 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             if (next) {
                 state = state.SELECT_COLOR_2;
                 next = false;
+                String nameJ1 = jugador1.getText();
+                /*
+                switch(colorJ1) {
+                    case 1:
+                        j1 = new Jugador(Color.red, nameJ1, 1);
+                        break;
+                    case 2:
+                        j1 = new Jugador(Color.gray, nameJ1, 1);
+                        break;
+                    case 3:
+                        j1 = new Jugador(Color.blue, nameJ1, 1);
+                        break;
+                    case 4:
+                        j1 = new Jugador(Color.green, nameJ1, 1);
+                        break;
+                }
+                */
+                this.remove(jugador1);
             }
 
             if (back) {
                 state = state.SELECT_COLOR_1;
                 back = false;
+                this.remove(jugador1);
             }
         }
 
-        if (state == state.SELECT_COLOR_2) {
-            azul = rojo = verde = gris = false;
+        
+        if(state == state.SELECT_COLOR_2) {
+            gris = true;
+            azul = verde = rojo = false;
+                      
+            if(bColorAzul.clicked(e)) {
 
-            if (next) {
-                state = state.PLAYER_NAME_2;
-                next = false;
-            }
-
-            if (bColorAzul.clicked(e)) {
                 azul = true;
             } else if (bColorRojo.clicked(e)) {
                 azul = false;
@@ -770,9 +815,27 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 gris = true;
                 azul = rojo = verde = false;
             }
-
-            if (back) {
-                state = state.PLAYER_NAME_1;
+            
+            if(rojo) {
+                colorJ2 = 1;
+            } else if (gris) {
+                colorJ2 = 2;
+            } else if (azul) {
+                colorJ2 = 3;
+            } else if (verde) {
+                colorJ2 = 4;
+            }
+            
+            if(next && colorJ1 != colorJ2) {
+                System.out.println("colorj1= "+ colorJ1 + "colorj2= "+ colorJ2);
+                state = state.PLAYER_NAME_2;
+                next = false;
+                
+                this.add(jugador2, null);
+            }
+            
+            if(back) {
+//                state = state.PLAYER_NAME_1;
                 back = false;
             }
         }
@@ -781,11 +844,30 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             if (next) {
                 state = state.GAME;
                 next = false;
+                String nameJ2 = jugador2.getText();
+                /*
+                switch(colorJ2) {
+                    case 1:
+                        j2 = new Jugador(Color.red, nameJ2, 1);
+                        break;
+                    case 2:
+                        j2 = new Jugador(Color.gray, nameJ2, 1);
+                        break;
+                    case 3:
+                        j2 = new Jugador(Color.blue, nameJ2, 1);
+                        break;
+                    case 4:
+                        j2 = new Jugador(Color.green, nameJ2, 1);
+                        break;
+                }
+                */
+                this.remove(jugador2);
             }
 
             if (back) {
                 state = state.SELECT_COLOR_2;
                 back = false;
+                this.remove(jugador2);
             }
         }
 
