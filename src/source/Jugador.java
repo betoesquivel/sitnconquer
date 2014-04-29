@@ -13,7 +13,7 @@ import java.util.LinkedList;
  */
 public class Jugador {
 
-//    private int id; // Variable entera con la cual se identificará que jugador es
+    private int id; // Variable entera con la cual se identificará que jugador es
     private Color color; // Variable entera que representa un color en el juego de los 4 posibles
     private String nombre; // String que tiene el nombre que se puso el jugador
     private LinkedList personajes;
@@ -33,8 +33,8 @@ public class Jugador {
      * @param c es el <code>color</code> del jugador.
      * @param n es el <code>nombre</code> del jugador.
      */
-    public Jugador(Color c, String n, int inicial) {
-//        id = i;
+    public Jugador(int i, Color c, String n, int inicial) {
+        id = i;
         this.color = c;
         nombre = n;
         mesaSeleccionada = inicial;
@@ -60,7 +60,13 @@ public class Jugador {
         } else if (color == Color.green) {
             col = 4;
         }
-        Personaje p = new Personaje((int) (Math.random() * 900), (int) (Math.random() * 600), tipo, col);
+        
+        Personaje p;
+        if (id == 1) {
+            p = new Personaje(-50, (int) (Math.random() * 500) + 50, tipo, col);
+        } else {
+            p = new Personaje(950, (int) (Math.random() * 500) + 50, tipo, col);
+        }
         personajes.add(p);
     }
     
@@ -80,6 +86,15 @@ public class Jugador {
         for (int x = 0; x < personajes.size(); x++) {
             Personaje aux = (Personaje) personajes.get(x);
             aux.paint(g);
+        }
+    }
+    
+    public void sentarAMesa(Mesa m) {
+        for (int x = 0; x < personajes.size(); x++) {
+            Personaje aux = (Personaje) personajes.get(x);
+            if (aux.getEstado() == 1) {
+                
+            }
         }
     }
 

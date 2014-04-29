@@ -369,6 +369,7 @@ public class Mesa extends Base {
     
     public void sentar(Personaje p) {
         p.setSentado(sentados);
+        p.setEstado(0);
         monitosSentados.add(sentados, p);
         sillas.get(sentados).setOcupada(true);
         sentados++;

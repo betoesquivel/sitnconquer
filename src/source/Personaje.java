@@ -61,6 +61,7 @@ public class Personaje extends Base {
         aLeft = new Animacion();
         aDown = new Animacion();
         aUp = new Animacion();
+        estado = 1;
     }
 
     /**
@@ -77,6 +78,7 @@ public class Personaje extends Base {
         tipo = t; // Se crea un personaje de algun tipo
         color = col; // Se sabe el color del jugador
         valor = velocidad = 1;
+        estado = 1;
         crearAnimaciones();
     }
 
