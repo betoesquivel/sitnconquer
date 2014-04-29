@@ -12,7 +12,6 @@ package source;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
@@ -42,7 +41,6 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private Image imgPlayBoton;
     private Image imgLogoGrande;
     private Image imgLogo;        
-    private Image imgBotonNext;
     private Image imgSelecColor1;
     private Image imgSelecColor2;
     private Image imgSelecNombre1;
@@ -51,6 +49,17 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private Image imgBotonBack;
     private Image imgPantallaPausa;
     private Image imgGanaste;
+    private Image imgColorAzul;
+    private Image imgColorVerde;
+    private Image imgColorRojo;
+    private Image imgColorGris;
+    private Image imgBackBoton;
+    private Image imgNextBoton;
+    private Image imgInstruccionesMenu;
+    private Image imgSelectColor1;
+    private Image imgSelectColor2;
+    private Image imgSelectName1;
+    private Image imgSelectName2;
 
     //rectangle
     private Rectangle rec;
@@ -70,6 +79,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private boolean mouseDrag;
     private boolean movHorizontal;
     private boolean movVertical;
+    private boolean azul, rojo, verde, gris; // booleanas para indicar que boton de color de jugador se debe prender
 
     //Objetos...
     private Mesa table;
@@ -81,6 +91,13 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private Boton bPlay;
     private Boton bCredits;
     private Boton bHighScore;
+    private Boton bNext;
+    private Boton bBack;
+    private Boton bColorAzul;
+    private Boton bColorVerde;
+    private Boton bColorRojo;
+    private Boton bColorGris;
+    private Boton bContinue;
 
     //Objetos Imagen
     private Image fondo;
@@ -111,17 +128,25 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private URL imgBotonBackURL = this.getClass().getResource(iUrlBotonBack);
     private URL imgPantallaPausaURL = this.getClass().getResource(iUrlPantallaPausa);
     private URL imgGanasteURL = this.getClass().getResource(iUrlGanaste);
+    private URL imgSelectColor1URL = this.getClass().getResource(iUrlSelectColor1);
+    private URL imgSelectColor2URL = this.getClass().getResource(iUrlSelectColor2);
+    private URL imgSelectName1URL = this.getClass().getResource(iUrlSelectName1);
+    private URL imgSelectName2URL = this.getClass().getResource(iUrlSelectName2);
     
 
     //Estados del juego (Para saber cuando estoy jugando on menus)
     private enum STATE {
 
-        MENU,
+        MENU_MAIN,
+        SELECT_COLOR_1,
+        SELECT_COLOR_2,
+        PLAYER_NAME_1,
+        PLAYER_NAME_2,
         GAME,
         PAUSED
     };
 
-    private STATE state = STATE.MENU;
+    private STATE state = STATE.MENU_MAIN;
 
     //Lista de booleanas
     //Mesas y Sillas
@@ -182,7 +207,18 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         imgPlayBoton = Toolkit.getDefaultToolkit().getImage(imgPlayBotonURL);
         imgLogoGrande = Toolkit.getDefaultToolkit().getImage(imgLogoGrandeURL);
         imgHighScoreBoton = Toolkit.getDefaultToolkit().getImage(imgHighScoreBotonURL);
-
+        imgInstruccionesMenu = Toolkit.getDefaultToolkit().getImage(imgMenuInstruccionesURL);
+        imgColorAzul = Toolkit.getDefaultToolkit().getImage(imgColorAzulURL);
+        imgColorRojo = Toolkit.getDefaultToolkit().getImage(imgColorRojoURL);
+        imgColorVerde = Toolkit.getDefaultToolkit().getImage(imgColorVerdeURL);
+        imgColorGris = Toolkit.getDefaultToolkit().getImage(imgColorGrisURL);
+        imgNextBoton = Toolkit.getDefaultToolkit().getImage(imgBotonNextURL);
+        imgBackBoton = Toolkit.getDefaultToolkit().getImage(imgBotonBackURL);
+        imgSelectColor1 = Toolkit.getDefaultToolkit().getImage(imgSelectColor1URL);
+        imgSelectColor2 = Toolkit.getDefaultToolkit().getImage(imgSelectColor2URL);
+        imgSelectName1 = Toolkit.getDefaultToolkit().getImage(imgSelectName1URL);
+        imgSelectName2 = Toolkit.getDefaultToolkit().getImage(imgSelectName2URL);
+        
         //Booleans
         movHorizontal = false;
         movVertical = false;
@@ -196,6 +232,19 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         listaTables.get(0).sentar(pTravolta2);
         listaTables.get(0).sentar(pTravolta3);
         listaTables.get(0).sentar(pTravolta4);
+        
+        //Botones
+        bPlay = new Boton(300, 400, imgPlayBoton);
+        bCredits = new Boton(20, 400, imgCreditsBoton);
+        bHighScore = new Boton(630, 400, imgHighScoreBoton);
+        bColorAzul = new Boton(20, 300, imgColorAzul);
+        bColorVerde = new Boton(170, 300, imgColorVerde);
+        bColorGris = new Boton(170, 200, imgColorGris);
+        bColorRojo = new Boton(20, 200, imgColorRojo);
+        //bContinue = new Boton(20, 20);
+        //bPausa = new Boton(850, 20, plateP);
+        bNext = new Boton(750, 490, imgNextBoton);
+        bBack = new Boton(20, 490, imgBackBoton);
 
         // Declaras un hilo
         Thread th = new Thread(this);
@@ -299,6 +348,10 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         pTravolta3.actualizaAnimaciones(tiempoTranscurrido);
         pTravolta4.actualizaAnimaciones(tiempoTranscurrido);
 
+        // Actualizar el tiempo para la generacion de monitos y las animaciones de los monitos que tienen
+        j1.actualiza(tiempoTranscurrido);
+        j2.actualiza(tiempoTranscurrido);
+        
         // Si hay drag, actualizar la posicion de pTravolta1
 //        if (mouseDrag) {
 //            pTravolta1.setPosX(positionX - dX);
@@ -611,18 +664,82 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             g.drawImage(pTravolta1.getAnim().getImagen(), pTravolta1.getPosX(), pTravolta1.getPosY(), this);
             g.drawImage(pTravolta2.getAnim().getImagen(), pTravolta2.getPosX(), pTravolta2.getPosY(), this);
             g.drawRect(pTravolta2.getPosX(), pTravolta2.getPosY() + 40, pTravolta2.getAncho(), pTravolta2.getAlto() - 40);
-
+            j1.paint(g);
+            j2.paint(g);
         }
 
         if (state == STATE.PAUSED) {
             //está pausado
         }
        
-        if(state == STATE.MENU) {            
+        if(state == STATE.MENU_MAIN) {            
             g.drawImage(imgLogoGrande, 200, 20, this);
             g.drawImage(bPlay.getImageIcon().getImage(), bPlay.getPosX(), bPlay.getPosY(), this);
             g.drawImage(bCredits.getImageIcon().getImage(), bCredits.getPosX(), bCredits.getPosY(), this);
             g.drawImage(bHighScore.getImageIcon().getImage(), bHighScore.getPosX(), bHighScore.getPosY(), this);
+        }
+        
+        if (state == state.SELECT_COLOR_1) {
+            Color c = new Color(255, 255, 0, 100);
+            g.setColor(c);
+            if(azul) {
+                g.fillOval(bColorAzul.getPosX()-10, bColorAzul.getPosY()-10, bColorAzul.getAncho()+20, bColorAzul.getAlto()+20);
+            } else if (gris) {
+                g.fillOval(bColorRojo.getPosX()-10, bColorRojo.getPosY()-10, bColorRojo.getAncho()+20, bColorRojo.getAlto()+20);
+            } else if (verde) {
+                g.fillOval(bColorVerde.getPosX()-10, bColorVerde.getPosY()-10, bColorVerde.getAncho()+20, bColorVerde.getAlto()+20);
+            } else {
+                g.fillOval(bColorGris.getPosX()-10, bColorGris.getPosY()-10, bColorGris.getAncho()+20, bColorGris.getAlto()+20);
+            }
+            
+            g.drawImage(imgSelectColor1, 20, 20, this);
+            g.drawImage(bColorRojo.getImageIcon().getImage(), bColorRojo.getPosX(), bColorRojo.getPosY(), this);
+            g.drawImage(bColorAzul.getImageIcon().getImage(), bColorAzul.getPosX(), bColorAzul.getPosY(), this);
+            g.drawImage(bColorGris.getImageIcon().getImage(), bColorGris.getPosX(), bColorGris.getPosY(), this);
+            g.drawImage(bColorVerde.getImageIcon().getImage(), bColorVerde.getPosX(), bColorVerde.getPosY(), this);
+            g.drawImage(imgInstruccionesMenu, 350, 50, this);
+            g.drawImage(bBack.getImageIcon().getImage(), bBack.getPosX(), bBack.getPosY(), this);
+            g.drawImage(bNext.getImageIcon().getImage(), bNext.getPosX(), bNext.getPosY(), this);
+            
+        }
+
+        if (state == state.PLAYER_NAME_1) {
+            g.drawImage(imgSelectName1, 20, 20, this);
+            g.drawImage(imgBarraNombre, 40, 300, this);
+            g.drawImage(imgInstruccionesMenu, 350, 50, this);
+            g.drawImage(bBack.getImageIcon().getImage(), bBack.getPosX(), bBack.getPosY(), this);
+            g.drawImage(bNext.getImageIcon().getImage(), bNext.getPosX(), bNext.getPosY(), this);
+        }
+
+        if (state == state.SELECT_COLOR_2) {
+            Color c = new Color(255, 255, 0, 100);
+            g.setColor(c);
+            if(azul) {
+                g.fillOval(bColorAzul.getPosX()-10, bColorAzul.getPosY()-10, bColorAzul.getAncho()+20, bColorAzul.getAlto()+20);
+            } else if (rojo) {
+                g.fillOval(bColorRojo.getPosX()-10, bColorRojo.getPosY()-10, bColorRojo.getAncho()+20, bColorRojo.getAlto()+20);
+            } else if (verde) {
+                g.fillOval(bColorVerde.getPosX()-10, bColorVerde.getPosY()-10, bColorVerde.getAncho()+20, bColorVerde.getAlto()+20);
+            } else {
+                g.fillOval(bColorGris.getPosX()-10, bColorGris.getPosY()-10, bColorGris.getAncho()+20, bColorGris.getAlto()+20);
+            }
+            
+            g.drawImage(imgSelectColor2, 20, 20, this);
+            g.drawImage(bColorRojo.getImageIcon().getImage(), bColorRojo.getPosX(), bColorRojo.getPosY(), this);
+            g.drawImage(bColorAzul.getImageIcon().getImage(), bColorAzul.getPosX(), bColorAzul.getPosY(), this);
+            g.drawImage(bColorGris.getImageIcon().getImage(), bColorGris.getPosX(), bColorGris.getPosY(), this);
+            g.drawImage(bColorVerde.getImageIcon().getImage(), bColorVerde.getPosX(), bColorVerde.getPosY(), this);
+            g.drawImage(imgInstruccionesMenu, 350, 50, this);
+            g.drawImage(bBack.getImageIcon().getImage(), bBack.getPosX(), bBack.getPosY(), this);
+            g.drawImage(bNext.getImageIcon().getImage(), bNext.getPosX(), bNext.getPosY(), this);
+        }
+
+        if (state == state.PLAYER_NAME_2) {
+            g.drawImage(imgSelectName2, 20, 20, this);
+            g.drawImage(imgBarraNombre, 40, 300, this);
+            g.drawImage(imgInstruccionesMenu, 350, 50, this);
+            g.drawImage(bBack.getImageIcon().getImage(), bBack.getPosX(), bBack.getPosY(), this);
+            g.drawImage(bNext.getImageIcon().getImage(), bNext.getPosX(), bNext.getPosY(), this);
         }
     }
 
@@ -711,6 +828,9 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
      */
     public void mouseClicked(MouseEvent e) {
         // Si hubo click dentro del objeto pTravolta1 se guarda posicion y diferencia.
+        boolean next = bNext.clicked(e);
+        boolean back = bBack.clicked(e);
+        
         if (pTravolta1.clicked(e)) {
             mouseDrag = true;
             positionX = e.getX();
@@ -718,6 +838,89 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             dX = positionX - pTravolta1.getPosX();
             dY = positionY - pTravolta1.getPosY();
         }
+        
+        if(state == state.MENU_MAIN) {
+            if(bPlay.clicked(e)) {
+                state = state.SELECT_COLOR_1;
+            }
+        }
+        
+        if(state == state.SELECT_COLOR_1) {
+            azul = rojo = verde = gris = false;
+            if(next) {
+                state = state.PLAYER_NAME_1;
+                next = false;
+            }
+            if(bColorAzul.clicked(e)) {
+                azul = true;
+            } else if(bColorGris.clicked(e)) {
+                azul = false;
+                rojo = true;
+            } else if(bColorVerde.clicked(e)) {
+                verde = true;
+                azul = rojo = false;
+            } else {
+                gris = true;
+                azul = rojo = verde = false;
+            }
+            
+            if(back) {
+                state = state.MENU_MAIN;
+                back = false;
+            }
+        }
+        
+        if(state == state.PLAYER_NAME_1) {
+            if(next) {
+                state = state.SELECT_COLOR_2;
+                next = false;
+            }
+            
+            if(back) {
+                state = state.SELECT_COLOR_1;
+                back = false;
+            }
+        }
+        
+        if(state == state.SELECT_COLOR_2) {
+            azul = rojo = verde = gris = false;
+            
+            if(next) {
+                state = state.PLAYER_NAME_2;
+                next = false;
+            }
+            
+            if(bColorAzul.clicked(e)) {
+                azul = true;
+            } else if(bColorRojo.clicked(e)) {
+                azul = false;
+                rojo = true;
+            } else if(bColorVerde.clicked(e)) {
+                verde = true;
+                azul = rojo = false;
+            } else {
+                gris = true;
+                azul = rojo = verde = false;
+            }
+            
+            if(back) {
+                state = state.PLAYER_NAME_1;
+                back = false;
+            }
+        }
+        
+        if(state == state.PLAYER_NAME_2) {
+            if(next) {
+                state = state.GAME;
+                next = false;
+            }
+            
+            if(back) {
+                state = state.SELECT_COLOR_2;
+                back = false;
+            }
+        }
+        
     }
 
     public void mouseEntered(MouseEvent e) { //metodo cuando entra el mouse

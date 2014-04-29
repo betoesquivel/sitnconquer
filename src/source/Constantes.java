@@ -45,6 +45,11 @@ public interface Constantes {
     public static final String iUrlLogoGrande = "images/sit&conquer_biglogo.png";
     public static final String iUrlPantallaPausa = "images/pantallaPausaSinTexto.png";
     public static final String iUrlGanaste = "images/ganaste.png";
+    public static final String iUrlSelectColor1 = "images/selectColorForPlayer1.png";
+    public static final String iUrlSelectColor2 = "images/selectColorForPlayer2.png";
+    public static final String iUrlSelectName1 = "images/selectNameForPlayer1.png";
+    public static final String iUrlSelectName2 = "images/selectNameForPlayer2.png";
+    
 
     //Table types int values
     public static final int BAR_ROUND = 0; 

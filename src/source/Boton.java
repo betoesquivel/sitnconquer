@@ -16,6 +16,7 @@ import javax.swing.ImageIcon;
 public class Boton extends Base {
 
     private int tipo;   // Variable que ayudará a saber para que sirve el boton
+    private Animacion a;
 
     /**
      * Método constructor de Boton para definir solo la posición y crear el
@@ -31,6 +32,8 @@ public class Boton extends Base {
     
     public Boton(int posX, int posY, Image image) {
         super(posX, posY);
+        anim = new Animacion();
+        anim.sumaCuadro(image, 100);
         ImageIcon icono = new ImageIcon(image);
         this.setImageIcon(icono);
         tipo = 0;   // Valor default
