@@ -52,6 +52,11 @@ public interface Constantes {
     public static final String iUrlInstruccionesMenuColor = "images/instruccionesMenuColor.png";
     public static final String iUrlInstruccionesMenuNombre = "images/instruccionesMenuNombre.png";
     
+    //Colores
+    public static final int BLUE = 1;
+    public static final int RED = 2; 
+    public static final int GRAY = 3; 
+    public static final int GREEN = 4; 
     
     //Table types int values
     public static final int BAR_ROUND = 0; 

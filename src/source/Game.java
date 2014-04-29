@@ -659,6 +659,10 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 case KeyEvent.VK_DOWN:
                     j1.sentarAMesa(listaTables.get(j1.getMesaSeleccionada()));
                     break;
+                case KeyEvent.VK_UP:
+                    listaTables.get(j1.getMesaSeleccionada()).parar(j1);
+                    break;
+                   
 
                 //Controles para el jugador 2
                 case KeyEvent.VK_D:
@@ -683,6 +687,9 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                     break;
                 case KeyEvent.VK_S:
                     j2.sentarAMesa(listaTables.get(j2.getMesaSeleccionada()));
+                    break;
+                case KeyEvent.VK_W:
+                    listaTables.get(j2.getMesaSeleccionada()).parar(j2);
                     break;
                     
                     

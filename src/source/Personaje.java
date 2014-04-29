@@ -5,6 +5,7 @@
  */
 package source;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
@@ -35,6 +36,7 @@ public class Personaje extends Base implements Constantes {
      tipo = 4 es travolta
      */
     int color; // Color del monito que va de acuerdo con el jugador que es dueño
+    Color colorPadre; 
     /*
      color = 0 es indefinido :P
      color = 1 es azul
@@ -78,6 +80,16 @@ public class Personaje extends Base implements Constantes {
         super(posX, posY);
         tipo = t; // Se crea un personaje de algun tipo
         color = col; // Se sabe el color del jugador
+        switch (col){
+            case BLUE: colorPadre = Color.BLUE; 
+                break;
+            case RED: colorPadre = Color.RED; 
+                break;
+            case GRAY: colorPadre = Color.GRAY; 
+                break;
+            case GREEN: colorPadre = Color.GREEN; 
+                break;
+        }
         valor = velocidad = 1;
         estado = 1;
         crearAnimaciones();
@@ -235,6 +247,21 @@ public class Personaje extends Base implements Constantes {
             setPosX(getPosX() + getVelX());
             setPosY(getPosY() + getVelY());
         }
+    }
+    
+    /**
+     * Metodo modificador que cambia el color del padre.
+     * @param c 
+     */
+    public void setColorPadre(Color c){
+        colorPadre = c; 
+    }
+    /**
+     * Metodo de acceso que obtiene el color del padre.
+     * @return 
+     */
+    public Color getColorPadre(){
+        return colorPadre;
     }
     
     /**

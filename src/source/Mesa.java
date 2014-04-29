@@ -19,11 +19,12 @@ import java.awt.Toolkit;
 import java.net.URL;
 import javax.swing.ImageIcon;
 
-public class Mesa extends Base {
+public class Mesa extends Base implements Constantes{
 
     private int sentados;   // Variable entera pasa saber cuantos están sentados
-    private Color color1;    // Color del jugador dueño de la mesa
-    private Color color2;   // Color del jugador dueño de la mesa
+    private Color color1;    // Color del jugador seleccionando la mesa
+    private Color color2;   // Color del jugador seleccionando la mesa
+    private Color colorPrincipal; //color del jugador dueño de la mesa.
     private int color;
     //    private int jugador;    // ID del jugador al que pertenece la mesa
     private LinkedList<Silla> sillas;   // Lista de sillas
@@ -380,10 +381,30 @@ public class Mesa extends Base {
     public Rectangle getPerimetro() {
         return new Rectangle(getPosX() - 25, getPosY() - 30, getAncho() + 40, getAlto() + 50);
     }
-
+    /**
+     * Metodo que recibe el jugador que quiere parar monitos
+     * y para a un monito de los que estan en la mesa
+     * En ese momento, su valor ya no cuenta en la mesa, porque está preparado para irse
+     * @param j 
+     */
+    public synchronized void parar(Jugador j){
+        if (colorPrincipal == j.getColor()){
+            //está autorizado para parar monitos.
+            if(sentados > 0){
+                //solamente me aseguro de que haya más monitos
+                monitosSentados.getLast().setEstado(PARADO);
+                sentados -= 1; //eventualmente pondré el valor del monito parado
+                if (sentados == 0) {
+                    colorPrincipal = null; 
+                    color = 0; 
+                }
+            }
+        }
+    }
     public synchronized void sentar(Personaje p) {
         if (color == 0 || color == p.getColor()) {
             color = p.getColor();
+            colorPrincipal = p.getColorPadre(); 
             p.setSentado(sentados);
             p.setEstado(0);
             monitosSentados.add(p);
@@ -414,6 +435,7 @@ public class Mesa extends Base {
             }
             } else if (sentados == 0) {
                 color = 0;
+                colorPrincipal = null; 
             }
         }
     }
