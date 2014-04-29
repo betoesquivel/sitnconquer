@@ -22,8 +22,8 @@ import javax.swing.ImageIcon;
 public class Mesa extends Base {
 
     private int sentados;   // Variable entera pasa saber cuantos están sentados
-    private Color color1;    // Color del jugador dueño de la mesa
-    private Color color2;    // Color del jugador dueño de la mesa
+    private Color color1;    // Color del selector de un jugador
+    private Color color2;    // Color del selector de un jugador
     //    private int jugador;    // ID del jugador al que pertenece la mesa
     private LinkedList<Silla> sillas;   // Lista de sillas
     private LinkedList<Personaje> monitosSentados;   // Lista de personajes
