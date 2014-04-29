@@ -15,12 +15,12 @@ import java.net.URL;
  *
  * @author bernardot
  */
-public class Personaje extends Base {
+public class Personaje extends Base implements Constantes {
 
     int velX;
     int velY;
-    int moverX;
-    int moverY;
+
+    Mesa mesaDestino; //contiene la mesa a la que tiene que ir el personaje cuando está ENMOVIMIENTO
     Animacion aLeft;
     Animacion aRight;
     Animacion aUp;
@@ -45,7 +45,8 @@ public class Personaje extends Base {
     int valor; // Cuanto vale el monito dependiendo de su fuerza (upgrade)
     int velocidad; // Velocidad del monito (upgrade)
     int sentado; // 0 es izquierda, 1 es derecha, 2 es arriba, 3 es abajo, 4 arriba
-    int estado; // 0 es sentado, 1 es parado, y 2 es enmovimiento
+    int estado = PARADO; // 0 es sentado, 1 es parado, y 2 es enmovimiento
+
     /**
      * Método constructor de Personaje para definir solo la posición y crear el
      * objeto
@@ -214,6 +215,55 @@ public class Personaje extends Base {
     }
 
     /**
+     * Metodo actualizaPosicion que hace precisamente eso: Actualiza la posición
+     * del personaje de acuerdo a su mesa destino y su estado.
+     */
+    public void actualizaPosicion() {
+        if (getEstado() == ENMOVIMIENTO) {
+            //velocidad en x
+            if (mesaDestino.getPosX() > getPosX()) {
+                setVelX(1);
+            } else {
+                setVelX(-1);
+            }
+            //velocidad en y
+            if (mesaDestino.getPosY() > getPosY()) {
+                setVelY(1);
+            } else {
+                setVelY(-1);
+            }
+            setPosX(getPosX() + getVelX());
+            setPosY(getPosY() + getVelY());
+        }
+    }
+    
+    /**
+     * Metodo que revisa si el personaje ha llegado a su destino
+     */
+    public boolean isInMesaDestino(){
+        return intersecta(getMesaDestino());
+    }
+    /**
+     * Metodo de acceso que regresa la mesa a la que se dirige el personaje.
+     *
+     * @param m
+     */
+    public Mesa getMesaDestino() {
+        return mesaDestino;
+    }
+
+    /**
+     * Metodo modificador que define la mesa a cuyo destino tiene que ir el
+     * personaje
+     *
+     * @param m
+     */
+    public void setMesaDestino(Mesa m) {
+        mesaDestino = m;
+        setEstado(ENMOVIMIENTO);
+    }
+
+    /**
      * Metodo de acceso que regresa el tipo del objeto
      *
      * @return tipo
@@ -221,22 +271,24 @@ public class Personaje extends Base {
     public int getTipo() {
         return tipo;
     }
-    
+
     /**
      * Metodo de acceso que regresa el estado del personaje.
+     *
      * @return variable de tipo <code>int</code> con el estado del personaje.
      */
     public int getEstado() {
         return estado;
     }
-    
+
     /**
      * Método modificador que cambia el valor de la variable estado del peronaje
      * recibe un...
-     * @param e <code>int</code> con el estado del personaje. 
+     *
+     * @param e <code>int</code> con el estado del personaje.
      */
     public void setEstado(int e) {
-        estado = e; 
+        estado = e;
     }
 
     /**
@@ -319,22 +371,6 @@ public class Personaje extends Base {
         this.velY = velY;
     }
 
-    public int getMoverX() {
-        return moverX;
-    }
-
-    public void setMoverX(int moverX) {
-        this.moverX = moverX;
-    }
-
-    public int getMoverY() {
-        return moverY;
-    }
-
-    public void setMoverY(int moverY) {
-        this.moverY = moverY;
-    }
-
     public boolean isIntersecta() {
         return intersecta;
     }
@@ -346,7 +382,7 @@ public class Personaje extends Base {
     public Rectangle getPerimetro() {
         return new Rectangle(getPosX(), getPosY() + 40, getAncho(), getAlto() - 40);
     }
-    
+
     public void paint(Graphics g) {
         g.drawImage(anim.getImagen(), getPosX(), getPosY(), null);
     }

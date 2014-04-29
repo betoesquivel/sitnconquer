@@ -370,25 +370,9 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         j1.actualiza(tiempoTranscurrido);
         j2.actualiza(tiempoTranscurrido);
 
-        pTravolta1.setPosX(j1.getCordX());
-        pTravolta1.setPosY(j1.getCordY());
-
         //Acutalizo la posicion del pTravolta2
 //        for (Personaje p : j1.listaPersonajes) {
-        //velocidad en x
-        if (pTravolta1.getPosX() > pTravolta2.getPosX()) {
-            pTravolta2.setVelX(1);
-        } else {
-            pTravolta2.setVelX(-1);
-        }
-        //velocidad en y
-        if (pTravolta1.getPosY() > pTravolta2.getPosY()) {
-            pTravolta2.setVelY(1);
-        } else {
-            pTravolta2.setVelY(-1);
-        }
-        pTravolta2.setPosX(pTravolta2.getPosX() + pTravolta2.getVelX());
-        pTravolta2.setPosY(pTravolta2.getPosY() + pTravolta2.getVelY());
+        pTravolta2.actualizaPosicion();
 //        }
     }
 
@@ -403,24 +387,26 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         //////
         //Lateral Izquiero
         if (pTravolta2.getPosX() < 0) {
-
             pTravolta2.setPosX(0);
         }
         //Arriba       
         if (pTravolta2.getPosY() < pTravolta2.getAlto()) {
-
             pTravolta2.setPosY(pTravolta2.getAlto());
         }
         //Lateral Derecho
         if (pTravolta2.getPosX() > getWidth() - pTravolta2.getAncho()) {
-
             pTravolta2.setPosX(getWidth() - pTravolta2.getAncho());
         }
         //Abajo
         if (pTravolta2.getPosY() > getHeight() - pTravolta2.getAlto()) {
-
             pTravolta2.setPosY(getHeight() - pTravolta2.getAlto());
+        }
 
+        if (pTravolta2.getEstado() == ENMOVIMIENTO && pTravolta2.isInMesaDestino()) {
+            pTravolta2.getMesaDestino().sentar(pTravolta2);
+            pTravolta2.setEstado(SENTADO);
+        } else {
+            //checo otras colisiones...
         }
 // POR AHORA NO LO VAMOS A HACER...
 //        int temp = 0;
@@ -614,6 +600,27 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         }
     }
 
+    /**
+     * Metodo que actualiza el destino de todos los personajes que estan parados
+     */
+    public void actualizaDestinoParados(Jugador j) {
+        if (pTravolta2.getEstado() == PARADO) {
+            pTravolta2.setMesaDestino(listaTables.get(j.getMesaSeleccionada()));
+            pTravolta2.setEstado(ENMOVIMIENTO);
+        }
+    }
+
+    /**
+     * Metodo que actualiza el destino de todos los personajes que estan en
+     * movimiento
+     */
+    public void actualizaDestinoEnMovimiento(Jugador j) {
+        if (pTravolta2.getEstado() == ENMOVIMIENTO) {
+            pTravolta2.setMesaDestino(listaTables.get(j.getMesaSeleccionada()));
+            pTravolta2.setEstado(ENMOVIMIENTO);
+        }
+    }
+
 
     /*
      *Metodo keyPressed
@@ -677,6 +684,15 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 case KeyEvent.VK_S:
                     j2.sentarAMesa(listaTables.get(j2.getMesaSeleccionada()));
                     break;
+                    
+                    
+                /*case KeyEvent.VK_DOWN: 
+                    actualizaDestinoParados(j1);
+                    break;
+                    
+                case KeyEvent.VK_S: 
+                    actualizaDestinoParados(j2);
+                    break;*/
             }
         } else if (state == state.PAUSED) {
             switch (e.getKeyCode()) {
