@@ -392,6 +392,7 @@ public class Mesa extends Base {
             }
             sentados++;
         } else {
+            if (sentados > 0) {
             Personaje defensa = (Personaje) monitosSentados.getLast();
             int ganadorBatalla = p.getValor() - defensa.getValor();
             if (ganadorBatalla == 0) {
@@ -410,6 +411,9 @@ public class Mesa extends Base {
             } else if (ganadorBatalla < 0) {
                 p.setEstado(-1);
                 defensa.setValor(-ganadorBatalla);
+            }
+            } else if (sentados == 0) {
+                color = 0;
             }
         }
     }
