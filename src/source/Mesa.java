@@ -22,8 +22,9 @@ import javax.swing.ImageIcon;
 public class Mesa extends Base {
 
     private int sentados;   // Variable entera pasa saber cuantos están sentados
-    private Color color1;    // Color del selector de un jugador
-    private Color color2;    // Color del selector de un jugador
+    private Color color1;    // Color del jugador dueño de la mesa
+    private Color color2;   // Color del jugador dueño de la mesa
+    private int color;
     //    private int jugador;    // ID del jugador al que pertenece la mesa
     private LinkedList<Silla> sillas;   // Lista de sillas
     private LinkedList<Personaje> monitosSentados;   // Lista de personajes
@@ -44,6 +45,7 @@ public class Mesa extends Base {
     public Mesa(int posX, int posY) {
         super(posX, posY);
         sentados = 0;
+        color = 0;
         cantSillas = tipo = 0; // Valor default
         sillas = new LinkedList();
         monitosSentados = new LinkedList();
@@ -57,6 +59,7 @@ public class Mesa extends Base {
         sillas = new LinkedList();
         monitosSentados = new LinkedList();
         sentados = 0;
+        color = 0;
         cantSillas = tipo = 0; // Valor default
         upgrade = new Upgrade();
     }
@@ -68,6 +71,7 @@ public class Mesa extends Base {
         sillas = new LinkedList();
         monitosSentados = new LinkedList();
         sentados = 0;
+        color = 0;
         cantSillas = 0; // Valor default
         tipo = t;
         if (tipo == 1) {
@@ -89,6 +93,7 @@ public class Mesa extends Base {
         sillas = new LinkedList();
         monitosSentados = new LinkedList();
         sentados = 0;
+        color = 0;
         cantSillas = tipo = 0; // Valor default
         upgrade = new Upgrade(tipoUpgrade);
     }
@@ -106,6 +111,7 @@ public class Mesa extends Base {
     public Mesa(int posX, int posY, int tipoUpgrade, int numeroSillas) {
         super(posX, posY);
         sentados = 0;
+        color = 0;
         tipo = 0; // Valor default
         cantSillas = numeroSillas;
         monitosSentados = new LinkedList();
@@ -375,14 +381,41 @@ public class Mesa extends Base {
         return new Rectangle(getPosX() - 25, getPosY() - 30, getAncho() + 40, getAlto() + 50);
     }
 
-    public void sentar(Personaje p) {
-        p.setSentado(sentados);
-        p.setEstado(0);
-        monitosSentados.add(p);
-        if (sentados < sillas.size()) {
-            sillas.get(sentados).setOcupada(true);
+    public synchronized void sentar(Personaje p) {
+        if (color == 0 || color == p.getColor()) {
+            color = p.getColor();
+            p.setSentado(sentados);
+            p.setEstado(0);
+            monitosSentados.add(p);
+            if (sentados < sillas.size()) {
+                sillas.get(sentados).setOcupada(true);
+            }
+            sentados++;
+        } else {
+            if (sentados > 0) {
+            Personaje defensa = (Personaje) monitosSentados.getLast();
+            int ganadorBatalla = p.getValor() - defensa.getValor();
+            if (ganadorBatalla == 0) {
+                sentados--;
+                if (sentados < sillas.size()) {
+                    sillas.get(sentados).setOcupada(false);
+                }
+                defensa.setSentado(-1);
+                monitosSentados.removeLast();
+                p.setEstado(-1);
+                defensa.setEstado(-1);
+            } else if (ganadorBatalla > 0) {
+                monitosSentados.removeLast();
+                defensa.setEstado(-1);
+                p.setValor(ganadorBatalla);
+            } else if (ganadorBatalla < 0) {
+                p.setEstado(-1);
+                defensa.setValor(-ganadorBatalla);
+            }
+            } else if (sentados == 0) {
+                color = 0;
+            }
         }
-        sentados++;
     }
 
 }
