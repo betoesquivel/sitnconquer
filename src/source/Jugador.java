@@ -34,6 +34,7 @@ public class Jugador {
         this.color = c;
         nombre = n;
         mesaSeleccionada = inicial;
+        System.out.println("Jugador Creado");
     }
 
     /**
