@@ -12,6 +12,7 @@ package source;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.TextField;
 import java.awt.Toolkit;
@@ -261,7 +262,6 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         //listaTables.get(0).sentar(pTravolta2);
         //listaTables.get(0).sentar(pTravolta3);
         //listaTables.get(0).sentar(pTravolta4);
-
         //Botones
         bPlay = new Boton(300, 400, imgPlayBoton);
         bCredits = new Boton(20, 400, imgCreditsBoton);
@@ -385,8 +385,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 //        for (Personaje p : j1.listaPersonajes) {
         pTravolta2.actualizaPosicion();
 //        }
-        
-        if(Ganaste != -1) {
+
+        if (Ganaste != -1) {
             state = state.MENU_POSTJUEGO;
         }
     }
@@ -532,7 +532,12 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                     g.drawImage(cerveza, mesa.getPosX() + 20, mesa.getPosY() + 5, this);
                 }
                 mesa.paintSelectors(g);
-                g.drawRect(mesa.getPosX() - 25, mesa.getPosY() - 30, mesa.getAncho() + 50, mesa.getAlto() + 40);
+                Color colorPisoMesa = mesa.getColorPrincipal();
+                if (colorPisoMesa != null) {
+                    g.setColor(colorPisoMesa);
+                    g.drawRect(mesa.getPosX() - 25, mesa.getPosY() - 30, mesa.getAncho() + 50, mesa.getAlto() + 40);
+                    g.setColor(Color.BLACK);
+                }
             }
 
 //            g.drawImage(pTravolta1.getAnim().getImagen(), pTravolta1.getPosX(), pTravolta1.getPosY(), this);
@@ -540,6 +545,12 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 //            g.drawRect(pTravolta2.getPosX(), pTravolta2.getPosY() + 40, pTravolta2.getAncho(), pTravolta2.getAlto() - 40);
             j1.paint(g);
             j2.paint(g);
+            Font helvetica = new Font("Helvetica", Font.BOLD, 18);
+            g.setFont(helvetica);
+            g.setColor(Color.WHITE);
+            g.drawString(j1.getNombre(), 15, 45);
+            g.drawString(j2.getNombre(), getWidth() - 90, 45);
+            g.setColor(Color.BLACK);
         }
 
         if (state == STATE.PAUSED) {
@@ -548,7 +559,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             g.drawImage(imgLetreroPausado, 300, 420, this);
             g.drawString("Para quitar la pausa volver a presionar la letra 'p' ", 200, 520);
         }
-        
+
         if (state == STATE.INSTRUCCIONES) {
             //está pausado
             g.drawImage(imgInstruccionesMovimiento, 100, 100, this);
@@ -622,7 +633,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             g.drawImage(bBack.getImageIcon().getImage(), bBack.getPosX(), bBack.getPosY(), this);
             g.drawImage(bNext.getImageIcon().getImage(), bNext.getPosX(), bNext.getPosY(), this);
         }
-        
+
         if (state == state.CREDITS) {
             g.drawImage(imgLogoGrande, 200, 20, this);
             g.drawString("DESARROLLADO POR RUM", 350, 420);
@@ -632,7 +643,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             g.drawString("Gustavo Ferrufino", 300, 500);
             g.drawImage(bBack.getImageIcon().getImage(), bBack.getPosX(), bBack.getPosY(), this);
         }
-        
+
         if (state == state.HIGHSCORE) {
             g.drawImage(imgLogoGrande, 200, 20, this);
             g.drawString("HIGH SCORE: ", 350, 420);
@@ -640,9 +651,9 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             g.drawString("2.- ", 300, 450);
             g.drawString("3.- ", 300, 465);
             g.drawImage(bBack.getImageIcon().getImage(), bBack.getPosX(), bBack.getPosY(), this);
-            
+
         }
-        
+
     }
 
     /**
@@ -707,7 +718,6 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 case KeyEvent.VK_UP:
                     listaTables.get(j1.getMesaSeleccionada()).parar(j1);
                     break;
-                   
 
                 //Controles para el jugador 2
                 case KeyEvent.VK_D:
@@ -739,15 +749,14 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 case KeyEvent.VK_I:
                     state = state.INSTRUCCIONES;
                     break;
-                    
-                    
+
                 /*case KeyEvent.VK_DOWN: 
-                    actualizaDestinoParados(j1);
-                    break;
+                 actualizaDestinoParados(j1);
+                 break;
                     
-                case KeyEvent.VK_S: 
-                    actualizaDestinoParados(j2);
-                    break;*/
+                 case KeyEvent.VK_S: 
+                 actualizaDestinoParados(j2);
+                 break;*/
             }
         } else if (state == state.PAUSED) {
             switch (e.getKeyCode()) {
@@ -756,7 +765,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                     state = state.GAME;
                     break;
             }
-        } else if(state == state.INSTRUCCIONES) {
+        } else if (state == state.INSTRUCCIONES) {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_I:
                     System.out.println("No more instructions... I want to play!");
@@ -792,32 +801,32 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             dX = positionX - pTravolta1.getPosX();
             dY = positionY - pTravolta1.getPosY();
         }
-                
+
         if (state == state.MENU_MAIN) {
-            
+
             if (bPlay.clicked(e)) {
                 state = state.SELECT_COLOR_1;
             }
-            
-            if(bCredits.clicked(e)) {
+
+            if (bCredits.clicked(e)) {
                 state = state.CREDITS;
             }
 
-            if(bHighScore.clicked(e)) {
+            if (bHighScore.clicked(e)) {
                 state = state.HIGHSCORE;
             }
-            
+
         }
-        
-        if(state == state.CREDITS) {
-            if(back) {
+
+        if (state == state.CREDITS) {
+            if (back) {
                 state = state.MENU_MAIN;
                 back = false;
             }
         }
-        
-        if(state == state.HIGHSCORE) {
-            if(back) {
+
+        if (state == state.HIGHSCORE) {
+            if (back) {
                 state = state.MENU_MAIN;
                 back = false;
             }

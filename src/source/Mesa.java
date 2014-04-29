@@ -156,7 +156,7 @@ public class Mesa extends Base implements Constantes {
     }
 
     public void paintMonitoIzqDer(Graphics g) {
-        if (tipo != 0) {
+        if (tipo != 0 && monitosSentados.size() > 1) {
             for (int x = 0; x < sillas.size() - 2; x++) {
                 Silla aux = (Silla) sillas.get(x);
                 if (aux.isOcupada()) {
@@ -167,7 +167,7 @@ public class Mesa extends Base implements Constantes {
     }
 
     public void paintMonitoArriba(Graphics g) {
-        if (tipo != 0) {
+        if (tipo != 0 && monitosSentados.size() > 2) {
             Silla aux = (Silla) sillas.get(2);
             if (aux.isOcupada()) {
                 monitosSentados.get(2).paintSentado(g, aux);
@@ -176,7 +176,7 @@ public class Mesa extends Base implements Constantes {
     }
 
     public void paintMonitoAbajo(Graphics g) {
-        if (tipo != 0) {
+        if (tipo != 0 && monitosSentados.size() > 3) {
             Silla aux = (Silla) sillas.get(3);
             if (aux.isOcupada()) {
                 monitosSentados.get(3).paintSentado(g, aux);
@@ -398,8 +398,14 @@ public class Mesa extends Base implements Constantes {
             //está autorizado para parar monitos.
             if (sentados > 0) {
                 //solamente me aseguro de que haya más monitos
-                monitosSentados.getLast().setEstado(PARADO);
-                sentados -= 1; //eventualmente pondré el valor del monito parado
+                for (Personaje monito : monitosSentados){
+                    if (monito.getEstado() == SENTADO) {
+                        monito.setEstado(PARADO);
+                        sentados -= 1; 
+                        monitosSentados.remove(monito);
+                        break;
+                    }
+                }
                 if (sentados == 0) {
                     colorPrincipal = null;
                     color = 0;
@@ -416,7 +422,7 @@ public class Mesa extends Base implements Constantes {
             color = p.getColor();
             colorPrincipal = p.getColorPadre();
             p.setSentado(sentados);
-            p.setEstado(0);
+            p.setEstado(SENTADO);
             monitosSentados.add(p);
             if (sentados < sillas.size()) {
                 sillas.get(sentados).setOcupada(true);
