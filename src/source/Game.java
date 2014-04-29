@@ -209,8 +209,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         crearMesasYSillas();
 
         //jugadores init
-//        j1 = new Jugador(Color.red, "Beto", 0);
-//        j2 = new Jugador(Color.blue, "Hugo", 1);
+        j1 = new Jugador(Color.red, "Beto", 0);
+        j2 = new Jugador(Color.blue, "Hugo", 1);
         
         //Cajas de texto para nombres de jugadores
         jugador1 = new TextField();
@@ -756,6 +756,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 state = state.SELECT_COLOR_2;
                 next = false;
                 String nameJ1 = jugador1.getText();
+                /*
                 switch(colorJ1) {
                     case 1:
                         j1 = new Jugador(Color.red, nameJ1, 1);
@@ -770,7 +771,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                         j1 = new Jugador(Color.green, nameJ1, 1);
                         break;
                 }
-                
+                */
                 this.remove(jugador1);
             }
 
@@ -829,6 +830,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 state = state.GAME;
                 next = false;
                 String nameJ2 = jugador2.getText();
+                /*
                 switch(colorJ2) {
                     case 1:
                         j2 = new Jugador(Color.red, nameJ2, 1);
@@ -843,7 +845,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                         j2 = new Jugador(Color.green, nameJ2, 1);
                         break;
                 }
-                
+                */
                 this.remove(jugador2);
             }
 
