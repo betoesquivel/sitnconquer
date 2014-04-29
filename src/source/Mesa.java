@@ -19,7 +19,7 @@ import java.awt.Toolkit;
 import java.net.URL;
 import javax.swing.ImageIcon;
 
-public class Mesa extends Base implements Constantes{
+public class Mesa extends Base implements Constantes {
 
     private int sentados;   // Variable entera pasa saber cuantos están sentados
     private Color color1;    // Color del jugador seleccionando la mesa
@@ -381,30 +381,40 @@ public class Mesa extends Base implements Constantes{
     public Rectangle getPerimetro() {
         return new Rectangle(getPosX() - 25, getPosY() - 30, getAncho() + 40, getAlto() + 50);
     }
+    
+    public Color getColorPrincipal(){
+        return colorPrincipal; 
+    }
+
     /**
-     * Metodo que recibe el jugador que quiere parar monitos
-     * y para a un monito de los que estan en la mesa
-     * En ese momento, su valor ya no cuenta en la mesa, porque está preparado para irse
-     * @param j 
+     * Metodo que recibe el jugador que quiere parar monitos y para a un monito
+     * de los que estan en la mesa En ese momento, su valor ya no cuenta en la
+     * mesa, porque está preparado para irse
+     *
+     * @param j
      */
-    public synchronized void parar(Jugador j){
-        if (colorPrincipal == j.getColor()){
+    public synchronized void parar(Jugador j) {
+        if (colorPrincipal == j.getColor()) {
             //está autorizado para parar monitos.
-            if(sentados > 0){
+            if (sentados > 0) {
                 //solamente me aseguro de que haya más monitos
                 monitosSentados.getLast().setEstado(PARADO);
                 sentados -= 1; //eventualmente pondré el valor del monito parado
                 if (sentados == 0) {
-                    colorPrincipal = null; 
-                    color = 0; 
+                    colorPrincipal = null;
+                    color = 0;
                 }
             }
+        } else {
+            System.out.println("No esta autorizado para parar monitos el jugador: " + j.getColor());
+            System.out.println("Su color principal es:  " + getColorPrincipal());
         }
     }
+
     public synchronized void sentar(Personaje p) {
         if (color == 0 || color == p.getColor()) {
             color = p.getColor();
-            colorPrincipal = p.getColorPadre(); 
+            colorPrincipal = p.getColorPadre();
             p.setSentado(sentados);
             p.setEstado(0);
             monitosSentados.add(p);
@@ -414,28 +424,28 @@ public class Mesa extends Base implements Constantes{
             sentados++;
         } else {
             if (sentados > 0) {
-            Personaje defensa = (Personaje) monitosSentados.getLast();
-            int ganadorBatalla = p.getValor() - defensa.getValor();
-            if (ganadorBatalla == 0) {
-                sentados--;
-                if (sentados < sillas.size()) {
-                    sillas.get(sentados).setOcupada(false);
+                Personaje defensa = (Personaje) monitosSentados.getLast();
+                int ganadorBatalla = p.getValor() - defensa.getValor();
+                if (ganadorBatalla == 0) {
+                    sentados--;
+                    if (sentados < sillas.size()) {
+                        sillas.get(sentados).setOcupada(false);
+                    }
+                    defensa.setSentado(-1);
+                    monitosSentados.removeLast();
+                    p.setEstado(-1);
+                    defensa.setEstado(-1);
+                } else if (ganadorBatalla > 0) {
+                    monitosSentados.removeLast();
+                    defensa.setEstado(-1);
+                    p.setValor(ganadorBatalla);
+                } else if (ganadorBatalla < 0) {
+                    p.setEstado(-1);
+                    defensa.setValor(-ganadorBatalla);
                 }
-                defensa.setSentado(-1);
-                monitosSentados.removeLast();
-                p.setEstado(-1);
-                defensa.setEstado(-1);
-            } else if (ganadorBatalla > 0) {
-                monitosSentados.removeLast();
-                defensa.setEstado(-1);
-                p.setValor(ganadorBatalla);
-            } else if (ganadorBatalla < 0) {
-                p.setEstado(-1);
-                defensa.setValor(-ganadorBatalla);
-            }
             } else if (sentados == 0) {
                 color = 0;
-                colorPrincipal = null; 
+                colorPrincipal = null;
             }
         }
     }

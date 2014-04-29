@@ -56,8 +56,8 @@ public interface Constantes {
     
     //Colores
     public static final int BLUE = 1;
-    public static final int RED = 2; 
-    public static final int GRAY = 3; 
+    public static final int GRAY = 2; 
+    public static final int RED = 3; 
     public static final int GREEN = 4; 
     
     //Table types int values
