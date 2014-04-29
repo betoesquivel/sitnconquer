@@ -16,7 +16,7 @@ public class Jugador {
 //    private int id; // Variable entera con la cual se identificará que jugador es
     private Color color; // Variable entera que representa un color en el juego de los 4 posibles
     private String nombre; // String que tiene el nombre que se puso el jugador
-    private LinkedList personajes;
+    private LinkedList<Personaje> personajes;
     /*Seleccion*/
     // El mapa de mesas varía en cada escenario y empieza en (1,1).
     // X crece a la derecha de acuerdo al número de mesas y Y para abajo
