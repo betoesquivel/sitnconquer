@@ -735,6 +735,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                     break;
                 case KeyEvent.VK_W:
                     listaTables.get(j2.getMesaSeleccionada()).parar(j2);
+                    break;
                 case KeyEvent.VK_I:
                     state = state.INSTRUCCIONES;
                     break;
