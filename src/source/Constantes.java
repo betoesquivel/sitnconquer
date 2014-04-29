@@ -51,6 +51,8 @@ public interface Constantes {
     public static final String iUrlSelectName2 = "images/selectNameForPlayer2.png";
     public static final String iUrlInstruccionesMenuColor = "images/instruccionesMenuColor.png";
     public static final String iUrlInstruccionesMenuNombre = "images/instruccionesMenuNombre.png";
+    public static final String iUrlInstruccionesMovimiento = "images/instruccionesMovimiento.png";
+    public static final String iUrlLetreroPausado = "images/letreroPausado.png";
     
     
     //Table types int values
