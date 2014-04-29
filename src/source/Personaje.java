@@ -45,7 +45,7 @@ public class Personaje extends Base {
     int valor; // Cuanto vale el monito dependiendo de su fuerza (upgrade)
     int velocidad; // Velocidad del monito (upgrade)
     int sentado; // 0 es izquierda, 1 es derecha, 2 es arriba, 3 es abajo, 4 arriba
-
+    int estado; // 0 es sentado, 1 es parado, y 2 es enmovimiento
     /**
      * Método constructor de Personaje para definir solo la posición y crear el
      * objeto
@@ -218,6 +218,23 @@ public class Personaje extends Base {
      */
     public int getTipo() {
         return tipo;
+    }
+    
+    /**
+     * Metodo de acceso que regresa el estado del personaje.
+     * @return variable de tipo <code>int</code> con el estado del personaje.
+     */
+    public int getEstado() {
+        return estado;
+    }
+    
+    /**
+     * Método modificador que cambia el valor de la variable estado del peronaje
+     * recibe un...
+     * @param e <code>int</code> con el estado del personaje. 
+     */
+    public void setEstado(int e) {
+        estado = e; 
     }
 
     /**
