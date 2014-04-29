@@ -63,9 +63,9 @@ public class Jugador {
         
         Personaje p;
         if (id == 1) {
-            p = new Personaje(-50, (int) (Math.random() * 500) + 50, tipo, col);
+            p = new Personaje((int) (Math.random() * -50) - 50, (int) (Math.random() * 500) + 50, tipo, col);
         } else {
-            p = new Personaje(950, (int) (Math.random() * 500) + 50, tipo, col);
+            p = new Personaje((int) (Math.random() * 50) + 950, (int) (Math.random() * 500) + 50, tipo, col);
         }
         personajes.add(p);
     }
@@ -80,9 +80,10 @@ public class Jugador {
             Personaje aux = (Personaje) personajes.get(x);
             aux.actualizaAnimaciones(tiempoTranscurrido);
             aux.actualizaPosicion();
-            if (aux.getEstado() == 2 && aux.isInMesaDestino()) {
+            if (aux.getEstado() == -1) {
+                personajes.remove(x);
+            } if (aux.getEstado() == 2 && aux.isInMesaDestino()) {
             aux.getMesaDestino().sentar(aux);
-            aux.setEstado(0);
             }
         }
     }
@@ -90,7 +91,7 @@ public class Jugador {
     public void paint(Graphics g) {
         for (int x = 0; x < personajes.size(); x++) {
             Personaje aux = (Personaje) personajes.get(x);
-            if (aux.getEstado() != 0) {
+            if (aux.getEstado() > 0) {
                 aux.paint(g);
             }
         }

@@ -246,10 +246,10 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         addMouseListener(this);
         addMouseMotionListener(this);
 
-        listaTables.get(0).sentar(pTravolta1);
-        listaTables.get(0).sentar(pTravolta2);
-        listaTables.get(0).sentar(pTravolta3);
-        listaTables.get(0).sentar(pTravolta4);
+        //listaTables.get(0).sentar(pTravolta1);
+        //listaTables.get(0).sentar(pTravolta2);
+        //listaTables.get(0).sentar(pTravolta3);
+        //listaTables.get(0).sentar(pTravolta4);
 
         //Botones
         bPlay = new Boton(300, 400, imgPlayBoton);

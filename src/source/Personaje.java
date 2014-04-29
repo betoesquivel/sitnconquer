@@ -45,7 +45,7 @@ public class Personaje extends Base implements Constantes {
     int valor; // Cuanto vale el monito dependiendo de su fuerza (upgrade)
     int velocidad; // Velocidad del monito (upgrade)
     int sentado; // 0 es izquierda, 1 es derecha, 2 es arriba, 3 es abajo, 4 arriba
-    int estado = PARADO; // 0 es sentado, 1 es parado, y 2 es enmovimiento
+    int estado = PARADO; // -1 es muerto, 0 es sentado, 1 es parado, y 2 es enmovimiento
 
     /**
      * Método constructor de Personaje para definir solo la posición y crear el
