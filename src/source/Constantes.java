@@ -52,10 +52,15 @@ public interface Constantes {
     public static final String iUrlInstruccionesMenuColor = "images/instruccionesMenuColor.png";
     public static final String iUrlInstruccionesMenuNombre = "images/instruccionesMenuNombre.png";
     
-
+    
     //Table types int values
     public static final int BAR_ROUND = 0; 
     public static final int BAR_POOL = 1; 
+    
+    //Int values de personaje
+    public static final int SENTADO = 0;
+    public static final int PARADO = 1;
+    public static final int ENMOVIMIENTO = 2;
     
     //Dimensiones Applet
     public static final int GAME_WIDTH = 900;

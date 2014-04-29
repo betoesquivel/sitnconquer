@@ -45,7 +45,7 @@ public class Personaje extends Base {
     int valor; // Cuanto vale el monito dependiendo de su fuerza (upgrade)
     int velocidad; // Velocidad del monito (upgrade)
     int sentado; // 0 es izquierda, 1 es derecha, 2 es arriba, 3 es abajo, 4 arriba
-
+    int estado; // 0 es sentado, 1 es parado, y 2 es enmovimiento
     /**
      * Método constructor de Personaje para definir solo la posición y crear el
      * objeto
@@ -81,6 +81,7 @@ public class Personaje extends Base {
     }
 
     public void crearAnimaciones() {
+        anim = new Animacion();
         aRight = new Animacion();
         aLeft = new Animacion();
         aDown = new Animacion();
@@ -108,6 +109,10 @@ public class Personaje extends Base {
         }
 
         if (tipo == 1) {
+            URL url1 = this.getClass().getResource("images/" + aux + "gamer_01.png");
+            Image a1 = Toolkit.getDefaultToolkit().getImage(url1);
+            URL url2 = this.getClass().getResource("images/" + aux + "gamer_02.png");
+            Image a2 = Toolkit.getDefaultToolkit().getImage(url2);
             URL urlL = this.getClass().getResource("images/" + aux + "gamer_06.png");
             Image aL = Toolkit.getDefaultToolkit().getImage(urlL);
             URL urlR = this.getClass().getResource("images/" + aux + "gamer_07.png");
@@ -116,11 +121,17 @@ public class Personaje extends Base {
             Image aU = Toolkit.getDefaultToolkit().getImage(urlU);
             URL urlD = this.getClass().getResource("images/" + aux + "gamer_10.png");
             Image aD = Toolkit.getDefaultToolkit().getImage(urlD);
+            anim.sumaCuadro(a1, 400);
+            anim.sumaCuadro(a2, 400);
             aLeft.sumaCuadro(aL, 400);
             aRight.sumaCuadro(aR, 400);
             aUp.sumaCuadro(aU, 400);
             aDown.sumaCuadro(aD, 400);
         } else if (tipo == 2) {
+            URL url1 = this.getClass().getResource("images/" + aux + "divo_01.png");
+            Image a1 = Toolkit.getDefaultToolkit().getImage(url1);
+            URL url2 = this.getClass().getResource("images/" + aux + "divo_02.png");
+            Image a2 = Toolkit.getDefaultToolkit().getImage(url2);
             URL urlL1 = this.getClass().getResource("images/" + aux + "divo_06.png");
             Image aL1 = Toolkit.getDefaultToolkit().getImage(urlL1);
             URL urlL2 = this.getClass().getResource("images/" + aux + "divo_06Extra.png");
@@ -133,6 +144,8 @@ public class Personaje extends Base {
             Image aU = Toolkit.getDefaultToolkit().getImage(urlU);
             URL urlD = this.getClass().getResource("images/" + aux + "divo_10.png");
             Image aD = Toolkit.getDefaultToolkit().getImage(urlD);
+            anim.sumaCuadro(a1, 400);
+            anim.sumaCuadro(a2, 400);
             aLeft.sumaCuadro(aL1, 400);
             aLeft.sumaCuadro(aL2, 400);
             aRight.sumaCuadro(aR1, 400);
@@ -140,6 +153,10 @@ public class Personaje extends Base {
             aUp.sumaCuadro(aU, 400);
             aDown.sumaCuadro(aD, 400);
         } else if (tipo == 3) {
+            URL url1 = this.getClass().getResource("images/" + aux + "mike_01.png");
+            Image a1 = Toolkit.getDefaultToolkit().getImage(url1);
+            URL url2 = this.getClass().getResource("images/" + aux + "mike_02.png");
+            Image a2 = Toolkit.getDefaultToolkit().getImage(url2);
             URL urlL = this.getClass().getResource("images/" + aux + "mike_06.png");
             Image aL = Toolkit.getDefaultToolkit().getImage(urlL);
             URL urlR = this.getClass().getResource("images/" + aux + "mike_07.png");
@@ -148,11 +165,17 @@ public class Personaje extends Base {
             Image aU = Toolkit.getDefaultToolkit().getImage(urlU);
             URL urlD = this.getClass().getResource("images/" + aux + "mike_10.png");
             Image aD = Toolkit.getDefaultToolkit().getImage(urlD);
+            anim.sumaCuadro(a1, 400);
+            anim.sumaCuadro(a2, 400);
             aLeft.sumaCuadro(aL, 400);
             aRight.sumaCuadro(aR, 400);
             aUp.sumaCuadro(aU, 400);
             aDown.sumaCuadro(aD, 400);
         } else if (tipo == 4) {
+            URL url1 = this.getClass().getResource("images/" + aux + "Travolta_01.png");
+            Image a1 = Toolkit.getDefaultToolkit().getImage(url1);
+            URL url2 = this.getClass().getResource("images/" + aux + "Travolta_02.png");
+            Image a2 = Toolkit.getDefaultToolkit().getImage(url2);
             URL urlL = this.getClass().getResource("images/" + aux + "Travolta_06.png");
             Image aL = Toolkit.getDefaultToolkit().getImage(urlL);
             URL urlR = this.getClass().getResource("images/" + aux + "Travolta_07.png");
@@ -161,6 +184,8 @@ public class Personaje extends Base {
             Image aU = Toolkit.getDefaultToolkit().getImage(urlU);
             URL urlD = this.getClass().getResource("images/" + aux + "Travolta_10.png");
             Image aD = Toolkit.getDefaultToolkit().getImage(urlD);
+            anim.sumaCuadro(a1, 400);
+            anim.sumaCuadro(a2, 400);
             aLeft.sumaCuadro(aL, 400);
             aRight.sumaCuadro(aR, 400);
             aUp.sumaCuadro(aU, 400);
@@ -193,6 +218,23 @@ public class Personaje extends Base {
      */
     public int getTipo() {
         return tipo;
+    }
+    
+    /**
+     * Metodo de acceso que regresa el estado del personaje.
+     * @return variable de tipo <code>int</code> con el estado del personaje.
+     */
+    public int getEstado() {
+        return estado;
+    }
+    
+    /**
+     * Método modificador que cambia el valor de la variable estado del peronaje
+     * recibe un...
+     * @param e <code>int</code> con el estado del personaje. 
+     */
+    public void setEstado(int e) {
+        estado = e; 
     }
 
     /**
@@ -302,8 +344,12 @@ public class Personaje extends Base {
     public Rectangle getPerimetro() {
         return new Rectangle(getPosX(), getPosY() + 40, getAncho(), getAlto() - 40);
     }
+    
+    public void paint(Graphics g) {
+        g.drawImage(anim.getImagen(), getPosX(), getPosY(), null);
+    }
 
-    public void paint(Graphics g, Silla s) {
+    public void paintSentado(Graphics g, Silla s) {
         if (tipo == 1) {
             if (sentado == 0) {
                 g.drawImage(aLeft.getImagen(), s.getPosX() + 5, s.getPosY() - 10, null);

@@ -7,7 +7,7 @@ package source;
 
 /**
  *
- * @author 
+ * @author
  */
 import java.awt.Graphics;
 import java.awt.Image;
@@ -45,7 +45,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private Image imgHighScoreBoton;
     private Image imgPlayBoton;
     private Image imgLogoGrande;
-    private Image imgLogo;        
+    private Image imgLogo;
     private Image imgSelecColor1;
     private Image imgSelecColor2;
     private Image imgSelecNombre1;
@@ -143,7 +143,6 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private URL imgSelectName2URL = this.getClass().getResource(iUrlSelectName2);
     private URL imgInstruccionesMenuColorURL = this.getClass().getResource(iUrlInstruccionesMenuColor);
     private URL imgInstruccionesMenuNombreURL = this.getClass().getResource(iUrlInstruccionesMenuNombre);
-    
 
     //Estados del juego (Para saber cuando estoy jugando on menus)
     private enum STATE {
@@ -218,7 +217,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         jugador2 = new TextField();
         jugador1.setBounds(new Rectangle(25, 250, 300, 50));
         jugador2.setBounds(new Rectangle(25, 250, 300, 50));
-        
+
         //Images 
         imgCreditsBoton = Toolkit.getDefaultToolkit().getImage(imgCreditsBotonURL);
         imgPlayBoton = Toolkit.getDefaultToolkit().getImage(imgPlayBotonURL);
@@ -251,7 +250,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         listaTables.get(0).sentar(pTravolta2);
         listaTables.get(0).sentar(pTravolta3);
         listaTables.get(0).sentar(pTravolta4);
-        
+
         //Botones
         bPlay = new Boton(300, 400, imgPlayBoton);
         bCredits = new Boton(20, 400, imgCreditsBoton);
@@ -367,62 +366,30 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         pTravolta3.actualizaAnimaciones(tiempoTranscurrido);
         pTravolta4.actualizaAnimaciones(tiempoTranscurrido);
 
-        // Si hay drag, actualizar la posicion de pTravolta1
-//        if (mouseDrag) {
-//            pTravolta1.setPosX(positionX - dX);
-//            pTravolta1.setPosY(positionY - dY);
-//        }
-        //Veamos si esto hace que siga a una de las mesas...
+        // Actualizar el tiempo para la generacion de monitos y las animaciones de los monitos que tienen
+        j1.actualiza(tiempoTranscurrido);
+        j2.actualiza(tiempoTranscurrido);
+
         pTravolta1.setPosX(j1.getCordX());
         pTravolta1.setPosY(j1.getCordY());
 
         //Acutalizo la posicion del pTravolta2
-        if (pTravolta2.isIntersecta()) {
-            if (pTravolta2.getMoverX() > 0) {
-                pTravolta2.setPosX(pTravolta2.getPosX() + 1);
-                pTravolta2.setMoverX(pTravolta2.getMoverX() - 1);
-            } else {
-                pTravolta2.setPosX(pTravolta2.getPosX() - 1);
-                pTravolta2.setMoverX(pTravolta2.getMoverX() + 1);
-            }
-
-            if (pTravolta2.getMoverX() == 0 && pTravolta2.getMoverY() == 0) {
-                pTravolta2.setIntersecta(false);
-            }
-
-            if (pTravolta2.getMoverY() > 0) {
-                pTravolta2.setPosY(pTravolta2.getPosY() + 1);
-                pTravolta2.setMoverY(pTravolta2.getMoverY() - 1);
-            } else {
-                pTravolta2.setPosY(pTravolta2.getPosY() - 1);
-                pTravolta2.setMoverY(pTravolta2.getMoverY() + 1);
-            }
-
-            if (pTravolta2.getMoverX() == 0 && pTravolta2.getMoverY() == 0) {
-                pTravolta2.setIntersecta(false);
-            }
-
+//        for (Personaje p : j1.listaPersonajes) {
+        //velocidad en x
+        if (pTravolta1.getPosX() > pTravolta2.getPosX()) {
+            pTravolta2.setVelX(1);
         } else {
-            if (pTravolta1.getPosX() > pTravolta2.getPosX()) {
-                pTravolta2.setVelX(1);
-            } else {
-                pTravolta2.setVelX(-1);
-            }
-
-            if (pTravolta1.getPosY() > pTravolta2.getPosY()) {
-                pTravolta2.setVelY(1);
-            } else {
-                pTravolta2.setVelY(-1);
-            }
+            pTravolta2.setVelX(-1);
         }
-
-        if (movHorizontal) {
-            pTravolta2.setPosX(pTravolta2.getPosX() + pTravolta2.getVelX());
+        //velocidad en y
+        if (pTravolta1.getPosY() > pTravolta2.getPosY()) {
+            pTravolta2.setVelY(1);
+        } else {
+            pTravolta2.setVelY(-1);
         }
-        if (movVertical) {
-            pTravolta2.setPosY(pTravolta2.getPosY() + pTravolta2.getVelY());
-        }
-
+        pTravolta2.setPosX(pTravolta2.getPosX() + pTravolta2.getVelX());
+        pTravolta2.setPosY(pTravolta2.getPosY() + pTravolta2.getVelY());
+//        }
     }
 
     /**
@@ -455,176 +422,68 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             pTravolta2.setPosY(getHeight() - pTravolta2.getAlto());
 
         }
-        int temp = 0;
-        for (int i = 0; i < listaTables.size(); i++) {
-
-            Mesa ayuda = (Mesa) listaTables.get(i);
-            // g.drawRect(mesa.getPosX() -25, mesa.getPosY() - 30, mesa.getAncho() + 50, mesa.getAlto() + 40);
-            rec = new Rectangle(ayuda.getPosX() - 25, ayuda.getPosY() - 30, ayuda.getAncho() + 50, ayuda.getAlto() + 40);
-
-            //Lado Izq
-            if (pTravolta2.intersecta2(rec)) {
-                //lado Izquierdo
-                if (ayuda.getPosX() - 50 == pTravolta2.getPosX()) {
-                    pTravolta2.setPosX(pTravolta2.getPosX() - 1);
-
-                    if (pTravolta2.getPosY() > ayuda.getPosY() - (ayuda.getAlto() / 2)) {
-                        pTravolta2.setPosY(pTravolta2.getPosY() + pTravolta2.getVelY());
-                    }
-
-                    if (pTravolta2.getPosY() < ayuda.getPosY() - (ayuda.getAlto() / 2)) {
-                        pTravolta2.setPosY(pTravolta2.getPosY() - pTravolta2.getVelY());
-                    }
-
-                    movVertical = true;
-                    movHorizontal = false;
-
-                }
-                //Lado derecho
-                if (ayuda.getPosX() + 100 == pTravolta2.getPosX()) {
-                    pTravolta2.setPosX(pTravolta2.getPosX() + 1);
-                    movVertical = true;
-                    movHorizontal = false;
-
-                    if (pTravolta2.getPosY() > (ayuda.getPosY() - (ayuda.getAlto() / 2))) {
-                        pTravolta2.setPosY(pTravolta2.getPosY() + pTravolta2.getVelY());
-                    }
-
-                    if (pTravolta2.getPosY() < (ayuda.getPosY() - (ayuda.getAlto() / 2))) {
-                        pTravolta2.setPosY(pTravolta2.getPosY() - pTravolta2.getVelY());
-                    }
-                }
-                //Arriba
-                if (ayuda.getPosY() - 95 == pTravolta2.getPosY()) {
-
-                    pTravolta2.setPosY(pTravolta2.getPosY() - 1);
-                    movHorizontal = true;
-                    movVertical = false;
-                }
-                //Abajo
-                if (ayuda.getPosY() + 30 == pTravolta2.getPosY()) {
-
-                    pTravolta2.setPosY(pTravolta2.getPosY() + 1);
-                    movHorizontal = true;
-                    movVertical = false;
-                }
-                //Como un jugador solamente puede chocar con una mesa a la vez (entonces solamente tengo que encontrar esa mesa)
-                break;
-            } else {
-                movHorizontal = true;
-                movVertical = true;
-            }
-
-        }
-
-        /////
-        //moviendo de mono que persigue
-        if (pTravolta2.getPosX() + pTravolta2.getAncho() > getWidth()) {
-            pTravolta2.setPosX(pTravolta2.getPosX() - incX);
-        }
-        if (pTravolta2.getPosX() < 0) {
-            pTravolta2.setPosX(pTravolta2.getPosX() - incX);
-        }
-        if (pTravolta2.getPosY() + pTravolta2.getAlto() > getHeight()) {
-            pTravolta2.setPosY(pTravolta2.getPosY() - incY);
-        }
-        if (pTravolta2.getPosY() < 0) {
-            pTravolta2.setPosY(pTravolta2.getPosY() - incY);
-        }
-
-        //colision entre personaje y mesa
-       /* for (int x = 0; x < listaTables.size(); x++) {
-         Mesa ayuda = (Mesa) listaTables.get(x);
-         // g.drawRect(mesa.getPosX() -25, mesa.getPosY() - 30, mesa.getAncho() + 50, mesa.getAlto() + 40);
-
-         if(pTravolta2.intersecta2(ayuda.getPosX() -25, ayuda.getPosY() - 30, ayuda.getAncho() + 50, ayuda.getAlto() + 40)) {
-            
-         }
-         } */
-        /*
-         for (int x = 0; x < listaTables.size(); x++) {
-         Mesa ayuda = (Mesa) listaTables.get(x);
-         if (pTravolta2.intersecta(ayuda) && !pTravolta2.isIntersecta()) {
-         pTravolta2.setIntersecta(true);
-         if (pTravolta2.getVelX() > 0 && pTravolta2.getPosX() + pTravolta2.getAncho() >= ayuda.getPosX() ) {
-         //pTravolta2.setMoverX(ayuda.getAncho() + 2);
-         if (pTravolta2.getPosY() + pTravolta2.getAlto() - ayuda.getPosY() < ayuda.getPosY() + ayuda.getAlto() - pTravolta2.getPosY()) {
-         pTravolta2.setMoverY(-(pTravolta2.getPosY() + pTravolta2.getAlto() - ayuda.getPosY() + 3));
-         } else {
-         pTravolta2.setMoverY(ayuda.getPosY() + ayuda.getAlto() - pTravolta2.getPosY() + 3);
-         }
-         } else if (pTravolta2.getVelX() < 0 && pTravolta2.getPosX() <= ayuda.getPosX() + ayuda.getAncho() ) {
-         //pTravolta2.setMoverX(-(ayuda.getAncho() + 2));
-         if (pTravolta2.getPosY() + pTravolta2.getAlto() - ayuda.getPosY() < ayuda.getPosY() + ayuda.getAlto() - pTravolta2.getPosY()) {
-         pTravolta2.setMoverY(-(pTravolta2.getPosY() + pTravolta2.getAlto() - ayuda.getPosY() + 3));
-         } else {
-         pTravolta2.setMoverY(ayuda.getPosY() + ayuda.getAlto() - pTravolta2.getPosY() + 3);
-         }
-         } else if (pTravolta2.getVelY() > 0 && pTravolta2.getPosY() + pTravolta2.getAlto() > ayuda.getPosY() ) {
-         //pTravolta2.setMoverY(ayuda.getAlto() + 2);
-         if ((pTravolta2.getPosX() + pTravolta2.getAncho() / 2) - ayuda.getPosX() <= ayuda.getPosX() + ayuda.getAlto() - (pTravolta2.getPosX() + pTravolta2.getAncho() / 2)) {
-         pTravolta2.setMoverX(-(pTravolta2.getPosX() + pTravolta2.getAncho() - ayuda.getPosX() + 3));
-         } else {
-         pTravolta2.setMoverX(ayuda.getPosX() + ayuda.getAncho() - pTravolta2.getPosX() + 3);
-         }
-         pTravolta2.setPosY(ayuda.getPosY() - pTravolta2.getAlto() - 1);
-         } else if (pTravolta2.getVelY() < 0 && pTravolta2.getPosY() <= ayuda.getPosY() + ayuda.getAlto() ) {
-         //pTravolta2.setMoverY(-(ayuda.getAlto() + 2));
-         if ((pTravolta2.getPosX() + pTravolta2.getAncho() / 2) - ayuda.getPosX() < ayuda.getPosX() + ayuda.getAlto() - (pTravolta2.getPosX() + pTravolta2.getAncho() / 2)) {
-         pTravolta2.setMoverX(-(pTravolta2.getPosX() + pTravolta2.getAncho() - ayuda.getPosX() + 3));
-         } else {
-         pTravolta2.setMoverX(ayuda.getPosX() + ayuda.getAncho() - pTravolta2.getPosX() + 3);
-         }
-         pTravolta2.setPosY(ayuda.getPosY() - pTravolta2.getAlto() - 1);
-         }
-            
-         /*if (pTravolta2.intersecta(ayuda)) {
-         if (pTravolta2.getVelX() > 0 && pTravolta2.getPosX() + pTravolta2.getAncho() >= ayuda.getPosX() && Math.abs(pTravolta2.getPosX() + pTravolta2.getAncho() / 2 - (ayuda.getPosX() + ayuda.getAncho() / 2)) >= Math.abs(pTravolta2.getPosY() + pTravolta2.getAlto() / 2 - (ayuda.getPosY() + ayuda.getAlto() / 2))) {
-         pTravolta2.setPosX(ayuda.getPosX() - pTravolta2.getAncho() - 1);
-         } else if (pTravolta2.getVelX() < 0 && pTravolta2.getPosX() <= ayuda.getPosX() + ayuda.getAncho() && Math.abs(pTravolta2.getPosX() + pTravolta2.getAncho() / 2 - (ayuda.getPosX() + ayuda.getAncho() / 2)) >= Math.abs(pTravolta2.getPosY() + pTravolta2.getAlto() / 2 - (ayuda.getPosY() + ayuda.getAlto() / 2))) {
-         pTravolta2.setPosX(ayuda.getPosX() + ayuda.getAncho() + 1);
-         } else if (pTravolta2.getVelY() > 0 && pTravolta2.getPosY() + pTravolta2.getAlto() >= ayuda.getPosY() && Math.abs(pTravolta2.getPosX() + pTravolta2.getAncho() / 2 - (ayuda.getPosX() + ayuda.getAncho() / 2)) <= Math.abs(pTravolta2.getPosY() + pTravolta2.getAlto() / 2 - (ayuda.getPosY() + ayuda.getAlto() / 2))) {
-         pTravolta2.setPosY(ayuda.getPosY() - pTravolta2.getAlto() - 1);
-         } else if (pTravolta2.getVelY() < 0 && pTravolta2.getPosY() <= ayuda.getPosY() + ayuda.getAlto() && Math.abs(pTravolta2.getPosX() + pTravolta2.getAncho() / 2 - (ayuda.getPosX() + ayuda.getAncho() / 2)) <= Math.abs(pTravolta2.getPosY() + pTravolta2.getAlto() / 2 - (ayuda.getPosY() + ayuda.getAlto() / 2))) {
-         pTravolta2.setPosY(ayuda.getPosY() + ayuda.getAlto() + 1);
-         }
-         }*/
-
-        /*if (pTravolta2.intersecta(ayuda) && !pTravolta2.isIntersecta()) {
-         pTravolta2.setIntersecta(true);
-         if (pTravolta2.getVelX() > 0 && pTravolta2.getPosX() + pTravolta2.getAncho() >= ayuda.getPosX() && Math.abs(pTravolta2.getPosX() + pTravolta2.getAncho() / 2 - (ayuda.getPosX() + ayuda.getAncho() / 2)) >= Math.abs(pTravolta2.getPosY() + pTravolta2.getAlto() / 2 - (ayuda.getPosY() + ayuda.getAlto() / 2))) {
-         //pTravolta2.setMoverX(ayuda.getAncho() + 2);
-         if (pTravolta2.getPosY() + pTravolta2.getAlto() - ayuda.getPosY() < ayuda.getPosY() + ayuda.getAlto() - pTravolta2.getPosY()) {
-         pTravolta2.setMoverY(-(pTravolta2.getPosY() + pTravolta2.getAlto() - ayuda.getPosY() + 3));
-         } else {
-         pTravolta2.setMoverY(ayuda.getPosY() + ayuda.getAlto() - pTravolta2.getPosY() + 3);
-         }
-         } else if (pTravolta2.getVelX() < 0 && pTravolta2.getPosX() <= ayuda.getPosX() + ayuda.getAncho() && Math.abs(pTravolta2.getPosX() + pTravolta2.getAncho() / 2 - (ayuda.getPosX() + ayuda.getAncho() / 2)) >= Math.abs(pTravolta2.getPosY() + pTravolta2.getAlto() / 2 - (ayuda.getPosY() + ayuda.getAlto() / 2))) {
-         //pTravolta2.setMoverX(-(ayuda.getAncho() + 2));
-         if (pTravolta2.getPosY() + pTravolta2.getAlto() - ayuda.getPosY() < ayuda.getPosY() + ayuda.getAlto() - pTravolta2.getPosY()) {
-         pTravolta2.setMoverY(-(pTravolta2.getPosY() + pTravolta2.getAlto() - ayuda.getPosY() + 3));
-         } else {
-         pTravolta2.setMoverY(ayuda.getPosY() + ayuda.getAlto() - pTravolta2.getPosY() + 3);
-         }
-         } else if (pTravolta2.getVelY() > 0 && pTravolta2.getPosY() + pTravolta2.getAlto() > ayuda.getPosY() && Math.abs(pTravolta2.getPosX() + pTravolta2.getAncho() / 2 - (ayuda.getPosX() + ayuda.getAncho() / 2)) <= Math.abs(pTravolta2.getPosY() + pTravolta2.getAlto() / 2 - (ayuda.getPosY() + ayuda.getAlto() / 2))) {
-         //pTravolta2.setMoverY(ayuda.getAlto() + 2);
-         if ((pTravolta2.getPosX() + pTravolta2.getAncho() / 2) - ayuda.getPosX() <= ayuda.getPosX() + ayuda.getAlto() - (pTravolta2.getPosX() + pTravolta2.getAncho() / 2)) {
-         pTravolta2.setMoverX(-(pTravolta2.getPosX() + pTravolta2.getAncho() - ayuda.getPosX() + 3));
-         } else {
-         pTravolta2.setMoverX(ayuda.getPosX() + ayuda.getAncho() - pTravolta2.getPosX() + 3);
-         }
-         pTravolta2.setPosY(ayuda.getPosY() - pTravolta2.getAlto() - 1);
-         } else if (pTravolta2.getVelY() < 0 && pTravolta2.getPosY() <= ayuda.getPosY() + ayuda.getAlto() && Math.abs(pTravolta2.getPosX() + pTravolta2.getAncho() / 2 - (ayuda.getPosX() + ayuda.getAncho() / 2)) <= Math.abs(pTravolta2.getPosY() + pTravolta2.getAlto() / 2 - (ayuda.getPosY() + ayuda.getAlto() / 2))) {
-         //pTravolta2.setMoverY(-(ayuda.getAlto() + 2));
-         if ((pTravolta2.getPosX() + pTravolta2.getAncho() / 2) - ayuda.getPosX() < ayuda.getPosX() + ayuda.getAlto() - (pTravolta2.getPosX() + pTravolta2.getAncho() / 2)) {
-         pTravolta2.setMoverX(-(pTravolta2.getPosX() + pTravolta2.getAncho() - ayuda.getPosX() + 3));
-         } else {
-         pTravolta2.setMoverX(ayuda.getPosX() + ayuda.getAncho() - pTravolta2.getPosX() + 3);
-         }
-         pTravolta2.setPosY(ayuda.getPosY() - pTravolta2.getAlto() - 1);
-         }
-         }
-         }*/
+// POR AHORA NO LO VAMOS A HACER...
+//        int temp = 0;
+//        for (int i = 0; i < listaTables.size(); i++) {
+//
+//            Mesa ayuda = (Mesa) listaTables.get(i);
+//            // g.drawRect(mesa.getPosX() -25, mesa.getPosY() - 30, mesa.getAncho() + 50, mesa.getAlto() + 40);
+//            rec = new Rectangle(ayuda.getPosX() - 25, ayuda.getPosY() - 30, ayuda.getAncho() + 50, ayuda.getAlto() + 40);
+//
+//            //Lado Izq
+//            if (pTravolta2.intersecta2(rec)) {
+//                //lado Izquierdo
+//                if (ayuda.getPosX() - 50 == pTravolta2.getPosX()) {
+//                    pTravolta2.setPosX(pTravolta2.getPosX() - 1);
+//
+//                    if (pTravolta2.getPosY() > ayuda.getPosY() - (ayuda.getAlto() / 2)) {
+//                        pTravolta2.setPosY(pTravolta2.getPosY() + pTravolta2.getVelY());
+//                    }
+//
+//                    if (pTravolta2.getPosY() < ayuda.getPosY() - (ayuda.getAlto() / 2)) {
+//                        pTravolta2.setPosY(pTravolta2.getPosY() - pTravolta2.getVelY());
+//                    }
+//
+//                    movVertical = true;
+//                    movHorizontal = false;
+//
+//                }
+//                //Lado derecho
+//                if (ayuda.getPosX() + 100 == pTravolta2.getPosX()) {
+//                    pTravolta2.setPosX(pTravolta2.getPosX() + 1);
+//                    movVertical = true;
+//                    movHorizontal = false;
+//
+//                    if (pTravolta2.getPosY() > (ayuda.getPosY() - (ayuda.getAlto() / 2))) {
+//                        pTravolta2.setPosY(pTravolta2.getPosY() + pTravolta2.getVelY());
+//                    }
+//
+//                    if (pTravolta2.getPosY() < (ayuda.getPosY() - (ayuda.getAlto() / 2))) {
+//                        pTravolta2.setPosY(pTravolta2.getPosY() - pTravolta2.getVelY());
+//                    }
+//                }
+//                //Arriba
+//                if (ayuda.getPosY() - 95 == pTravolta2.getPosY()) {
+//
+//                    pTravolta2.setPosY(pTravolta2.getPosY() - 1);
+//                    movHorizontal = true;
+//                    movVertical = false;
+//                }
+//                //Abajo
+//                if (ayuda.getPosY() + 30 == pTravolta2.getPosY()) {
+//
+//                    pTravolta2.setPosY(pTravolta2.getPosY() + 1);
+//                    movHorizontal = true;
+//                    movVertical = false;
+//                }
+//                //Como un jugador solamente puede chocar con una mesa a la vez (entonces solamente tengo que encontrar esa mesa)
+//                break;
+//            } else {
+//                movHorizontal = true;
+//                movVertical = true;
+//            }
+//
+//        }
     }
 
     /**
@@ -661,7 +520,6 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
      *
      * @paramg es el <code>objeto grafico</code> usado para dibujar.
      */
-    
     public void paint1(Graphics g) {
         if (state == STATE.GAME) {
             g.drawImage(fondo, 0, 0, this);
@@ -679,33 +537,34 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             g.drawImage(pTravolta1.getAnim().getImagen(), pTravolta1.getPosX(), pTravolta1.getPosY(), this);
             g.drawImage(pTravolta2.getAnim().getImagen(), pTravolta2.getPosX(), pTravolta2.getPosY(), this);
             g.drawRect(pTravolta2.getPosX(), pTravolta2.getPosY() + 40, pTravolta2.getAncho(), pTravolta2.getAlto() - 40);
-
+            j1.paint(g);
+            j2.paint(g);
         }
 
         if (state == STATE.PAUSED) {
             //está pausado
         }
-       
-        if(state == STATE.MENU_MAIN) {            
+
+        if (state == STATE.MENU_MAIN) {
             g.drawImage(imgLogoGrande, 200, 20, this);
             g.drawImage(bPlay.getImageIcon().getImage(), bPlay.getPosX(), bPlay.getPosY(), this);
             g.drawImage(bCredits.getImageIcon().getImage(), bCredits.getPosX(), bCredits.getPosY(), this);
             g.drawImage(bHighScore.getImageIcon().getImage(), bHighScore.getPosX(), bHighScore.getPosY(), this);
         }
-        
+
         if (state == state.SELECT_COLOR_1) {
             Color c = new Color(255, 255, 0, 100);
             g.setColor(c);
-            if(azul) {
-                g.fillOval(bColorAzul.getPosX()-10, bColorAzul.getPosY()-10, bColorAzul.getAncho()+20, bColorAzul.getAlto()+20);
+            if (azul) {
+                g.fillOval(bColorAzul.getPosX() - 10, bColorAzul.getPosY() - 10, bColorAzul.getAncho() + 20, bColorAzul.getAlto() + 20);
             } else if (gris) {
-                g.fillOval(bColorRojo.getPosX()-10, bColorRojo.getPosY()-10, bColorRojo.getAncho()+20, bColorRojo.getAlto()+20);
+                g.fillOval(bColorRojo.getPosX() - 10, bColorRojo.getPosY() - 10, bColorRojo.getAncho() + 20, bColorRojo.getAlto() + 20);
             } else if (verde) {
-                g.fillOval(bColorVerde.getPosX()-10, bColorVerde.getPosY()-10, bColorVerde.getAncho()+20, bColorVerde.getAlto()+20);
+                g.fillOval(bColorVerde.getPosX() - 10, bColorVerde.getPosY() - 10, bColorVerde.getAncho() + 20, bColorVerde.getAlto() + 20);
             } else {
-                g.fillOval(bColorGris.getPosX()-10, bColorGris.getPosY()-10, bColorGris.getAncho()+20, bColorGris.getAlto()+20);
+                g.fillOval(bColorGris.getPosX() - 10, bColorGris.getPosY() - 10, bColorGris.getAncho() + 20, bColorGris.getAlto() + 20);
             }
-            
+
             g.drawImage(imgSelectColor1, 20, 20, this);
             g.drawImage(bColorRojo.getImageIcon().getImage(), bColorRojo.getPosX(), bColorRojo.getPosY(), this);
             g.drawImage(bColorAzul.getImageIcon().getImage(), bColorAzul.getPosX(), bColorAzul.getPosY(), this);
@@ -714,7 +573,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             g.drawImage(imgInstruccionesMenuColor, 350, 50, this);
             g.drawImage(bBack.getImageIcon().getImage(), bBack.getPosX(), bBack.getPosY(), this);
             g.drawImage(bNext.getImageIcon().getImage(), bNext.getPosX(), bNext.getPosY(), this);
-            
+
         }
 
         if (state == state.PLAYER_NAME_1) {
@@ -727,16 +586,16 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         if (state == state.SELECT_COLOR_2) {
             Color c = new Color(255, 255, 0, 100);
             g.setColor(c);
-            if(azul) {
-                g.fillOval(bColorAzul.getPosX()-10, bColorAzul.getPosY()-10, bColorAzul.getAncho()+20, bColorAzul.getAlto()+20);
+            if (azul) {
+                g.fillOval(bColorAzul.getPosX() - 10, bColorAzul.getPosY() - 10, bColorAzul.getAncho() + 20, bColorAzul.getAlto() + 20);
             } else if (rojo) {
-                g.fillOval(bColorRojo.getPosX()-10, bColorRojo.getPosY()-10, bColorRojo.getAncho()+20, bColorRojo.getAlto()+20);
+                g.fillOval(bColorRojo.getPosX() - 10, bColorRojo.getPosY() - 10, bColorRojo.getAncho() + 20, bColorRojo.getAlto() + 20);
             } else if (verde) {
-                g.fillOval(bColorVerde.getPosX()-10, bColorVerde.getPosY()-10, bColorVerde.getAncho()+20, bColorVerde.getAlto()+20);
+                g.fillOval(bColorVerde.getPosX() - 10, bColorVerde.getPosY() - 10, bColorVerde.getAncho() + 20, bColorVerde.getAlto() + 20);
             } else {
-                g.fillOval(bColorGris.getPosX()-10, bColorGris.getPosY()-10, bColorGris.getAncho()+20, bColorGris.getAlto()+20);
+                g.fillOval(bColorGris.getPosX() - 10, bColorGris.getPosY() - 10, bColorGris.getAncho() + 20, bColorGris.getAlto() + 20);
             }
-            
+
             g.drawImage(imgSelectColor2, 20, 20, this);
             g.drawImage(bColorRojo.getImageIcon().getImage(), bColorRojo.getPosX(), bColorRojo.getPosY(), this);
             g.drawImage(bColorAzul.getImageIcon().getImage(), bColorAzul.getPosX(), bColorAzul.getPosY(), this);
@@ -813,10 +672,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                     j2.setCordY(posY);
                     break;
             }
-        }
-
-        if (state == state.PAUSED) {
-            System.out.println("I am paused...");
+        } else if (state == state.PAUSED) {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_P:
                     System.out.println("I dont wanna be paused anymo...");
@@ -824,6 +680,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                     break;
             }
         }
+
     }
 
     public void keyTyped(KeyEvent e) { //metodo cuando una tecla fue typeada
@@ -843,7 +700,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         // Si hubo click dentro del objeto pTravolta1 se guarda posicion y diferencia.
         boolean next = bNext.clicked(e);
         boolean back = bBack.clicked(e);
-        
+
         if (pTravolta1.clicked(e)) {
             mouseDrag = true;
             positionX = e.getX();
@@ -851,13 +708,13 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             dX = positionX - pTravolta1.getPosX();
             dY = positionY - pTravolta1.getPosY();
         }
-        
-        if(state == state.MENU_MAIN) {
-            if(bPlay.clicked(e)) {
+
+        if (state == state.MENU_MAIN) {
+            if (bPlay.clicked(e)) {
                 state = state.SELECT_COLOR_1;
             }
         }
-        
+
         if(state == state.SELECT_COLOR_1) {
             rojo = true;
             azul = verde = gris = false;
@@ -875,27 +732,27 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 }
                 this.add(jugador1, null);
             }
-            if(bColorAzul.clicked(e)) {
+            if (bColorAzul.clicked(e)) {
                 azul = true;
-            } else if(bColorGris.clicked(e)) {
+            } else if (bColorGris.clicked(e)) {
                 azul = false;
                 rojo = true;
-            } else if(bColorVerde.clicked(e)) {
+            } else if (bColorVerde.clicked(e)) {
                 verde = true;
                 azul = rojo = false;
             } else {
                 gris = true;
                 azul = rojo = verde = false;
             }
-            
-            if(back) {
+
+            if (back) {
                 state = state.MENU_MAIN;
                 back = false;
             }
         }
-        
-        if(state == state.PLAYER_NAME_1) {
-            if(next) {
+
+        if (state == state.PLAYER_NAME_1) {
+            if (next) {
                 state = state.SELECT_COLOR_2;
                 next = false;
                 String nameJ1 = jugador1.getText();
@@ -916,24 +773,26 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 
                 this.remove(jugador1);
             }
-            
-            if(back) {
+
+            if (back) {
                 state = state.SELECT_COLOR_1;
                 back = false;
                 this.remove(jugador1);
             }
         }
+
         
         if(state == state.SELECT_COLOR_2) {
             gris = true;
             azul = verde = rojo = false;
                       
             if(bColorAzul.clicked(e)) {
+
                 azul = true;
-            } else if(bColorRojo.clicked(e)) {
+            } else if (bColorRojo.clicked(e)) {
                 azul = false;
                 rojo = true;
-            } else if(bColorVerde.clicked(e)) {
+            } else if (bColorVerde.clicked(e)) {
                 verde = true;
                 azul = rojo = false;
             } else {
@@ -964,9 +823,9 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 back = false;
             }
         }
-        
-        if(state == state.PLAYER_NAME_2) {
-            if(next) {
+
+        if (state == state.PLAYER_NAME_2) {
+            if (next) {
                 state = state.GAME;
                 next = false;
                 String nameJ2 = jugador2.getText();
@@ -987,14 +846,14 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 
                 this.remove(jugador2);
             }
-            
-            if(back) {
+
+            if (back) {
                 state = state.SELECT_COLOR_2;
                 back = false;
                 this.remove(jugador2);
             }
         }
-        
+
     }
 
     public void mouseEntered(MouseEvent e) { //metodo cuando entra el mouse
