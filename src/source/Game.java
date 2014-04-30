@@ -122,7 +122,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private URL fondoURL = this.getClass().getResource(iUrlFondo);
     private URL tableURL = this.getClass().getResource(iUrlMesa);
     private URL poolURL = this.getClass().getResource(iUrlMesaBillar1);
-    private URL cervezaURL = this.getClass().getResource(iUrlCerveza);
+//    private URL cervezaURL = this.getClass().getResource(iUrlCerveza);
     private URL imgLogoGrandeURL = this.getClass().getResource(iUrlLogoGrande);
     private URL imgPlayBotonURL = this.getClass().getResource(iUrlBotonPlay);
     private URL imgCreditsBotonURL = this.getClass().getResource(iUrlBotonCredits);
@@ -207,7 +207,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 //        plateP = Toolkit.getDefaultToolkit().getImage(pausaURL);
         lockX = lockY = false;
         //Images 
-        cerveza = Toolkit.getDefaultToolkit().getImage(cervezaURL);
+//        cerveza = Toolkit.getDefaultToolkit().getImage(cervezaURL);
         Image travolta1 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/ilDivo/azul/divo_01.png"));
         Image travolta2 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/ilDivo/azul/divo_02.png"));
         travolta = new Animacion();
