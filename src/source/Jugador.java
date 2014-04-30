@@ -81,6 +81,33 @@ public class Jugador {
         }
         personajes.add(p);
     }
+    
+    public void crearPersonajeSentado(Mesa m) {
+        int tipo;
+        if (cambia == 0) {
+            tipo = (int) (Math.random() * 4) + 1;
+        } else {
+            tipo = cambia;
+        }
+        int col = 0;
+        if (color == Color.blue) {
+            col = 1;
+        } else if (color == Color.gray) {
+            col = 2;
+        } else if (color == Color.red) {
+            col = 3;
+        } else if (color == Color.green) {
+            col = 4;
+        }
+
+        Personaje p;
+        if (id == 1) {
+            p = new Personaje(m.getPosX() - 70, m.getPosY(), tipo, col);
+        } else {
+            p = new Personaje(m.getPosX() - 70, m.getPosY(), tipo, col);
+        }
+        personajes.add(p);
+    }
 
     public void actualiza(long tiempoTranscurrido) {
         contadorDeTiempo++;
@@ -107,6 +134,9 @@ public class Jugador {
             Mesa aux = (Mesa) m.get(x);
             if (aux.getColorPrincipal() == color) {
                 cont++;
+            }
+            if (aux.getColorPrincipal() == color && aux.getUpgrade().getFuncion() == 3) {
+                aux.doyVida(this);
             }
         }
         if (cont != conFDC) {

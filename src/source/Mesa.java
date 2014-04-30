@@ -32,6 +32,7 @@ public class Mesa extends Base implements Constantes {
     private LinkedList<Personaje> monitosSentados;   // Lista de personajes
     private int cantSillas; // Variable entera con la cantidad de sillas
     private Upgrade upgrade;    // Objeto upgrade que pudiera tener la mesa
+    private int contTiempo; // contador para el upgrade de vida
     private int tipo;
     /* tipo = 0: mesa indefinida
      *  tipo = 1: mesa redonda con 4 sillas
@@ -47,7 +48,7 @@ public class Mesa extends Base implements Constantes {
      */
     public Mesa(int posX, int posY) {
         super(posX, posY);
-        sentados = valor = 0;
+        sentados = valor = contTiempo = 0;
         color = 0;
         cantSillas = tipo = 0; // Valor default
         sillas = new LinkedList();
@@ -61,7 +62,7 @@ public class Mesa extends Base implements Constantes {
         this.setImageIcon(icono);
         sillas = new LinkedList();
         monitosSentados = new LinkedList();
-        sentados = valor = 0;
+        sentados = valor = contTiempo = 0;
         color = 0;
         cantSillas = tipo = 0; // Valor default
         upgrade = new Upgrade();
@@ -74,7 +75,7 @@ public class Mesa extends Base implements Constantes {
         this.setImageIcon(icono);
         sillas = new LinkedList();
         monitosSentados = new LinkedList();
-        sentados = valor = 0;
+        sentados = valor = contTiempo = 0;
         color = 0;
         cantSillas = 0; // Valor default
         tipo = t;
@@ -98,7 +99,7 @@ public class Mesa extends Base implements Constantes {
         super(posX, posY);
         sillas = new LinkedList();
         monitosSentados = new LinkedList();
-        sentados = valor = 0;
+        sentados = valor = contTiempo = 0;
         color = 0;
         cantSillas = tipo = 0; // Valor default
         upgrade = new Upgrade(tipoUpgrade);
@@ -118,7 +119,7 @@ public class Mesa extends Base implements Constantes {
      */
     public Mesa(int posX, int posY, int tipoUpgrade, int numeroSillas) {
         super(posX, posY);
-        sentados = valor = 0;
+        sentados = valor = contTiempo = 0;
         color = 0;
         tipo = 0; // Valor default
         cantSillas = numeroSillas;
@@ -126,7 +127,6 @@ public class Mesa extends Base implements Constantes {
         sillas = new LinkedList();
         upgrade = new Upgrade(tipoUpgrade);
         colorPrincipal = null;
-
     }
 
     public void paint(Graphics g) {
@@ -138,6 +138,9 @@ public class Mesa extends Base implements Constantes {
         g.drawString(getValor() + "", getPosX() + getAncho(), getPosY() - 10);
         g.setColor(Color.BLACK);
         g.drawImage(getImageIcon().getImage(), getPosX(), getPosY(), null);
+        if (upgrade.getFuncion() != 0) {
+            upgrade.paint(g, getPosX(), getPosY());
+        }
     }
 
     public void paintSillasArriba(Graphics g) {
@@ -456,6 +459,9 @@ public class Mesa extends Base implements Constantes {
         if (color == 0 || color == p.getColor()) {
             color = p.getColor();
             colorPrincipal = p.getColorPadre();
+            if (upgrade.getFuncion() != 0) {
+                upgrade.upgradeBonus(p);
+            }
             valor += p.getValor();
             p.setSentado(sentados);
             p.setEstado(SENTADO);
@@ -501,5 +507,11 @@ public class Mesa extends Base implements Constantes {
             }
         }
     }
-
+    
+    public void doyVida(Jugador j) {
+        contTiempo++;
+        if (contTiempo % 250 == 0) {
+            j.crearPersonajeSentado(this);
+        }
+    }
 }
