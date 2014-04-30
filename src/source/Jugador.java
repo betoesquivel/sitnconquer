@@ -4,9 +4,11 @@
  * and open the template in the editor.
  */
 package source;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.LinkedList;
+
 /**
  *
  * @author bernardot
@@ -22,9 +24,11 @@ public class Jugador {
     // X crece a la derecha de acuerdo al número de mesas y Y para abajo
     private int cordX; // Coordenada en X de acuerdo al mapa de mesas de cada escenario
     private int cordY;  // Coordenada en Y de acuerdo al mapa de mesas de cada escenario
-    private int mesaSeleccionada; 
+    private int mesaSeleccionada;
     private int contadorDeTiempo;
     private double factorDeCreacion;
+    // El que sigue no es tan importante :)
+    private int cambia;
 
     /**
      * Método constructor de Jugador para crear al objeto
@@ -34,6 +38,7 @@ public class Jugador {
      * @param n es el <code>nombre</code> del jugador.
      */
     public Jugador(int i, Color c, String n, int inicial) {
+        cambia = 0;
         id = i;
         this.color = c;
         nombre = n;
@@ -47,9 +52,14 @@ public class Jugador {
         contadorDeTiempo = 0;
         factorDeCreacion = 1;
     }
-    
+
     public void crearPersonaje() {
-        int tipo = (int) (Math.random() * 4) + 1;
+        int tipo;
+        if (cambia == 0) {
+            tipo = (int) (Math.random() * 4) + 1;
+        } else {
+            tipo = cambia;
+        }
         int col = 0;
         if (color == Color.blue) {
             col = 1;
@@ -60,7 +70,7 @@ public class Jugador {
         } else if (color == Color.green) {
             col = 4;
         }
-        
+
         Personaje p;
         if (id == 1) {
             p = new Personaje((int) (Math.random() * -50) - 50, (int) (Math.random() * 500) + 50, tipo, col);
@@ -69,7 +79,7 @@ public class Jugador {
         }
         personajes.add(p);
     }
-    
+
     public void actualiza(long tiempoTranscurrido) {
         contadorDeTiempo++;
         int division = (int) (5 / factorDeCreacion) * 50;
@@ -82,12 +92,13 @@ public class Jugador {
             aux.actualizaPosicion();
             if (aux.getEstado() == -1) {
                 personajes.remove(x);
-            } if (aux.getEstado() == 2 && aux.isInMesaDestino()) {
-            aux.getMesaDestino().sentar(aux);
+            }
+            if (aux.getEstado() == 2 && aux.isInMesaDestino()) {
+                aux.getMesaDestino().sentar(aux);
             }
         }
     }
-        
+
     public void paint(Graphics g) {
         for (int x = 0; x < personajes.size(); x++) {
             Personaje aux = (Personaje) personajes.get(x);
@@ -96,7 +107,7 @@ public class Jugador {
             }
         }
     }
-    
+
     public void sentarAMesa(Mesa m) {
         for (int x = 0; x < personajes.size(); x++) {
             Personaje aux = (Personaje) personajes.get(x);
@@ -190,6 +201,15 @@ public class Jugador {
      */
     public void setMesaSeleccionada(int mesaSeleccionada) {
         this.mesaSeleccionada = mesaSeleccionada;
+    }
+
+    public void cambiaTipo(int t) {
+        cambia = t;
+        for (int x = 0; x < personajes.size(); x++) {
+            Personaje aux = (Personaje) personajes.get(x);
+            aux.setTipo(4);
+            aux.crearAnimaciones();
+        }
     }
 
 }

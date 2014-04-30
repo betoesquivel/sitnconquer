@@ -85,6 +85,9 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private int incX;
     private int incY;
 
+    // Cheats
+    private Cheat BQT;
+    
     // Booleanos
     private boolean mouseDrag;
     private boolean movHorizontal;
@@ -182,6 +185,9 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     boolean lockX;
     boolean lockY;
 
+    //Variables para habilitar cheats
+    
+
     //Variables de control de tiempo de la animación
     private long tiempoActual;
     private long tiempoInicial;
@@ -195,6 +201,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         setSize(GAME_WIDTH, GAME_HEIGHT);
         //Fondo
         fondo = Toolkit.getDefaultToolkit().getImage(fondoURL);
+        BQT = new Cheat();
+        BQT.betoQuiereNovia();
 //        infoBar = Toolkit.getDefaultToolkit().getImage(barraInfoURL);
 //        plateP = Toolkit.getDefaultToolkit().getImage(pausaURL);
         lockX = lockY = false;
@@ -310,7 +318,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             switch (mapa[r][2]) {
                 case BAR_POOL:
                     url = poolURL;
-                    tipo = 0;
+                    tipo = 2;
                     break;
                 case BAR_ROUND:
                     url = tableURL;
@@ -363,6 +371,11 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
      */
     public void Actualiza() {
 
+        if (BQT.isEncendido()) {
+            j1.cambiaTipo(4);
+            j2.cambiaTipo(4);
+            BQT.setEncendido(false);
+        }
         listaTables.get(j1.getMesaSeleccionada()).setColor1(j1.getColor());
         listaTables.get(j2.getMesaSeleccionada()).setColor2(j2.getColor());
 
@@ -687,6 +700,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     public void keyPressed(KeyEvent e) {
         if (state == state.GAME) {
             int ant, sig, posX, posY; //calculates the position in x and y of the players selector
+            BQT.check(e);
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_P:
                     state = state.PAUSED;
@@ -746,7 +760,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 case KeyEvent.VK_W:
                     listaTables.get(j2.getMesaSeleccionada()).parar(j2);
                     break;
-                case KeyEvent.VK_I:
+                case KeyEvent.VK_0:
                     state = state.INSTRUCCIONES;
                     break;
 
@@ -767,7 +781,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             }
         } else if (state == state.INSTRUCCIONES) {
             switch (e.getKeyCode()) {
-                case KeyEvent.VK_I:
+                case KeyEvent.VK_0:
                     System.out.println("No more instructions... I want to play!");
                     state = state.GAME;
                     break;

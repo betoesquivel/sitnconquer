@@ -22,6 +22,7 @@ import javax.swing.ImageIcon;
 public class Mesa extends Base implements Constantes {
 
     private int sentados;   // Variable entera pasa saber cuantos están sentados
+    private int valor;
     private Color color1;    // Color del jugador seleccionando la mesa
     private Color color2;   // Color del jugador seleccionando la mesa
     private Color colorPrincipal; //color del jugador dueño de la mesa.
@@ -34,6 +35,7 @@ public class Mesa extends Base implements Constantes {
     private int tipo;
     /* tipo = 0: mesa indefinida
      *  tipo = 1: mesa redonda con 4 sillas
+     *  tipo = 2: mesa de billar
      */
 
     /**
@@ -45,7 +47,7 @@ public class Mesa extends Base implements Constantes {
      */
     public Mesa(int posX, int posY) {
         super(posX, posY);
-        sentados = 0;
+        sentados = valor = 0;
         color = 0;
         cantSillas = tipo = 0; // Valor default
         sillas = new LinkedList();
@@ -59,10 +61,11 @@ public class Mesa extends Base implements Constantes {
         this.setImageIcon(icono);
         sillas = new LinkedList();
         monitosSentados = new LinkedList();
-        sentados = 0;
+        sentados = valor = 0;
         color = 0;
         cantSillas = tipo = 0; // Valor default
         upgrade = new Upgrade();
+        colorPrincipal = null;
     }
 
     public Mesa(int posX, int posY, Image image, int t) {
@@ -71,7 +74,7 @@ public class Mesa extends Base implements Constantes {
         this.setImageIcon(icono);
         sillas = new LinkedList();
         monitosSentados = new LinkedList();
-        sentados = 0;
+        sentados = valor = 0;
         color = 0;
         cantSillas = 0; // Valor default
         tipo = t;
@@ -79,6 +82,8 @@ public class Mesa extends Base implements Constantes {
             cantSillas = 4;
         }
         upgrade = new Upgrade();
+        colorPrincipal = null;
+
     }
 
     /**
@@ -93,10 +98,12 @@ public class Mesa extends Base implements Constantes {
         super(posX, posY);
         sillas = new LinkedList();
         monitosSentados = new LinkedList();
-        sentados = 0;
+        sentados = valor = 0;
         color = 0;
         cantSillas = tipo = 0; // Valor default
         upgrade = new Upgrade(tipoUpgrade);
+        colorPrincipal = null;
+
     }
 
     /**
@@ -111,13 +118,15 @@ public class Mesa extends Base implements Constantes {
      */
     public Mesa(int posX, int posY, int tipoUpgrade, int numeroSillas) {
         super(posX, posY);
-        sentados = 0;
+        sentados = valor = 0;
         color = 0;
         tipo = 0; // Valor default
         cantSillas = numeroSillas;
         monitosSentados = new LinkedList();
         sillas = new LinkedList();
         upgrade = new Upgrade(tipoUpgrade);
+        colorPrincipal = null;
+
     }
 
     public void paint(Graphics g) {
@@ -126,16 +135,18 @@ public class Mesa extends Base implements Constantes {
         g.setColor(Color.WHITE);
         //draws the number of sitted people on the center of a table...
         //moves the text 10 units up to avoid being covered by the sitted fellas
-        g.drawString(getSentados() + "", getPosX() + getAncho(), getPosY() - 10);
+        g.drawString(getValor() + "", getPosX() + getAncho(), getPosY() - 10);
         g.setColor(Color.BLACK);
         g.drawImage(getImageIcon().getImage(), getPosX(), getPosY(), null);
     }
 
     public void paintSillasArriba(Graphics g) {
-        Color c = new Color(6, 100, 6, 100);
-        g.setColor(c);
-        g.fillRect(getPosX() - 25, getPosY() - 30, getAncho() + 50, getAlto() + 40);
-        if (tipo != 0) {
+        //Color c = new Color(6, 100, 6, 100);
+        //g.setColor(c);
+        //g.fillRect(getPosX() - 25, getPosY() - 30, getAncho() + 50, getAlto() + 40);
+        if (tipo == 2) {
+            paintMonitoArriba(g);
+        } else if (tipo == 1) {
             for (int x = 0; x < sillas.size() - 1; x++) {
                 Silla aux = (Silla) sillas.get(x);
                 aux.paint(g);
@@ -146,17 +157,22 @@ public class Mesa extends Base implements Constantes {
     }
 
     public void paintSillasAbajo(Graphics g) {
-        paintMonitoAbajo(g);
-        if (tipo != 0) {
+        if (tipo == 1) {
+            paintMonitoAbajo(g);
             for (int x = sillas.size() - 1; x < sillas.size(); x++) {
                 Silla aux = (Silla) sillas.get(x);
                 aux.paint(g);
+            }
+        } else if (tipo == 2 && sentados > 2) {
+            monitosSentados.get(2).paintBillar(g, this, 2);
+            if (sentados > 3) {
+                monitosSentados.get(2).paintBillar(g, this, 3);
             }
         }
     }
 
     public void paintMonitoIzqDer(Graphics g) {
-        if (tipo != 0 && monitosSentados.size() > 1) {
+        if (tipo == 1 && monitosSentados.size() > 0) {
             for (int x = 0; x < sillas.size() - 2; x++) {
                 Silla aux = (Silla) sillas.get(x);
                 if (aux.isOcupada()) {
@@ -167,7 +183,12 @@ public class Mesa extends Base implements Constantes {
     }
 
     public void paintMonitoArriba(Graphics g) {
-        if (tipo != 0 && monitosSentados.size() > 2) {
+        if (tipo == 2 && sentados > 0) {
+            monitosSentados.get(0).paintBillar(g, this, 0);
+            if (sentados > 1) {
+                monitosSentados.get(1).paintBillar(g, this, 1);
+            }
+        } else if (tipo == 1 && monitosSentados.size() > 2) {
             Silla aux = (Silla) sillas.get(2);
             if (aux.isOcupada()) {
                 monitosSentados.get(2).paintSentado(g, aux);
@@ -176,7 +197,7 @@ public class Mesa extends Base implements Constantes {
     }
 
     public void paintMonitoAbajo(Graphics g) {
-        if (tipo != 0 && monitosSentados.size() > 3) {
+        if (tipo == 1 && monitosSentados.size() > 3) {
             Silla aux = (Silla) sillas.get(3);
             if (aux.isOcupada()) {
                 monitosSentados.get(3).paintSentado(g, aux);
@@ -197,6 +218,14 @@ public class Mesa extends Base implements Constantes {
             g.setColor(playerColor);
             g.fillOval(getPosX() - displacement, getPosY() - displacement, icono.getIconWidth() + (displacement * 2), icono.getIconHeight() + (displacement * 2));
         }
+    }
+
+    public int getValor() {
+        return valor;
+    }
+
+    public void setValor(int valor) {
+        this.valor = valor;
     }
 
     /**
@@ -381,9 +410,9 @@ public class Mesa extends Base implements Constantes {
     public Rectangle getPerimetro() {
         return new Rectangle(getPosX() - 25, getPosY() - 30, getAncho() + 40, getAlto() + 50);
     }
-    
-    public Color getColorPrincipal(){
-        return colorPrincipal; 
+
+    public Color getColorPrincipal() {
+        return colorPrincipal;
     }
 
     /**
@@ -398,10 +427,16 @@ public class Mesa extends Base implements Constantes {
             //está autorizado para parar monitos.
             if (sentados > 0) {
                 //solamente me aseguro de que haya más monitos
-                for (Personaje monito : monitosSentados){
+                while (sentados > 0) {
+                    Personaje monito = (Personaje) monitosSentados.getLast();
                     if (monito.getEstado() == SENTADO) {
                         monito.setEstado(PARADO);
-                        sentados -= 1; 
+                        valor -= monito.getValor();
+                        sentados -= 1;
+                        monito.setSentado(-1);
+                        if (sentados < sillas.size()) {
+                            sillas.get(sentados).setOcupada(false);
+                        }
                         monitosSentados.remove(monito);
                         break;
                     }
@@ -421,6 +456,7 @@ public class Mesa extends Base implements Constantes {
         if (color == 0 || color == p.getColor()) {
             color = p.getColor();
             colorPrincipal = p.getColorPadre();
+            valor += p.getValor();
             p.setSentado(sentados);
             p.setEstado(SENTADO);
             monitosSentados.add(p);
@@ -430,26 +466,34 @@ public class Mesa extends Base implements Constantes {
             sentados++;
         } else {
             if (sentados > 0) {
-                Personaje defensa = (Personaje) monitosSentados.getLast();
-                int ganadorBatalla = p.getValor() - defensa.getValor();
-                if (ganadorBatalla == 0) {
-                    sentados--;
-                    if (sentados < sillas.size()) {
-                        sillas.get(sentados).setOcupada(false);
+                while (p.getValor() != 0) {
+                    Personaje defensa = (Personaje) monitosSentados.getLast();
+                    int ganadorBatalla = p.getValor() - defensa.getValor();
+                    if (ganadorBatalla == 0) {
+                        sentados--;
+                        if (sentados < sillas.size()) {
+                            sillas.get(sentados).setOcupada(false);
+                        }
+                        defensa.setSentado(-1);
+                        monitosSentados.removeLast();
+                        p.setValor(ganadorBatalla);
+                        defensa.setValor(ganadorBatalla);
+                        p.setEstado(-1);
+                        defensa.setEstado(-1);
+                    } else if (ganadorBatalla > 0) {
+                        monitosSentados.removeLast();
+                        defensa.setEstado(-1);
+                        p.setValor(ganadorBatalla);
+                        break;
+                    } else if (ganadorBatalla < 0) {
+                        p.setEstado(-1);
+                        defensa.setValor(-ganadorBatalla);
+                        break;
                     }
-                    defensa.setSentado(-1);
-                    monitosSentados.removeLast();
-                    p.setEstado(-1);
-                    defensa.setEstado(-1);
-                } else if (ganadorBatalla > 0) {
-                    monitosSentados.removeLast();
-                    defensa.setEstado(-1);
-                    p.setValor(ganadorBatalla);
-                } else if (ganadorBatalla < 0) {
-                    p.setEstado(-1);
-                    defensa.setValor(-ganadorBatalla);
                 }
-            } else if (sentados == 0) {
+            }
+
+            if (sentados == 0) {
                 color = 0;
                 colorPrincipal = null;
             }

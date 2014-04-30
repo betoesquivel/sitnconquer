@@ -22,6 +22,7 @@ public class Personaje extends Base implements Constantes {
     int velY;
 
     Mesa mesaDestino; //contiene la mesa a la que tiene que ir el personaje cuando está ENMOVIMIENTO
+    Animacion aBack;
     Animacion aLeft;
     Animacion aRight;
     Animacion aUp;
@@ -46,7 +47,7 @@ public class Personaje extends Base implements Constantes {
      */
     int valor; // Cuanto vale el monito dependiendo de su fuerza (upgrade)
     int velocidad; // Velocidad del monito (upgrade)
-    int sentado; // 0 es izquierda, 1 es derecha, 2 es arriba, 3 es abajo, 4 arriba
+    int sentado; // -1 es indefinido 0 es izquierda, 1 es derecha, 2 es arriba, 3 es abajo, 4 arriba
     int estado = PARADO; // -1 es muerto, 0 es sentado, 1 es parado, y 2 es enmovimiento
 
     /**
@@ -64,6 +65,7 @@ public class Personaje extends Base implements Constantes {
         aLeft = new Animacion();
         aDown = new Animacion();
         aUp = new Animacion();
+        aBack = new Animacion();
         estado = 1;
     }
 
@@ -101,6 +103,7 @@ public class Personaje extends Base implements Constantes {
         aLeft = new Animacion();
         aDown = new Animacion();
         aUp = new Animacion();
+        aBack = new Animacion();
         String aux = new String();
         aux = "";
         if (tipo == 1) {
@@ -124,6 +127,10 @@ public class Personaje extends Base implements Constantes {
         }
 
         if (tipo == 1) {
+            URL urlB1 = this.getClass().getResource("images/" + aux + "gamer_08.png");
+            Image aB1 = Toolkit.getDefaultToolkit().getImage(urlB1);
+            URL urlB2 = this.getClass().getResource("images/" + aux + "gamer_09.png");
+            Image aB2 = Toolkit.getDefaultToolkit().getImage(urlB2);
             URL url1 = this.getClass().getResource("images/" + aux + "gamer_01.png");
             Image a1 = Toolkit.getDefaultToolkit().getImage(url1);
             URL url2 = this.getClass().getResource("images/" + aux + "gamer_02.png");
@@ -138,11 +145,17 @@ public class Personaje extends Base implements Constantes {
             Image aD = Toolkit.getDefaultToolkit().getImage(urlD);
             anim.sumaCuadro(a1, 400);
             anim.sumaCuadro(a2, 400);
+            aBack.sumaCuadro(aB1, 400);
+            aBack.sumaCuadro(aB2, 400);
             aLeft.sumaCuadro(aL, 400);
             aRight.sumaCuadro(aR, 400);
             aUp.sumaCuadro(aU, 400);
             aDown.sumaCuadro(aD, 400);
         } else if (tipo == 2) {
+            URL urlB1 = this.getClass().getResource("images/" + aux + "divo_08.png");
+            Image aB1 = Toolkit.getDefaultToolkit().getImage(urlB1);
+            URL urlB2 = this.getClass().getResource("images/" + aux + "divo_09.png");
+            Image aB2 = Toolkit.getDefaultToolkit().getImage(urlB2);
             URL url1 = this.getClass().getResource("images/" + aux + "divo_01.png");
             Image a1 = Toolkit.getDefaultToolkit().getImage(url1);
             URL url2 = this.getClass().getResource("images/" + aux + "divo_02.png");
@@ -161,6 +174,8 @@ public class Personaje extends Base implements Constantes {
             Image aD = Toolkit.getDefaultToolkit().getImage(urlD);
             anim.sumaCuadro(a1, 400);
             anim.sumaCuadro(a2, 400);
+            aBack.sumaCuadro(aB1, 400);
+            aBack.sumaCuadro(aB2, 400);
             aLeft.sumaCuadro(aL1, 400);
             aLeft.sumaCuadro(aL2, 400);
             aRight.sumaCuadro(aR1, 400);
@@ -168,6 +183,10 @@ public class Personaje extends Base implements Constantes {
             aUp.sumaCuadro(aU, 400);
             aDown.sumaCuadro(aD, 400);
         } else if (tipo == 3) {
+            URL urlB1 = this.getClass().getResource("images/" + aux + "mike_08.png");
+            Image aB1 = Toolkit.getDefaultToolkit().getImage(urlB1);
+            URL urlB2 = this.getClass().getResource("images/" + aux + "mike_09.png");
+            Image aB2 = Toolkit.getDefaultToolkit().getImage(urlB2);
             URL url1 = this.getClass().getResource("images/" + aux + "mike_01.png");
             Image a1 = Toolkit.getDefaultToolkit().getImage(url1);
             URL url2 = this.getClass().getResource("images/" + aux + "mike_02.png");
@@ -182,11 +201,17 @@ public class Personaje extends Base implements Constantes {
             Image aD = Toolkit.getDefaultToolkit().getImage(urlD);
             anim.sumaCuadro(a1, 400);
             anim.sumaCuadro(a2, 400);
+            aBack.sumaCuadro(aB1, 400);
+            aBack.sumaCuadro(aB2, 400);
             aLeft.sumaCuadro(aL, 400);
             aRight.sumaCuadro(aR, 400);
             aUp.sumaCuadro(aU, 400);
             aDown.sumaCuadro(aD, 400);
         } else if (tipo == 4) {
+            URL urlB1 = this.getClass().getResource("images/" + aux + "Travolta_08.png");
+            Image aB1 = Toolkit.getDefaultToolkit().getImage(urlB1);
+            URL urlB2 = this.getClass().getResource("images/" + aux + "Travolta_09.png");
+            Image aB2 = Toolkit.getDefaultToolkit().getImage(urlB2);
             URL url1 = this.getClass().getResource("images/" + aux + "Travolta_01.png");
             Image a1 = Toolkit.getDefaultToolkit().getImage(url1);
             URL url2 = this.getClass().getResource("images/" + aux + "Travolta_02.png");
@@ -201,6 +226,8 @@ public class Personaje extends Base implements Constantes {
             Image aD = Toolkit.getDefaultToolkit().getImage(urlD);
             anim.sumaCuadro(a1, 400);
             anim.sumaCuadro(a2, 400);
+            aBack.sumaCuadro(aB1, 400);
+            aBack.sumaCuadro(aB2, 400);
             aLeft.sumaCuadro(aL, 400);
             aRight.sumaCuadro(aR, 400);
             aUp.sumaCuadro(aU, 400);
@@ -223,6 +250,9 @@ public class Personaje extends Base implements Constantes {
         }
         if (aDown != null) {
             aDown.actualiza(tiempoTranscurrido);
+        }
+        if (aBack != null) {
+            aBack.actualiza(tiempoTranscurrido);
         }
     }
 
@@ -414,6 +444,19 @@ public class Personaje extends Base implements Constantes {
         g.drawImage(anim.getImagen(), getPosX(), getPosY(), null);
     }
 
+    public void paintBillar(Graphics g, Mesa m, int pos) {
+        if (pos == 0) {
+            g.drawImage(anim.getImagen(), m.getPosX() + 60, m.getPosY() - 25, null);
+        } else if (pos == 1) {
+            g.drawImage(anim.getImagen(), m.getPosX() + 90, m.getPosY() - 15, null);
+        } else if (pos == 2) {
+            g.drawImage(aBack.getImagen(), m.getPosX() + 15, m.getPosY() + 10, null);
+        } else if (pos == 3) {
+            g.drawImage(aBack.getImagen(), m.getPosX() + 45, m.getPosY() + 25, null);
+        }
+    }
+    
+    
     public void paintSentado(Graphics g, Silla s) {
         if (tipo == 1) {
             if (sentado == 0) {
