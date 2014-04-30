@@ -53,7 +53,7 @@ public interface Constantes {
     public static final String iUrlInstruccionesMenuNombre = "images/instruccionesMenuNombre.png";
     public static final String iUrlInstruccionesMovimiento = "images/instruccionesMovimiento.png";
     public static final String iUrlLetreroPausado = "images/letreroPausado.png";
-    
+    public static final String iUrlBarra = "images/infoBar2.png";
     //Colores
     public static final int BLUE = 1;
     public static final int GRAY = 2; 
