@@ -13,7 +13,7 @@ import java.util.LinkedList;
  *
  * @author bernardot
  */
-public class Jugador {
+public class Jugador implements Constantes{
 
     private int id; // Variable entera con la cual se identificará que jugador es
     private Color color; // Variable entera que representa un color en el juego de los 4 posibles
@@ -30,7 +30,7 @@ public class Jugador {
     private int conFDC;
     // El que sigue no es tan importante :)
     private int cambia;
-
+    
     /**
      * Método constructor de Jugador para crear al objeto
      *
@@ -53,6 +53,7 @@ public class Jugador {
         contadorDeTiempo = 0;
         factorDeCreacion = 1;
         conFDC = 0;
+ 
     }
 
     public void crearPersonaje() {
@@ -244,5 +245,26 @@ public class Jugador {
             aux.crearAnimaciones();
         }
     }
+    
+    public int getCantSentados() {
+    
+        int s = 0;
+        for ( Personaje p : personajes) {
+            s+=(p.getEstado()==SENTADO)?1:0;
+        }
+        
+        return s;
+    
+    }
 
+       public int getCantParados() {
+    
+        int paja = 0;
+        for ( Personaje p : personajes) {
+            paja+=(p.getEstado()==PARADO)?1:0;
+        }
+        
+        return paja;
+    
+    }
 }
