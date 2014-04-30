@@ -27,6 +27,7 @@ public class Jugador {
     private int mesaSeleccionada;
     private int contadorDeTiempo;
     private double factorDeCreacion;
+    private int conFDC;
     // El que sigue no es tan importante :)
     private int cambia;
 
@@ -51,6 +52,7 @@ public class Jugador {
         crearPersonaje();
         contadorDeTiempo = 0;
         factorDeCreacion = 1;
+        conFDC = 0;
     }
 
     public void crearPersonaje() {
@@ -99,6 +101,20 @@ public class Jugador {
         }
     }
 
+    public void checaFactorDeCreacion(LinkedList<Mesa> m) {
+        int cont = 0;
+        for (int x = 0; x < m.size(); x++) {
+            Mesa aux = (Mesa) m.get(x);
+            if (aux.getColorPrincipal() == color) {
+                cont++;
+            }
+        }
+        if (cont != conFDC) {
+            conFDC = cont;
+            factorDeCreacion = 1 + conFDC * .1;
+        }
+    }
+
     public void paint(Graphics g) {
         for (int x = 0; x < personajes.size(); x++) {
             Personaje aux = (Personaje) personajes.get(x);
@@ -133,6 +149,14 @@ public class Jugador {
      */
     public void setColor(Color color) {
         this.color = color;
+    }
+
+    public double getFactorDeCreacion() {
+        return factorDeCreacion;
+    }
+
+    public void setFactorDeCreacion(double factorDeCreacion) {
+        this.factorDeCreacion = factorDeCreacion;
     }
 
     /**
@@ -208,6 +232,15 @@ public class Jugador {
         for (int x = 0; x < personajes.size(); x++) {
             Personaje aux = (Personaje) personajes.get(x);
             aux.setTipo(4);
+            aux.crearAnimaciones();
+        }
+    }
+
+    public void cambiaTipoRand() {
+        cambia = 0;
+        for (int x = 0; x < personajes.size(); x++) {
+            Personaje aux = (Personaje) personajes.get(x);
+            aux.setTipo((int) (Math.random() * 4) + 1);
             aux.crearAnimaciones();
         }
     }

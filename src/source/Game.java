@@ -372,8 +372,13 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     public void Actualiza() {
 
         if (BQT.isEncendido()) {
+            if (BQT.getContador() % 2 == 1) {
             j1.cambiaTipo(4);
             j2.cambiaTipo(4);
+            } else {
+                j1.cambiaTipoRand();
+                j2.cambiaTipoRand();
+            }
             BQT.setEncendido(false);
         }
         listaTables.get(j1.getMesaSeleccionada()).setColor1(j1.getColor());
@@ -393,6 +398,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         // Actualizar el tiempo para la generacion de monitos y las animaciones de los monitos que tienen
         j1.actualiza(tiempoTranscurrido);
         j2.actualiza(tiempoTranscurrido);
+        j1.checaFactorDeCreacion(listaTables);
+        j2.checaFactorDeCreacion(listaTables);
 
         //Acutalizo la posicion del pTravolta2
 //        for (Personaje p : j1.listaPersonajes) {
