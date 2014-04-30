@@ -466,11 +466,12 @@ public class Mesa extends Base implements Constantes {
             sentados++;
         } else {
             if (sentados > 0) {
-                while (p.getValor() != 0) {
+                while (p.getValor() != 0 && valor != 0 && sentados != 0) {
                     Personaje defensa = (Personaje) monitosSentados.getLast();
                     int ganadorBatalla = p.getValor() - defensa.getValor();
                     if (ganadorBatalla == 0) {
                         sentados--;
+                        valor--;
                         if (sentados < sillas.size()) {
                             sillas.get(sentados).setOcupada(false);
                         }
@@ -481,14 +482,15 @@ public class Mesa extends Base implements Constantes {
                         p.setEstado(-1);
                         defensa.setEstado(-1);
                     } else if (ganadorBatalla > 0) {
+                        valor--;
+                        sentados--;
                         monitosSentados.removeLast();
                         defensa.setEstado(-1);
                         p.setValor(ganadorBatalla);
-                        break;
                     } else if (ganadorBatalla < 0) {
+                        valor--;
                         p.setEstado(-1);
                         defensa.setValor(-ganadorBatalla);
-                        break;
                     }
                 }
             }
