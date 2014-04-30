@@ -68,6 +68,7 @@ public class Cheat {
 
                 //Important! Next call to checkKonami()
                 //would result in ArrayIndexOutOfBoundsException otherwise
+                contador++;
                 currentButton = 0;
                 if(encendido) {
                     encendido = false;

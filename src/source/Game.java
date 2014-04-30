@@ -127,7 +127,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private URL fondoURL = this.getClass().getResource(iUrlFondo);
     private URL tableURL = this.getClass().getResource(iUrlMesa);
     private URL poolURL = this.getClass().getResource(iUrlMesaBillar1);
-    private URL cervezaURL = this.getClass().getResource(iUrlCerveza);
+//    private URL cervezaURL = this.getClass().getResource(iUrlCerveza);
     private URL imgLogoGrandeURL = this.getClass().getResource(iUrlLogoGrande);
     private URL imgPlayBotonURL = this.getClass().getResource(iUrlBotonPlay);
     private URL imgCreditsBotonURL = this.getClass().getResource(iUrlBotonCredits);
@@ -213,7 +213,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 //        plateP = Toolkit.getDefaultToolkit().getImage(pausaURL);
         lockX = lockY = false;
         //Images 
-        cerveza = Toolkit.getDefaultToolkit().getImage(cervezaURL);
+//        cerveza = Toolkit.getDefaultToolkit().getImage(cervezaURL);
         Image travolta1 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/ilDivo/azul/divo_01.png"));
         Image travolta2 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/ilDivo/azul/divo_02.png"));
         travolta = new Animacion();
@@ -384,8 +384,13 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     public void Actualiza() {
 
         if (BQT.isEncendido()) {
+            if (BQT.getContador() % 2 == 1) {
             j1.cambiaTipo(4);
             j2.cambiaTipo(4);
+            } else {
+                j1.cambiaTipoRand();
+                j2.cambiaTipoRand();
+            }
             BQT.setEncendido(false);
         }
         listaTables.get(j1.getMesaSeleccionada()).setColor1(j1.getColor());
@@ -405,6 +410,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         // Actualizar el tiempo para la generacion de monitos y las animaciones de los monitos que tienen
         j1.actualiza(tiempoTranscurrido);
         j2.actualiza(tiempoTranscurrido);
+        j1.checaFactorDeCreacion(listaTables);
+        j2.checaFactorDeCreacion(listaTables);
 
         //Acutalizo la posicion del pTravolta2
 //        for (Personaje p : j1.listaPersonajes) {
