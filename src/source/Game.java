@@ -70,6 +70,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private Image imgSelectName2;
     private Image imgInstruccionesMovimiento;
     private Image imgLetreroPausado;
+    private Image imgBarra;
 
     //rectangle
     private Rectangle rec;
@@ -101,6 +102,10 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private Silla chair;
     private Personaje alesso;
 
+    //Strings
+    private String nameJ1;
+    private String nameJ2;
+    
     //Botones
     private Boton bPausa;
     private Boton bPlay;
@@ -151,7 +156,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private URL imgInstruccionesMenuNombreURL = this.getClass().getResource(iUrlInstruccionesMenuNombre);
     private URL imgInstruccionesMovimientoURL = this.getClass().getResource(iUrlInstruccionesMovimiento);
     private URL imgLetreroPausadoURL = this.getClass().getResource(iUrlLetreroPausado);
-
+    private URL imgBarraURL = this.getClass().getResource(iUrlBarra); 
+    
     //Estados del juego (Para saber cuando estoy jugando on menus)
     private enum STATE {
 
@@ -169,7 +175,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         HIGHSCORE
     };
 
-    private STATE state = STATE.MENU_MAIN;
+    private STATE state = STATE.GAME;
 
     //Lista de booleanas
     //Mesas y Sillas
@@ -226,9 +232,13 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         listaTables = new LinkedList<Mesa>();
         crearMesasYSillas();
 
+        //nombres de jugador
+        nameJ1 = "alesso";
+        nameJ2 = "lukas";
+        
         //jugadores init
-        j1 = new Jugador(1, Color.red, "Beto", 0);
-        j2 = new Jugador(2, Color.blue, "Hugo", 1);
+        j1 = new Jugador(1, Color.red, nameJ1, 0);
+        j2 = new Jugador(2, Color.blue, nameJ2, 1);
 
         //Cajas de texto para nombres de jugadores
         jugador1 = new TextField();
@@ -256,6 +266,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         imgInstruccionesMenuNombre = Toolkit.getDefaultToolkit().getImage(imgInstruccionesMenuNombreURL);
         imgInstruccionesMovimiento = Toolkit.getDefaultToolkit().getImage(imgInstruccionesMovimientoURL);
         imgLetreroPausado = Toolkit.getDefaultToolkit().getImage(imgLetreroPausadoURL);
+        imgBarra = Toolkit.getDefaultToolkit().getImage(imgBarraURL);
+        
 
         //Booleans
         movHorizontal = false;
@@ -537,6 +549,14 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     public void paint1(Graphics g) {
         if (state == STATE.GAME) {
             g.drawImage(fondo, 0, 0, this);
+            
+           //Info De Barra
+           g.drawImage(imgBarra, 0 ,getHeight() - 70, this );
+           g.setColor(Color.white);
+           g.setFont(new Font("Avenir Black", Font.ITALIC, 38));
+           g.drawString(nameJ1,200, getHeight() - 50);
+           g.drawString(nameJ2,getWidth()- 260, getHeight() - 50);
+            
             for (Mesa mesa : listaTables) {
                 mesa.paintSillasArriba(g);
                 mesa.paint(g);
@@ -561,8 +581,6 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             Font helvetica = new Font("Helvetica", Font.BOLD, 18);
             g.setFont(helvetica);
             g.setColor(Color.WHITE);
-            g.drawString(j1.getNombre(), 15, 45);
-            g.drawString(j2.getNombre(), getWidth() - 90, 45);
             g.setColor(Color.BLACK);
         }
 
@@ -886,7 +904,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             if (next) {
                 state = state.SELECT_COLOR_2;
                 next = false;
-                String nameJ1 = jugador1.getText();
+                nameJ1 = jugador1.getText();
                 /*
                  switch(colorJ1) {
                  case 1:
@@ -959,7 +977,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             if (next) {
                 state = state.GAME;
                 next = false;
-                String nameJ2 = jugador2.getText();
+                nameJ2 = jugador2.getText();
                 /*
                  switch(colorJ2) {
                  case 1:
