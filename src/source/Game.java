@@ -175,7 +175,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         HIGHSCORE
     };
 
-    private STATE state = STATE.GAME;
+    private STATE state = STATE.MENU_MAIN;
 
     //Lista de booleanas
     //Mesas y Sillas
@@ -568,10 +568,16 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
            //Info De Barra
            g.drawImage(imgBarra, 0 ,getHeight() - 70, this );
            g.setColor(Color.white);
-           g.setFont(new Font("Avenir Black", Font.ITALIC, 38));
-           g.drawString(nameJ1,200, getHeight() - 50);
-           g.drawString(nameJ2,getWidth()- 260, getHeight() - 50);
-            
+           g.setFont(new Font("Monospaced", Font.BOLD, 30));
+           g.drawString(nameJ1,50, getHeight() - 35);    
+           g.drawString(nameJ2,getWidth()- 300, getHeight() - 35);
+            g.setFont(new Font("Monospaced", Font.BOLD, 15));
+           g.drawString("Sentados: "+j1.getCantSentados() , 220, getHeight() - 35);
+           g.drawString("Parados: "+j1.getCantParados() , 220, getHeight() - 15);
+       
+           g.drawString("Sentados: "+j2.getCantSentados() , getWidth()-150, getHeight() - 35);
+           g.drawString("Parados: "+j2.getCantParados() , getWidth()-150, getHeight() - 15);
+  
             for (Mesa mesa : listaTables) {
                 mesa.paintSillasArriba(g);
                 mesa.paint(g);
