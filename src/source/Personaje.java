@@ -264,15 +264,15 @@ public class Personaje extends Base implements Constantes {
         if (getEstado() == ENMOVIMIENTO) {
             //velocidad en x
             if (mesaDestino.getPosX() > getPosX()) {
-                setVelX(1);
+                setVelX(velocidad);
             } else {
-                setVelX(-1);
+                setVelX(-velocidad);
             }
             //velocidad en y
             if (mesaDestino.getPosY() > getPosY()) {
-                setVelY(1);
+                setVelY(velocidad);
             } else {
-                setVelY(-1);
+                setVelY(-velocidad);
             }
             setPosX(getPosX() + getVelX());
             setPosY(getPosY() + getVelY());

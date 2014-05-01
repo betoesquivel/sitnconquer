@@ -121,13 +121,13 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
     //Objetos Imagen
     private Image fondo;
-    private Image cerveza;
+    //private Image cerveza;
 
     //Objetos URL
     private URL fondoURL = this.getClass().getResource(iUrlFondo);
     private URL tableURL = this.getClass().getResource(iUrlMesa);
     private URL poolURL = this.getClass().getResource(iUrlMesaBillar1);
-//    private URL cervezaURL = this.getClass().getResource(iUrlCerveza);
+    //private URL cervezaURL = this.getClass().getResource(iUrlCerveza);
     private URL imgLogoGrandeURL = this.getClass().getResource(iUrlLogoGrande);
     private URL imgPlayBotonURL = this.getClass().getResource(iUrlBotonPlay);
     private URL imgCreditsBotonURL = this.getClass().getResource(iUrlBotonCredits);
@@ -238,7 +238,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         
         //jugadores init
         j1 = new Jugador(1, Color.red, nameJ1, 0);
-        j2 = new Jugador(2, Color.blue, nameJ2, 1);
+        j2 = new Jugador(2, Color.blue, nameJ2, listaTables.size()-1);
 
         //Cajas de texto para nombres de jugadores
         jugador1 = new TextField();
@@ -345,6 +345,14 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             a.sumaCuadro(Toolkit.getDefaultToolkit().getImage(url), 10);
             table = new Mesa(mapa[r][0], mapa[r][1], Toolkit.getDefaultToolkit().getImage(url), tipo);
             table.setAnim(a);
+            int upgrade = (int) (Math.random() * 11);
+            if (upgrade < 2) {
+                table.setUpgrade(new Upgrade (1));
+            } else if (upgrade > 9) {
+                table.setUpgrade(new Upgrade (2));
+            } else if (upgrade == 5 || upgrade == 6) {
+                table.setUpgrade(new Upgrade (3));
+            }
             listaTables.add(table);
         }
         for (Mesa mesa : listaTables) {
@@ -574,9 +582,6 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 mesa.paintSillasArriba(g);
                 mesa.paint(g);
                 mesa.paintSillasAbajo(g);
-                if (mesa.getTipo() != 0) {
-                    g.drawImage(cerveza, mesa.getPosX() + 20, mesa.getPosY() + 5, this);
-                }
                 mesa.paintSelectors(g);
                 Color colorPisoMesa = mesa.getColorPrincipal();
                 if (colorPisoMesa != null) {
