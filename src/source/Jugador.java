@@ -250,7 +250,7 @@ public class Jugador implements Constantes{
     
         int s = 0;
         for ( Personaje p : personajes) {
-            s+=(p.getEstado()==SENTADO)?1:0;
+            s+=(p.getEstado()==SENTADO && p.getEstado()!= 2)?1:0;
         }
         
         return s;
@@ -261,7 +261,7 @@ public class Jugador implements Constantes{
     
         int paja = 0;
         for ( Personaje p : personajes) {
-            paja+=(p.getEstado()==PARADO)?1:0;
+            paja+=(p.getEstado()==PARADO && p.getEstado()!= 2)?1:0;
         }
         
         return paja;
