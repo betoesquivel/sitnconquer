@@ -5,6 +5,7 @@
  */
 package source;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -16,6 +17,8 @@ import java.net.URL;
  */
 public class Upgrade {
 
+    private boolean pintar;
+    private int contPintar;
     private Animacion anim;
     private int funcion; // variable que indica que tipo de upgrade y función tiene
     /*
@@ -29,6 +32,7 @@ public class Upgrade {
      * Método constructor de Upgrade para crear un objeto.
      */
     public Upgrade() {
+        pintar = false;
         funcion = 0;
     }
 
@@ -36,6 +40,7 @@ public class Upgrade {
      * Método constructor de Upgrade para crear un objeto y definir su función.
      */
     public Upgrade(int f) {
+        pintar = false;
         funcion = f;
         crearAnimacion();
     }
@@ -58,6 +63,30 @@ public class Upgrade {
         this.funcion = funcion;
     }
 
+    public boolean isPintar() {
+        return pintar;
+    }
+
+    public void setPintar(boolean pintar) {
+        this.pintar = pintar;
+    }
+
+    public Animacion getAnim() {
+        return anim;
+    }
+
+    public void setAnim(Animacion anim) {
+        this.anim = anim;
+    }
+
+    public int getContPintar() {
+        return contPintar;
+    }
+
+    public void setContPintar(int contPintar) {
+        this.contPintar = contPintar;
+    }
+
     public void crearAnimacion() {
         anim = new Animacion();
         if (funcion == 1) {
@@ -76,20 +105,46 @@ public class Upgrade {
     }
 
     public void paint(Graphics g, int x, int y) {
+        g.setColor(Color.WHITE);
         if (funcion == 1) {
             g.drawImage(anim.getImagen(), x + 15, y, null);
+            if (pintar) {
+                g.drawString("+ Rápido", x, y + 5);
+                contPintar++;
+                if (contPintar > 25) {
+                    pintar = false;
+                }
+            }
         } else if (funcion == 2) {
             g.drawImage(anim.getImagen(), x + 7, y - 25, null);
+            if (pintar) {
+                g.drawString("+ Fuerte", x, y + 5);
+                contPintar++;
+                if (contPintar > 25) {
+                    pintar = false;
+                }
+            }
         } else if (funcion == 3) {
             g.drawImage(anim.getImagen(), x + 22, y, null);
+            if (pintar) {
+                g.drawString("Hola amigo", x, y + 5);
+                contPintar++;
+                if (contPintar > 25) {
+                    pintar = false;
+                }
+            }
         }
     }
-    
+
     public void upgradeBonus(Personaje p) {
         if (funcion == 1) {
             p.setVelocidad(2);
+            contPintar = 0;
+            pintar = true;
         } else if (funcion == 2) {
             p.setValor(2);
+            pintar = true;
+            contPintar = 0;
         }
     }
 

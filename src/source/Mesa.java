@@ -512,6 +512,8 @@ public class Mesa extends Base implements Constantes {
         contTiempo++;
         if (contTiempo % 250 == 0) {
             j.crearPersonajeSentado(this);
+            upgrade.setPintar(true);
+            upgrade.setContPintar(0);
         }
     }
 }
