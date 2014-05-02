@@ -237,8 +237,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         nameJ2 = "lukas";
         
         //jugadores init
-        j1 = new Jugador(1, Color.red, nameJ1, 0);
-        j2 = new Jugador(2, Color.blue, nameJ2, listaTables.size()-1);
+        j1 = new Jugador(1, Color.red, nameJ1, listaTables.size()-1);
+        j2 = new Jugador(2, Color.blue, nameJ2, 0);
 
         //Cajas de texto para nombres de jugadores
         jugador1 = new TextField();

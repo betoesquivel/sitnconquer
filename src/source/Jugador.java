@@ -75,7 +75,7 @@ public class Jugador implements Constantes{
         }
 
         Personaje p;
-        if (id == 1) {
+        if (id != 1) {
             p = new Personaje((int) (Math.random() * -50) - 50, (int) (Math.random() * 500) + 50, tipo, col);
         } else {
             p = new Personaje((int) (Math.random() * 50) + 950, (int) (Math.random() * 500) + 50, tipo, col);
