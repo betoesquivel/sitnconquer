@@ -21,8 +21,12 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.io.File;
 import java.net.URL;
 import java.util.LinkedList;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.JFrame;// 
 
 /**
@@ -86,9 +90,14 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private int incX;
     private int incY;
 
+    // Music
+    private String[] trackList = {songOne, songTwo, songThree};
+    private AudioInputStream audio;
+    private Clip clip;
+
     // Cheats
     private Cheat BQT;
-    
+
     // Booleanos
     private boolean mouseDrag;
     private boolean movHorizontal;
@@ -105,7 +114,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     //Strings
     private String nameJ1;
     private String nameJ2;
-    
+
     //Botones
     private Boton bPausa;
     private Boton bPlay;
@@ -156,8 +165,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private URL imgInstruccionesMenuNombreURL = this.getClass().getResource(iUrlInstruccionesMenuNombre);
     private URL imgInstruccionesMovimientoURL = this.getClass().getResource(iUrlInstruccionesMovimiento);
     private URL imgLetreroPausadoURL = this.getClass().getResource(iUrlLetreroPausado);
-    private URL imgBarraURL = this.getClass().getResource(iUrlBarra); 
-    
+    private URL imgBarraURL = this.getClass().getResource(iUrlBarra);
+
     //Estados del juego (Para saber cuando estoy jugando on menus)
     private enum STATE {
 
@@ -192,8 +201,6 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     boolean lockY;
 
     //Variables para habilitar cheats
-    
-
     //Variables de control de tiempo de la animación
     private long tiempoActual;
     private long tiempoInicial;
@@ -235,9 +242,9 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         //nombres de jugador
         nameJ1 = "alesso";
         nameJ2 = "lukas";
-        
+
         //jugadores init
-        j1 = new Jugador(1, Color.red, nameJ1, listaTables.size()-1);
+        j1 = new Jugador(1, Color.red, nameJ1, listaTables.size() - 1);
         j2 = new Jugador(2, Color.blue, nameJ2, 0);
 
         //Cajas de texto para nombres de jugadores
@@ -267,7 +274,6 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         imgInstruccionesMovimiento = Toolkit.getDefaultToolkit().getImage(imgInstruccionesMovimientoURL);
         imgLetreroPausado = Toolkit.getDefaultToolkit().getImage(imgLetreroPausadoURL);
         imgBarra = Toolkit.getDefaultToolkit().getImage(imgBarraURL);
-        
 
         //Booleans
         movHorizontal = false;
@@ -294,6 +300,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         //bPausa = new Boton(850, 20, plateP);
         bNext = new Boton(750, 490, imgNextBoton);
         bBack = new Boton(20, 490, imgBackBoton);
+
+        playMusic(trackList, 0, 3); //0 means that I want music, 1 means I dont want music; 1 means first song; 
 
         // Declaras un hilo
         Thread th = new Thread(this);
@@ -347,11 +355,11 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             table.setAnim(a);
             int upgrade = (int) (Math.random() * 11);
             if (upgrade < 2) {
-                table.setUpgrade(new Upgrade (1));
+                table.setUpgrade(new Upgrade(1));
             } else if (upgrade > 9) {
-                table.setUpgrade(new Upgrade (2));
+                table.setUpgrade(new Upgrade(2));
             } else if (upgrade == 5 || upgrade == 6) {
-                table.setUpgrade(new Upgrade (3));
+                table.setUpgrade(new Upgrade(3));
             }
             listaTables.add(table);
         }
@@ -393,8 +401,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
         if (BQT.isEncendido()) {
             if (BQT.getContador() % 2 == 1) {
-            j1.cambiaTipo(4);
-            j2.cambiaTipo(4);
+                j1.cambiaTipo(4);
+                j2.cambiaTipo(4);
             } else {
                 j1.cambiaTipoRand();
                 j2.cambiaTipoRand();
@@ -564,20 +572,20 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     public void paint1(Graphics g) {
         if (state == STATE.GAME) {
             g.drawImage(fondo, 0, 0, this);
-            
-           //Info De Barra
-           g.drawImage(imgBarra, 0 ,getHeight() - 70, this );
-           g.setColor(Color.white);
-           g.setFont(new Font("Monospaced", Font.BOLD, 30));
-           g.drawString(nameJ1,50, getHeight() - 35);    
-           g.drawString(nameJ2,getWidth()- 300, getHeight() - 35);
+
+            //Info De Barra
+            g.drawImage(imgBarra, 0, getHeight() - 70, this);
+            g.setColor(Color.white);
+            g.setFont(new Font("Monospaced", Font.BOLD, 30));
+            g.drawString(nameJ1, getWidth() - 300, getHeight() - 35);
+            g.drawString(nameJ2, 50, getHeight() - 35);
             g.setFont(new Font("Monospaced", Font.BOLD, 15));
-           g.drawString("Sentados: "+j1.getCantSentados() , 220, getHeight() - 35);
-           g.drawString("Parados: "+j1.getCantParados() , 220, getHeight() - 15);
-       
-           g.drawString("Sentados: "+j2.getCantSentados() , getWidth()-150, getHeight() - 35);
-           g.drawString("Parados: "+j2.getCantParados() , getWidth()-150, getHeight() - 15);
-  
+            g.drawString("Sentados: " + j1.getCantSentados(), getWidth() - 150, getHeight() - 35);
+            g.drawString("Parados: " + j1.getCantParados(), getWidth() - 150, getHeight() - 15);
+
+            g.drawString("Sentados: " + j2.getCantSentados(), 220, getHeight() - 35);
+            g.drawString("Parados: " + j2.getCantParados(), 220, getHeight() - 15);
+
             for (Mesa mesa : listaTables) {
                 mesa.paintSillasArriba(g);
                 mesa.paint(g);
@@ -703,6 +711,27 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
         }
 
+    }
+
+    //plays different music throughout game if user wants to
+    public void playMusic(String[] songs, int yesNo, int level) {
+        if (yesNo == 1) {
+            return;
+        } else if (yesNo == -1) {
+            System.exit(0);
+        }
+        if (level == 10) {
+            level = 1;
+        }
+        try {
+            audio = AudioSystem.getAudioInputStream(new File(songs[level - 1]).getAbsoluteFile());
+            clip = AudioSystem.getClip();
+            clip.open(audio);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+            System.out.println("Current song: " + audio);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**

@@ -12,7 +12,7 @@ package source;
 public interface Constantes {
 
     //URLs Imagenes
-    public static final String iUrlFondo    = "images/background1.png";
+    public static final String iUrlFondo = "images/background1.png";
     public static final String iUrlCerveza = "images/beers.png";
     public static final String iUrlBotellas = "images/bottles.png";
     public static final String iUrlSilla1 = "images/chair1.png";
@@ -56,21 +56,27 @@ public interface Constantes {
     public static final String iUrlBarra = "images/infoBar2.png";
     //Colores
     public static final int BLUE = 1;
-    public static final int GRAY = 2; 
-    public static final int RED = 3; 
-    public static final int GREEN = 4; 
-    
+    public static final int GRAY = 2;
+    public static final int RED = 3;
+    public static final int GREEN = 4;
+
     //Table types int values
-    public static final int BAR_ROUND = 0; 
-    public static final int BAR_POOL = 1; 
-    
+    public static final int BAR_ROUND = 0;
+    public static final int BAR_POOL = 1;
+
     //Int values de personaje
     public static final int SENTADO = 0;
     public static final int PARADO = 1;
     public static final int ENMOVIMIENTO = 2;
-    
+
     //Dimensiones Applet
     public static final int GAME_WIDTH = 900;
     public static final int GAME_HEIGHT = 600;
+
+    //Musica
+    String songOne =    "src/source/music/heisapirate.wav";
+    String songTwo =    "src/source/music/goldontheceiling.wav";
+    String songThree =  "src/source/music/rickrolled.wav";
+    
 
 }
