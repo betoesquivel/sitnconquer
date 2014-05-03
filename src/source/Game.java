@@ -42,8 +42,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private Graphics dbg;	// Objeto grafico
 
     //Cajas de Texto para introducir el nombre
-    private TextField jugador1;
-    private TextField jugador2;
+    //private TextField jugador1;
+    //private TextField jugador2;
 
     //Objetos Imagen
     private Image imgCreditsBoton;
@@ -248,11 +248,10 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         j2 = new Jugador(2, Color.blue, nameJ2, 0);
 
         //Cajas de texto para nombres de jugadores
-        jugador1 = new TextField();
-        jugador2 = new TextField();
-        jugador1.setBounds(new Rectangle(25, 250, 300, 50));
-        jugador2.setBounds(new Rectangle(25, 250, 300, 50));
-
+        /*jugador1 = new TextField();
+         jugador2 = new TextField();
+         jugador1.setBounds(new Rectangle(25, 250, 300, 50));
+         jugador2.setBounds(new Rectangle(25, 250, 300, 50));*/
         //Images 
         imgCreditsBoton = Toolkit.getDefaultToolkit().getImage(imgCreditsBotonURL);
         imgPlayBoton = Toolkit.getDefaultToolkit().getImage(imgPlayBotonURL);
@@ -659,6 +658,10 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             g.drawImage(imgInstruccionesMenuNombre, 350, 50, this);
             g.drawImage(bBack.getImageIcon().getImage(), bBack.getPosX(), bBack.getPosY(), this);
             g.drawImage(bNext.getImageIcon().getImage(), bNext.getPosX(), bNext.getPosY(), this);
+            g.setColor(Color.WHITE);
+            g.fillRect(25, 250, 300, 50);
+            g.setColor(Color.BLACK);
+            g.drawString(nameJ1, 35, 280);
         }
 
         if (state == state.SELECT_COLOR_2) {
@@ -689,6 +692,10 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             g.drawImage(imgInstruccionesMenuNombre, 350, 50, this);
             g.drawImage(bBack.getImageIcon().getImage(), bBack.getPosX(), bBack.getPosY(), this);
             g.drawImage(bNext.getImageIcon().getImage(), bNext.getPosX(), bNext.getPosY(), this);
+            g.setColor(Color.WHITE);
+            g.fillRect(25, 250, 300, 50);
+            g.setColor(Color.BLACK);
+            g.drawString(nameJ2, 35, 280);
         }
 
         if (state == state.CREDITS) {
@@ -851,8 +858,131 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                     state = state.GAME;
                     break;
             }
+        } else if (state == state.PLAYER_NAME_1) {
+            nameJ1 = modificaNombreJ(e, nameJ1);
+        } else if (state == state.PLAYER_NAME_2) {
+            nameJ2 = modificaNombreJ(e, nameJ2);
         }
+    }
 
+    public String modificaNombreJ(KeyEvent e, String n) {
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_BACK_SPACE:
+                n = n.substring(0, n.length() - 1);
+                break;
+            case KeyEvent.VK_0:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_1:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_2:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_3:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_4:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_5:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_6:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_7:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_8:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_9:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_A:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_B:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_C:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_D:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_E:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_F:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_G:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_H:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_I:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_J:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_K:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_L:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_M:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_N:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_O:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_P:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_Q:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_R:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_S:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_T:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_U:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_V:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_W:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_X:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_Y:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_Z:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_SPACE:
+                n += e.getKeyChar();
+                break;
+        }
+        return n;
     }
 
     public void keyTyped(KeyEvent e) { //metodo cuando una tecla fue typeada
@@ -926,7 +1056,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 } else if (verde) {
                     colorJ1 = 4;
                 }
-                this.add(jugador1, null);
+                //this.add(jugador1, null);
             }
             if (bColorAzul.clicked(e)) {
                 azul = true;
@@ -951,7 +1081,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             if (next) {
                 state = state.SELECT_COLOR_2;
                 next = false;
-                nameJ1 = jugador1.getText();
+                //nameJ1 = jugador1.getText();
                 /*
                  switch(colorJ1) {
                  case 1:
@@ -968,13 +1098,13 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                  break;
                  }
                  */
-                this.remove(jugador1);
+                //this.remove(jugador1);
             }
 
             if (back) {
                 state = state.SELECT_COLOR_1;
                 back = false;
-                this.remove(jugador1);
+                //this.remove(jugador1);
             }
         }
 
@@ -1011,7 +1141,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 state = state.PLAYER_NAME_2;
                 next = false;
 
-                this.add(jugador2, null);
+                //this.add(jugador2, null);
             }
 
             if (back) {
@@ -1024,7 +1154,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             if (next) {
                 state = state.GAME;
                 next = false;
-                nameJ2 = jugador2.getText();
+                //nameJ2 = jugador2.getText();
                 /*
                  switch(colorJ2) {
                  case 1:
@@ -1041,13 +1171,13 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                  break;
                  }
                  */
-                this.remove(jugador2);
+                //this.remove(jugador2);
             }
 
             if (back) {
                 state = state.SELECT_COLOR_2;
                 back = false;
-                this.remove(jugador2);
+                //this.remove(jugador2);
             }
         }
 
