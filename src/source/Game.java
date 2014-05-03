@@ -44,7 +44,6 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     //Cajas de Texto para introducir el nombre
     //private TextField jugador1;
     //private TextField jugador2;
-
     //Objetos Imagen
     private Image imgCreditsBoton;
     private Image imgHighScoreBoton;
@@ -244,9 +243,9 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         nameJ2 = "lukas";
 
         //jugadores init
-        j1 = new Jugador(1, Color.red, nameJ1, listaTables.size() - 1);
-        j2 = new Jugador(2, Color.blue, nameJ2, 0);
-
+        // LO COMENTE PARA QUE SE INICIALICEN CON LOS COLORES BUENOS
+        //j1 = new Jugador(1, Color.red, nameJ1, listaTables.size() - 1);
+        //j2 = new Jugador(2, Color.blue, nameJ2, 0);
         //Cajas de texto para nombres de jugadores
         /*jugador1 = new TextField();
          jugador2 = new TextField();
@@ -277,6 +276,9 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         //Booleans
         movHorizontal = false;
         movVertical = false;
+        
+        rojo = true;
+        gris = verde = azul = false;
 
         //Controladores 
         addKeyListener(this);
@@ -576,8 +578,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             g.drawImage(imgBarra, 0, getHeight() - 70, this);
             g.setColor(Color.white);
             g.setFont(new Font("Monospaced", Font.BOLD, 30));
-            g.drawString(nameJ1, getWidth() - 300, getHeight() - 35);
-            g.drawString(nameJ2, 50, getHeight() - 35);
+            g.drawString(nameJ2, getWidth() - 300, getHeight() - 35);
+            g.drawString(nameJ1, 50, getHeight() - 35);
             g.setFont(new Font("Monospaced", Font.BOLD, 15));
             g.drawString("Sentados: " + j1.getCantSentados(), getWidth() - 150, getHeight() - 35);
             g.drawString("Parados: " + j1.getCantParados(), getWidth() - 150, getHeight() - 15);
@@ -634,7 +636,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             g.setColor(c);
             if (azul) {
                 g.fillOval(bColorAzul.getPosX() - 10, bColorAzul.getPosY() - 10, bColorAzul.getAncho() + 20, bColorAzul.getAlto() + 20);
-            } else if (gris) {
+            } else if (rojo) {
                 g.fillOval(bColorRojo.getPosX() - 10, bColorRojo.getPosY() - 10, bColorRojo.getAncho() + 20, bColorRojo.getAlto() + 20);
             } else if (verde) {
                 g.fillOval(bColorVerde.getPosX() - 10, bColorVerde.getPosY() - 10, bColorVerde.getAncho() + 20, bColorVerde.getAlto() + 20);
@@ -1042,8 +1044,6 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         }
 
         if (state == state.SELECT_COLOR_1) {
-            rojo = true;
-            azul = verde = gris = false;
             if (next) {
                 state = state.PLAYER_NAME_1;
                 next = false;
@@ -1060,15 +1060,16 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             }
             if (bColorAzul.clicked(e)) {
                 azul = true;
+                rojo = gris = verde = false;
             } else if (bColorGris.clicked(e)) {
-                azul = false;
-                rojo = true;
+                azul = verde = rojo = false;
+                gris = true;
             } else if (bColorVerde.clicked(e)) {
                 verde = true;
-                azul = rojo = false;
+                azul = rojo = gris = false;
             } else {
-                gris = true;
-                azul = rojo = verde = false;
+                rojo = true;
+                azul = gris = verde = false;
             }
 
             if (back) {
@@ -1082,22 +1083,29 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 state = state.SELECT_COLOR_2;
                 next = false;
                 //nameJ1 = jugador1.getText();
-                /*
-                 switch(colorJ1) {
-                 case 1:
-                 j1 = new Jugador(Color.red, nameJ1, 1);
-                 break;
-                 case 2:
-                 j1 = new Jugador(Color.gray, nameJ1, 1);
-                 break;
-                 case 3:
-                 j1 = new Jugador(Color.blue, nameJ1, 1);
-                 break;
-                 case 4:
-                 j1 = new Jugador(Color.green, nameJ1, 1);
-                 break;
-                 }
-                 */
+                //ATENCION SE INICIALIZA INVIERTO PARA QUE PUEDAN ESTAR EN EL LADO DE LA PANTALLA QUE LES CORRESPONDE
+                switch (colorJ1) {
+                    case 1:
+                        j2 = new Jugador(2, Color.red, nameJ1, 0);
+                        rojo = false;
+                        gris = true;
+                        break;
+                    case 2:
+                        j2 = new Jugador(2, Color.gray, nameJ1, 0);
+                        gris = false;
+                        rojo = true;
+                        break;
+                    case 3:
+                        j2 = new Jugador(2, Color.blue, nameJ1, 0);
+                        azul = false;
+                        rojo = true;
+                        break;
+                    case 4:
+                        j2 = new Jugador(2, Color.green, nameJ1, 0);
+                        verde = false;
+                        rojo = true;
+                        break;
+                }
                 //this.remove(jugador1);
             }
 
@@ -1109,31 +1117,30 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         }
 
         if (state == state.SELECT_COLOR_2) {
-            gris = true;
-            azul = verde = rojo = false;
 
+            if (next) {
+                if (rojo) {
+                    colorJ2 = 1;
+                } else if (gris) {
+                    colorJ2 = 2;
+                } else if (azul) {
+                    colorJ2 = 3;
+                } else if (verde) {
+                    colorJ2 = 4;
+                }
+            }
             if (bColorAzul.clicked(e)) {
-
                 azul = true;
-            } else if (bColorRojo.clicked(e)) {
-                azul = false;
-                rojo = true;
+                rojo = gris = verde = false;
+            } else if (bColorGris.clicked(e)) {
+                azul = verde = rojo = false;
+                gris = true;
             } else if (bColorVerde.clicked(e)) {
                 verde = true;
-                azul = rojo = false;
+                azul = rojo = gris = false;
             } else {
-                gris = true;
-                azul = rojo = verde = false;
-            }
-
-            if (rojo) {
-                colorJ2 = 1;
-            } else if (gris) {
-                colorJ2 = 2;
-            } else if (azul) {
-                colorJ2 = 3;
-            } else if (verde) {
-                colorJ2 = 4;
+                rojo = true;
+                azul = gris = verde = false;
             }
 
             if (next && colorJ1 != colorJ2) {
@@ -1152,25 +1159,23 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
         if (state == state.PLAYER_NAME_2) {
             if (next) {
-                state = state.GAME;
                 next = false;
                 //nameJ2 = jugador2.getText();
-                /*
-                 switch(colorJ2) {
-                 case 1:
-                 j2 = new Jugador(Color.red, nameJ2, 1);
-                 break;
-                 case 2:
-                 j2 = new Jugador(Color.gray, nameJ2, 1);
-                 break;
-                 case 3:
-                 j2 = new Jugador(Color.blue, nameJ2, 1);
-                 break;
-                 case 4:
-                 j2 = new Jugador(Color.green, nameJ2, 1);
-                 break;
-                 }
-                 */
+                switch (colorJ2) {
+                    case 1:
+                        j1 = new Jugador(1, Color.red, nameJ2, 9);
+                        break;
+                    case 2:
+                        j1 = new Jugador(1, Color.gray, nameJ2, 9);
+                        break;
+                    case 3:
+                        j1 = new Jugador(1, Color.blue, nameJ2, 9);
+                        break;
+                    case 4:
+                        j1 = new Jugador(1, Color.green, nameJ2, 9);
+                        break;
+                }
+                state = state.GAME;
                 //this.remove(jugador2);
             }
 
