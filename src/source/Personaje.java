@@ -37,7 +37,7 @@ public class Personaje extends Base implements Constantes {
      tipo = 4 es travolta
      */
     int color; // Color del monito que va de acuerdo con el jugador que es dueño
-    Color colorPadre; 
+    Color colorPadre;
     /*
      color = 0 es indefinido :P
      color = 1 es azul
@@ -82,14 +82,18 @@ public class Personaje extends Base implements Constantes {
         super(posX, posY);
         tipo = t; // Se crea un personaje de algun tipo
         color = col; // Se sabe el color del jugador
-        switch (col){
-            case BLUE: colorPadre = Color.BLUE; 
+        switch (col) {
+            case BLUE:
+                colorPadre = Color.BLUE;
                 break;
-            case RED: colorPadre = Color.RED; 
+            case RED:
+                colorPadre = Color.RED;
                 break;
-            case GRAY: colorPadre = Color.GRAY; 
+            case GRAY:
+                colorPadre = Color.GRAY;
                 break;
-            case GREEN: colorPadre = Color.GREEN; 
+            case GREEN:
+                colorPadre = Color.GREEN;
                 break;
         }
         valor = velocidad = 1;
@@ -278,28 +282,32 @@ public class Personaje extends Base implements Constantes {
             setPosY(getPosY() + getVelY());
         }
     }
-    
+
     /**
      * Metodo modificador que cambia el color del padre.
-     * @param c 
+     *
+     * @param c
      */
-    public void setColorPadre(Color c){
-        colorPadre = c; 
+    public void setColorPadre(Color c) {
+        colorPadre = c;
     }
+
     /**
      * Metodo de acceso que obtiene el color del padre.
-     * @return 
+     *
+     * @return
      */
-    public Color getColorPadre(){
+    public Color getColorPadre() {
         return colorPadre;
     }
-    
+
     /**
      * Metodo que revisa si el personaje ha llegado a su destino
      */
-    public boolean isInMesaDestino(){
+    public boolean isInMesaDestino() {
         return intersecta(getMesaDestino());
     }
+
     /**
      * Metodo de acceso que regresa la mesa a la que se dirige el personaje.
      *
@@ -455,48 +463,95 @@ public class Personaje extends Base implements Constantes {
             g.drawImage(aBack.getImagen(), m.getPosX() + 45, m.getPosY() + 25, null);
         }
     }
-    
-    
-    public void paintSentado(Graphics g, Silla s) {
+
+    public void paintSentado(Graphics g, Silla s, Mesa m) {
         if (tipo == 1) {
-            if (sentado == 0) {
-                g.drawImage(aLeft.getImagen(), s.getPosX() + 5, s.getPosY() - 10, null);
-            } else if (sentado == 1) {
-                g.drawImage(aRight.getImagen(), s.getPosX(), s.getPosY() - 10, null);
-            } else if (sentado == 2) {
-                g.drawImage(aUp.getImagen(), s.getPosX() + 5, s.getPosY() + 2, null);
-            } else if (sentado == 3) {
-                g.drawImage(aDown.getImagen(), s.getPosX() + 5, s.getPosY() - 8, null);
+            if (m.getTipo() == 1) {
+                if (sentado == 0) {
+                    g.drawImage(aLeft.getImagen(), s.getPosX() + 5, s.getPosY() - 10, null);
+                } else if (sentado == 1) {
+                    g.drawImage(aRight.getImagen(), s.getPosX(), s.getPosY() - 10, null);
+                } else if (sentado == 2) {
+                    g.drawImage(aUp.getImagen(), s.getPosX() + 5, s.getPosY() + 2, null);
+                } else if (sentado == 3) {
+                    g.drawImage(aDown.getImagen(), s.getPosX() + 5, s.getPosY() - 8, null);
+                }
+            } else if (m.getTipo() == 3) {
+                if (sentado == 0) {
+                    g.drawImage(aLeft.getImagen(), s.getPosX(), s.getPosY() - 20, null);
+                } else if (sentado == 1) {
+                    g.drawImage(aRight.getImagen(), s.getPosX() - 5, s.getPosY() - 20, null);
+                } else if (sentado == 2) {
+                    g.drawImage(aUp.getImagen(), s.getPosX(), s.getPosY() - 20, null);
+                } else if (sentado == 3) {
+                    g.drawImage(aDown.getImagen(), s.getPosX(), s.getPosY() - 20, null);
+                }
             }
         } else if (tipo == 2) {
-            if (sentado == 0) {
-                g.drawImage(aLeft.getImagen(), s.getPosX() + 5, s.getPosY() - 10, null);
-            } else if (sentado == 1) {
-                g.drawImage(aRight.getImagen(), s.getPosX() - 1, s.getPosY() - 10, null);
-            } else if (sentado == 2) {
-                g.drawImage(aUp.getImagen(), s.getPosX() + 5, s.getPosY() + 2, null);
-            } else if (sentado == 3) {
-                g.drawImage(aDown.getImagen(), s.getPosX() + 7, s.getPosY() - 8, null);
+            if (m.getTipo() == 1) {
+                if (sentado == 0) {
+                    g.drawImage(aLeft.getImagen(), s.getPosX() + 5, s.getPosY() - 10, null);
+                } else if (sentado == 1) {
+                    g.drawImage(aRight.getImagen(), s.getPosX() - 1, s.getPosY() - 10, null);
+                } else if (sentado == 2) {
+                    g.drawImage(aUp.getImagen(), s.getPosX() + 5, s.getPosY() + 2, null);
+                } else if (sentado == 3) {
+                    g.drawImage(aDown.getImagen(), s.getPosX() + 7, s.getPosY() - 8, null);
+                }
+            } else if (m.getTipo() == 3) {
+                if (sentado == 0) {
+                    g.drawImage(aLeft.getImagen(), s.getPosX(), s.getPosY() - 20, null);
+                } else if (sentado == 1) {
+                    g.drawImage(aRight.getImagen(), s.getPosX() - 5, s.getPosY() - 20, null);
+                } else if (sentado == 2) {
+                    g.drawImage(aUp.getImagen(), s.getPosX(), s.getPosY() - 20, null);
+                } else if (sentado == 3) {
+                    g.drawImage(aDown.getImagen(), s.getPosX(), s.getPosY() - 20, null);
+                }
             }
         } else if (tipo == 3) {
-            if (sentado == 0) {
-                g.drawImage(aLeft.getImagen(), s.getPosX() + 6, s.getPosY() - 10, null);
-            } else if (sentado == 1) {
-                g.drawImage(aRight.getImagen(), s.getPosX() - 9, s.getPosY() - 10, null);
-            } else if (sentado == 2) {
-                g.drawImage(aUp.getImagen(), s.getPosX(), s.getPosY() + 2, null);
-            } else if (sentado == 3) {
-                g.drawImage(aDown.getImagen(), s.getPosX() - 1, s.getPosY() - 6, null);
+            if (m.getTipo() == 1) {
+                if (sentado == 0) {
+                    g.drawImage(aLeft.getImagen(), s.getPosX() + 6, s.getPosY() - 10, null);
+                } else if (sentado == 1) {
+                    g.drawImage(aRight.getImagen(), s.getPosX() - 9, s.getPosY() - 10, null);
+                } else if (sentado == 2) {
+                    g.drawImage(aUp.getImagen(), s.getPosX(), s.getPosY() + 2, null);
+                } else if (sentado == 3) {
+                    g.drawImage(aDown.getImagen(), s.getPosX() - 1, s.getPosY() - 6, null);
+                }
+            } else if (m.getTipo() == 3) {
+                if (sentado == 0) {
+                    g.drawImage(aLeft.getImagen(), s.getPosX() + 5, s.getPosY() - 20, null);
+                } else if (sentado == 1) {
+                    g.drawImage(aRight.getImagen(), s.getPosX() - 15, s.getPosY() - 20, null);
+                } else if (sentado == 2) {
+                    g.drawImage(aUp.getImagen(), s.getPosX() - 7, s.getPosY() - 20, null);
+                } else if (sentado == 3) {
+                    g.drawImage(aDown.getImagen(), s.getPosX() - 7, s.getPosY() - 20, null);
+                }
             }
         } else if (tipo == 4) {
-            if (sentado == 0) {
-                g.drawImage(aLeft.getImagen(), s.getPosX() + 3, s.getPosY() - 10, null);
-            } else if (sentado == 1) {
-                g.drawImage(aRight.getImagen(), s.getPosX() + 1, s.getPosY() - 10, null);
-            } else if (sentado == 2) {
-                g.drawImage(aUp.getImagen(), s.getPosX() + 5, s.getPosY() + 2, null);
-            } else if (sentado == 3) {
-                g.drawImage(aDown.getImagen(), s.getPosX() + 7, s.getPosY() - 8, null);
+            if (m.getTipo() == 1) {
+                if (sentado == 0) {
+                    g.drawImage(aLeft.getImagen(), s.getPosX() + 3, s.getPosY() - 10, null);
+                } else if (sentado == 1) {
+                    g.drawImage(aRight.getImagen(), s.getPosX() + 1, s.getPosY() - 10, null);
+                } else if (sentado == 2) {
+                    g.drawImage(aUp.getImagen(), s.getPosX() + 5, s.getPosY() + 2, null);
+                } else if (sentado == 3) {
+                    g.drawImage(aDown.getImagen(), s.getPosX() + 7, s.getPosY() - 8, null);
+                }
+            } else if (m.getTipo() == 3) {
+                if (sentado == 0) {
+                    g.drawImage(aLeft.getImagen(), s.getPosX(), s.getPosY() - 20, null);
+                } else if (sentado == 1) {
+                    g.drawImage(aRight.getImagen(), s.getPosX() - 5, s.getPosY() - 20, null);
+                } else if (sentado == 2) {
+                    g.drawImage(aUp.getImagen(), s.getPosX(), s.getPosY() - 20, null);
+                } else if (sentado == 3) {
+                    g.drawImage(aDown.getImagen(), s.getPosX(), s.getPosY() - 20, null);
+                }
             }
         }
     }

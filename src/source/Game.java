@@ -81,13 +81,16 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     Jugador j1;
     Jugador j2;
 
-    // Posiciones ayudailiares
+    // Posiciones auxiliares
     private int positionX;
     private int positionY;
     private int dX;
     private int dY;
     private int incX;
     private int incY;
+
+    // Saber que escenario es
+    private int escenario;
 
     // Music
     private String[] trackList = {songOne, songTwo, songThree};
@@ -133,8 +136,10 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
     //Objetos URL
     private URL fondoURL = this.getClass().getResource(iUrlFondo);
+    private URL fondoURL2 = this.getClass().getResource(iUrlFondo2);
     private URL tableURL = this.getClass().getResource(iUrlMesa);
     private URL poolURL = this.getClass().getResource(iUrlMesaBillar1);
+    private URL mesaCentralesURL = this.getClass().getResource(iUrlMesaCentrales);
     //private URL cervezaURL = this.getClass().getResource(iUrlCerveza);
     private URL imgLogoGrandeURL = this.getClass().getResource(iUrlLogoGrande);
     private URL imgPlayBotonURL = this.getClass().getResource(iUrlBotonPlay);
@@ -213,6 +218,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         setSize(GAME_WIDTH, GAME_HEIGHT);
         //Fondo
         fondo = Toolkit.getDefaultToolkit().getImage(fondoURL);
+        escenario = 1;
+
         BQT = new Cheat();
         BQT.betoQuiereNovia();
 //        infoBar = Toolkit.getDefaultToolkit().getImage(barraInfoURL);
@@ -276,7 +283,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         //Booleans
         movHorizontal = false;
         movVertical = false;
-        
+
         rojo = true;
         gris = verde = azul = false;
 
@@ -302,6 +309,10 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         bNext = new Boton(750, 490, imgNextBoton);
         bBack = new Boton(20, 490, imgBackBoton);
 
+        // Se inicializa con escenario = 1... y el metodo a continuacion te lleva a centrales.
+        // Comentar la siguiente linea te regresa al bar.
+        escenario2();
+
         playMusic(trackList, 0, 3); //0 means that I want music, 1 means I dont want music; 1 means first song; 
 
         // Declaras un hilo
@@ -309,6 +320,13 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         // Empieza el hilo
         th.start();
 
+    }
+
+    public void escenario2() {
+        escenario = 2;
+        fondo = Toolkit.getDefaultToolkit().getImage(fondoURL2);
+        listaTables = new LinkedList<Mesa>();
+        crearMesasYSillas();
     }
 
     /**
@@ -333,6 +351,23 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             {660, 300, BAR_ROUND},
             {660, 440, BAR_ROUND}
         };
+
+        if (escenario == 2) {
+            mapa = new int[][]{
+                {125, 160, CENTRALES_ROUND},
+                {75, 300, CENTRALES_ROUND},
+                {125, 440, CENTRALES_ROUND},
+                {330, 140, CENTRALES_ROUND},
+                {520, 140, CENTRALES_ROUND},
+                {310, 300, CENTRALES_ROUND},
+                {540, 300, CENTRALES_ROUND},
+                {330, 460, CENTRALES_ROUND},
+                {520, 460, CENTRALES_ROUND},
+                {700, 160, CENTRALES_ROUND},
+                {750, 300, CENTRALES_ROUND},
+                {700, 440, CENTRALES_ROUND}
+            };
+        }
         for (int r = 0; r < mapa.length; r++) {
             URL url;
             int tipo = 0;
@@ -344,6 +379,10 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 case BAR_ROUND:
                     url = tableURL;
                     tipo = 1;
+                    break;
+                case CENTRALES_ROUND:
+                    url = mesaCentralesURL;
+                    tipo = 3;
                     break;
                 default:
                     url = tableURL;
@@ -595,7 +634,11 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 Color colorPisoMesa = mesa.getColorPrincipal();
                 if (colorPisoMesa != null) {
                     g.setColor(colorPisoMesa);
-                    g.drawRect(mesa.getPosX() - 25, mesa.getPosY() - 30, mesa.getAncho() + 50, mesa.getAlto() + 40);
+                    if (mesa.getTipo() == 1 || mesa.getTipo() == 2) {
+                        g.drawRect(mesa.getPosX() - 25, mesa.getPosY() - 30, mesa.getAncho() + 50, mesa.getAlto() + 40);
+                    } else {
+                        g.drawRect(mesa.getPosX() - 30, mesa.getPosY() - 42, mesa.getAncho() + 60, mesa.getAlto() + 45);
+                    }
                     g.setColor(Color.BLACK);
                 }
             }
