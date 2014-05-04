@@ -21,8 +21,12 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.io.File;
 import java.net.URL;
 import java.util.LinkedList;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.JFrame;// 
 
 /**
@@ -38,9 +42,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private Graphics dbg;	// Objeto grafico
 
     //Cajas de Texto para introducir el nombre
-    private TextField jugador1;
-    private TextField jugador2;
-
+    //private TextField jugador1;
+    //private TextField jugador2;
     //Objetos Imagen
     private Image imgCreditsBoton;
     private Image imgHighScoreBoton;
@@ -86,9 +89,14 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private int incX;
     private int incY;
 
+    // Music
+    private String[] trackList = {songOne, songTwo, songThree};
+    private AudioInputStream audio;
+    private Clip clip;
+
     // Cheats
     private Cheat BQT;
-    
+
     // Booleanos
     private boolean mouseDrag;
     private boolean movHorizontal;
@@ -105,7 +113,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     //Strings
     private String nameJ1;
     private String nameJ2;
-    
+
     //Botones
     private Boton bPausa;
     private Boton bPlay;
@@ -156,8 +164,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private URL imgInstruccionesMenuNombreURL = this.getClass().getResource(iUrlInstruccionesMenuNombre);
     private URL imgInstruccionesMovimientoURL = this.getClass().getResource(iUrlInstruccionesMovimiento);
     private URL imgLetreroPausadoURL = this.getClass().getResource(iUrlLetreroPausado);
-    private URL imgBarraURL = this.getClass().getResource(iUrlBarra); 
-    
+    private URL imgBarraURL = this.getClass().getResource(iUrlBarra);
+
     //Estados del juego (Para saber cuando estoy jugando on menus)
     private enum STATE {
 
@@ -192,8 +200,6 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     boolean lockY;
 
     //Variables para habilitar cheats
-    
-
     //Variables de control de tiempo de la animación
     private long tiempoActual;
     private long tiempoInicial;
@@ -235,17 +241,16 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         //nombres de jugador
         nameJ1 = "alesso";
         nameJ2 = "lukas";
-        
+
         //jugadores init
-        j1 = new Jugador(1, Color.red, nameJ1, 0);
-        j2 = new Jugador(2, Color.blue, nameJ2, listaTables.size()-1);
-
+        // LO COMENTE PARA QUE SE INICIALICEN CON LOS COLORES BUENOS
+        //j1 = new Jugador(1, Color.red, nameJ1, listaTables.size() - 1);
+        //j2 = new Jugador(2, Color.blue, nameJ2, 0);
         //Cajas de texto para nombres de jugadores
-        jugador1 = new TextField();
-        jugador2 = new TextField();
-        jugador1.setBounds(new Rectangle(25, 250, 300, 50));
-        jugador2.setBounds(new Rectangle(25, 250, 300, 50));
-
+        /*jugador1 = new TextField();
+         jugador2 = new TextField();
+         jugador1.setBounds(new Rectangle(25, 250, 300, 50));
+         jugador2.setBounds(new Rectangle(25, 250, 300, 50));*/
         //Images 
         imgCreditsBoton = Toolkit.getDefaultToolkit().getImage(imgCreditsBotonURL);
         imgPlayBoton = Toolkit.getDefaultToolkit().getImage(imgPlayBotonURL);
@@ -267,11 +272,13 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         imgInstruccionesMovimiento = Toolkit.getDefaultToolkit().getImage(imgInstruccionesMovimientoURL);
         imgLetreroPausado = Toolkit.getDefaultToolkit().getImage(imgLetreroPausadoURL);
         imgBarra = Toolkit.getDefaultToolkit().getImage(imgBarraURL);
-        
 
         //Booleans
         movHorizontal = false;
         movVertical = false;
+        
+        rojo = true;
+        gris = verde = azul = false;
 
         //Controladores 
         addKeyListener(this);
@@ -294,6 +301,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         //bPausa = new Boton(850, 20, plateP);
         bNext = new Boton(750, 490, imgNextBoton);
         bBack = new Boton(20, 490, imgBackBoton);
+
+        playMusic(trackList, 0, 3); //0 means that I want music, 1 means I dont want music; 1 means first song; 
 
         // Declaras un hilo
         Thread th = new Thread(this);
@@ -347,11 +356,11 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             table.setAnim(a);
             int upgrade = (int) (Math.random() * 11);
             if (upgrade < 2) {
-                table.setUpgrade(new Upgrade (1));
+                table.setUpgrade(new Upgrade(1));
             } else if (upgrade > 9) {
-                table.setUpgrade(new Upgrade (2));
+                table.setUpgrade(new Upgrade(2));
             } else if (upgrade == 5 || upgrade == 6) {
-                table.setUpgrade(new Upgrade (3));
+                table.setUpgrade(new Upgrade(3));
             }
             listaTables.add(table);
         }
@@ -393,8 +402,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
         if (BQT.isEncendido()) {
             if (BQT.getContador() % 2 == 1) {
-            j1.cambiaTipo(4);
-            j2.cambiaTipo(4);
+                j1.cambiaTipo(4);
+                j2.cambiaTipo(4);
             } else {
                 j1.cambiaTipoRand();
                 j2.cambiaTipoRand();
@@ -564,20 +573,20 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     public void paint1(Graphics g) {
         if (state == STATE.GAME) {
             g.drawImage(fondo, 0, 0, this);
-            
-           //Info De Barra
-           g.drawImage(imgBarra, 0 ,getHeight() - 70, this );
-           g.setColor(Color.white);
-           g.setFont(new Font("Monospaced", Font.BOLD, 30));
-           g.drawString(nameJ1,50, getHeight() - 35);    
-           g.drawString(nameJ2,getWidth()- 300, getHeight() - 35);
+
+            //Info De Barra
+            g.drawImage(imgBarra, 0, getHeight() - 70, this);
+            g.setColor(Color.white);
+            g.setFont(new Font("Monospaced", Font.BOLD, 30));
+            g.drawString(nameJ2, getWidth() - 300, getHeight() - 35);
+            g.drawString(nameJ1, 50, getHeight() - 35);
             g.setFont(new Font("Monospaced", Font.BOLD, 15));
-           g.drawString("Sentados: "+j1.getCantSentados() , 220, getHeight() - 35);
-           g.drawString("Parados: "+j1.getCantParados() , 220, getHeight() - 15);
-       
-           g.drawString("Sentados: "+j2.getCantSentados() , getWidth()-150, getHeight() - 35);
-           g.drawString("Parados: "+j2.getCantParados() , getWidth()-150, getHeight() - 15);
-  
+            g.drawString("Sentados: " + j1.getCantSentados(), getWidth() - 150, getHeight() - 35);
+            g.drawString("Parados: " + j1.getCantParados(), getWidth() - 150, getHeight() - 15);
+
+            g.drawString("Sentados: " + j2.getCantSentados(), 220, getHeight() - 35);
+            g.drawString("Parados: " + j2.getCantParados(), 220, getHeight() - 15);
+
             for (Mesa mesa : listaTables) {
                 mesa.paintSillasArriba(g);
                 mesa.paint(g);
@@ -627,7 +636,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             g.setColor(c);
             if (azul) {
                 g.fillOval(bColorAzul.getPosX() - 10, bColorAzul.getPosY() - 10, bColorAzul.getAncho() + 20, bColorAzul.getAlto() + 20);
-            } else if (gris) {
+            } else if (rojo) {
                 g.fillOval(bColorRojo.getPosX() - 10, bColorRojo.getPosY() - 10, bColorRojo.getAncho() + 20, bColorRojo.getAlto() + 20);
             } else if (verde) {
                 g.fillOval(bColorVerde.getPosX() - 10, bColorVerde.getPosY() - 10, bColorVerde.getAncho() + 20, bColorVerde.getAlto() + 20);
@@ -651,6 +660,10 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             g.drawImage(imgInstruccionesMenuNombre, 350, 50, this);
             g.drawImage(bBack.getImageIcon().getImage(), bBack.getPosX(), bBack.getPosY(), this);
             g.drawImage(bNext.getImageIcon().getImage(), bNext.getPosX(), bNext.getPosY(), this);
+            g.setColor(Color.WHITE);
+            g.fillRect(25, 250, 300, 50);
+            g.setColor(Color.BLACK);
+            g.drawString(nameJ1, 35, 280);
         }
 
         if (state == state.SELECT_COLOR_2) {
@@ -681,6 +694,10 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             g.drawImage(imgInstruccionesMenuNombre, 350, 50, this);
             g.drawImage(bBack.getImageIcon().getImage(), bBack.getPosX(), bBack.getPosY(), this);
             g.drawImage(bNext.getImageIcon().getImage(), bNext.getPosX(), bNext.getPosY(), this);
+            g.setColor(Color.WHITE);
+            g.fillRect(25, 250, 300, 50);
+            g.setColor(Color.BLACK);
+            g.drawString(nameJ2, 35, 280);
         }
 
         if (state == state.CREDITS) {
@@ -703,6 +720,27 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
         }
 
+    }
+
+    //plays different music throughout game if user wants to
+    public void playMusic(String[] songs, int yesNo, int level) {
+        if (yesNo == 1) {
+            return;
+        } else if (yesNo == -1) {
+            System.exit(0);
+        }
+        if (level == 10) {
+            level = 1;
+        }
+        try {
+            audio = AudioSystem.getAudioInputStream(new File(songs[level - 1]).getAbsoluteFile());
+            clip = AudioSystem.getClip();
+            clip.open(audio);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+            System.out.println("Current song: " + audio);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -822,8 +860,131 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                     state = state.GAME;
                     break;
             }
+        } else if (state == state.PLAYER_NAME_1) {
+            nameJ1 = modificaNombreJ(e, nameJ1);
+        } else if (state == state.PLAYER_NAME_2) {
+            nameJ2 = modificaNombreJ(e, nameJ2);
         }
+    }
 
+    public String modificaNombreJ(KeyEvent e, String n) {
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_BACK_SPACE:
+                n = n.substring(0, n.length() - 1);
+                break;
+            case KeyEvent.VK_0:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_1:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_2:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_3:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_4:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_5:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_6:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_7:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_8:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_9:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_A:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_B:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_C:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_D:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_E:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_F:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_G:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_H:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_I:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_J:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_K:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_L:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_M:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_N:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_O:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_P:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_Q:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_R:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_S:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_T:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_U:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_V:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_W:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_X:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_Y:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_Z:
+                n += e.getKeyChar();
+                break;
+            case KeyEvent.VK_SPACE:
+                n += e.getKeyChar();
+                break;
+        }
+        return n;
     }
 
     public void keyTyped(KeyEvent e) { //metodo cuando una tecla fue typeada
@@ -883,8 +1044,6 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         }
 
         if (state == state.SELECT_COLOR_1) {
-            rojo = true;
-            azul = verde = gris = false;
             if (next) {
                 state = state.PLAYER_NAME_1;
                 next = false;
@@ -897,19 +1056,20 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 } else if (verde) {
                     colorJ1 = 4;
                 }
-                this.add(jugador1, null);
+                //this.add(jugador1, null);
             }
             if (bColorAzul.clicked(e)) {
                 azul = true;
+                rojo = gris = verde = false;
             } else if (bColorGris.clicked(e)) {
-                azul = false;
-                rojo = true;
+                azul = verde = rojo = false;
+                gris = true;
             } else if (bColorVerde.clicked(e)) {
                 verde = true;
-                azul = rojo = false;
+                azul = rojo = gris = false;
             } else {
-                gris = true;
-                azul = rojo = verde = false;
+                rojo = true;
+                azul = gris = verde = false;
             }
 
             if (back) {
@@ -922,59 +1082,65 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             if (next) {
                 state = state.SELECT_COLOR_2;
                 next = false;
-                nameJ1 = jugador1.getText();
-                /*
-                 switch(colorJ1) {
-                 case 1:
-                 j1 = new Jugador(Color.red, nameJ1, 1);
-                 break;
-                 case 2:
-                 j1 = new Jugador(Color.gray, nameJ1, 1);
-                 break;
-                 case 3:
-                 j1 = new Jugador(Color.blue, nameJ1, 1);
-                 break;
-                 case 4:
-                 j1 = new Jugador(Color.green, nameJ1, 1);
-                 break;
-                 }
-                 */
-                this.remove(jugador1);
+                //nameJ1 = jugador1.getText();
+                //ATENCION SE INICIALIZA INVIERTO PARA QUE PUEDAN ESTAR EN EL LADO DE LA PANTALLA QUE LES CORRESPONDE
+                switch (colorJ1) {
+                    case 1:
+                        j2 = new Jugador(2, Color.red, nameJ1, 0);
+                        rojo = false;
+                        gris = true;
+                        break;
+                    case 2:
+                        j2 = new Jugador(2, Color.gray, nameJ1, 0);
+                        gris = false;
+                        rojo = true;
+                        break;
+                    case 3:
+                        j2 = new Jugador(2, Color.blue, nameJ1, 0);
+                        azul = false;
+                        rojo = true;
+                        break;
+                    case 4:
+                        j2 = new Jugador(2, Color.green, nameJ1, 0);
+                        verde = false;
+                        rojo = true;
+                        break;
+                }
+                //this.remove(jugador1);
             }
 
             if (back) {
                 state = state.SELECT_COLOR_1;
                 back = false;
-                this.remove(jugador1);
+                //this.remove(jugador1);
             }
         }
 
         if (state == state.SELECT_COLOR_2) {
-            gris = true;
-            azul = verde = rojo = false;
 
+            if (next) {
+                if (rojo) {
+                    colorJ2 = 1;
+                } else if (gris) {
+                    colorJ2 = 2;
+                } else if (azul) {
+                    colorJ2 = 3;
+                } else if (verde) {
+                    colorJ2 = 4;
+                }
+            }
             if (bColorAzul.clicked(e)) {
-
                 azul = true;
-            } else if (bColorRojo.clicked(e)) {
-                azul = false;
-                rojo = true;
+                rojo = gris = verde = false;
+            } else if (bColorGris.clicked(e)) {
+                azul = verde = rojo = false;
+                gris = true;
             } else if (bColorVerde.clicked(e)) {
                 verde = true;
-                azul = rojo = false;
+                azul = rojo = gris = false;
             } else {
-                gris = true;
-                azul = rojo = verde = false;
-            }
-
-            if (rojo) {
-                colorJ2 = 1;
-            } else if (gris) {
-                colorJ2 = 2;
-            } else if (azul) {
-                colorJ2 = 3;
-            } else if (verde) {
-                colorJ2 = 4;
+                rojo = true;
+                azul = gris = verde = false;
             }
 
             if (next && colorJ1 != colorJ2) {
@@ -982,7 +1148,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 state = state.PLAYER_NAME_2;
                 next = false;
 
-                this.add(jugador2, null);
+                //this.add(jugador2, null);
             }
 
             if (back) {
@@ -993,32 +1159,30 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
         if (state == state.PLAYER_NAME_2) {
             if (next) {
-                state = state.GAME;
                 next = false;
-                nameJ2 = jugador2.getText();
-                /*
-                 switch(colorJ2) {
-                 case 1:
-                 j2 = new Jugador(Color.red, nameJ2, 1);
-                 break;
-                 case 2:
-                 j2 = new Jugador(Color.gray, nameJ2, 1);
-                 break;
-                 case 3:
-                 j2 = new Jugador(Color.blue, nameJ2, 1);
-                 break;
-                 case 4:
-                 j2 = new Jugador(Color.green, nameJ2, 1);
-                 break;
-                 }
-                 */
-                this.remove(jugador2);
+                //nameJ2 = jugador2.getText();
+                switch (colorJ2) {
+                    case 1:
+                        j1 = new Jugador(1, Color.red, nameJ2, 9);
+                        break;
+                    case 2:
+                        j1 = new Jugador(1, Color.gray, nameJ2, 9);
+                        break;
+                    case 3:
+                        j1 = new Jugador(1, Color.blue, nameJ2, 9);
+                        break;
+                    case 4:
+                        j1 = new Jugador(1, Color.green, nameJ2, 9);
+                        break;
+                }
+                state = state.GAME;
+                //this.remove(jugador2);
             }
 
             if (back) {
                 state = state.SELECT_COLOR_2;
                 back = false;
-                this.remove(jugador2);
+                //this.remove(jugador2);
             }
         }
 
