@@ -13,7 +13,7 @@ import java.awt.Image;
 import java.util.ArrayList;
 
 /**
- * La clase Animacion maneja una serie de imágenes (cuadros) y la cantidad de
+ * La clase <I>Animacion</I> maneja una serie de imágenes (cuadros) y la cantidad de
  * tiempo que se muestra cada cuadro.
  */
 public class Animacion {
