@@ -6,8 +6,10 @@
 package source;
 
 /**
+ * La interfaz <I>Constantes</I> es un método para centralizar constantes dentro
+ * del juego.
  *
- * @author ppesq
+ * @author ferrufino, hugolg, betoesquivel, bernardot
  */
 public interface Constantes {
 

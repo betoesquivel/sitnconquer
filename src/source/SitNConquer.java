@@ -12,6 +12,12 @@ package source;
  */
 import javax.swing.JFrame;
 
+/**
+ * La clase <I>SitNConquer</I> es la clase principal de donde se crea una 
+ * instancia del juego en un JFrame. 
+ *
+ * @author ferrufino, hugolg, betoesquivel, bernardot
+ */
 public class SitNConquer {
 
     /**
