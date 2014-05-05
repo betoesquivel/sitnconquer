@@ -145,6 +145,22 @@ public class Jugador implements Constantes{
             factorDeCreacion = 1 + conFDC * .1;
         }
     }
+    
+    public boolean checarGana(LinkedList<Mesa> m) {
+        int cont = 0;
+        for (int x = 0; x < m.size(); x++) {
+            Mesa aux = (Mesa) m.get(x);
+            if (aux.getColorPrincipal() == color) {
+                cont++;
+            }
+            if (aux.getColorPrincipal() == color && aux.getUpgrade().getFuncion() == 3) {
+                aux.doyVida(this);
+            }
+        }
+        
+        return ( cont == m.size() );
+        
+    }
 
     public void paint(Graphics g) {
         for (int x = 0; x < personajes.size(); x++) {
