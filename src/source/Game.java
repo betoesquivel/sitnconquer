@@ -103,9 +103,14 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
     // Cheats
     private Cheat BQT;
-    
+
     //Contadores
     private int detenerGanaste;
+
+    // Animacion Rum
+    private Animacion RumIntro;
+    private int RumIntroCont;
+    private Image RumIntroGif;
 
     // Booleanos
     private boolean mouseDrag;
@@ -180,6 +185,16 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private URL imgInstruccionesMovimientoURL = this.getClass().getResource(iUrlInstruccionesMovimiento);
     private URL imgLetreroPausadoURL = this.getClass().getResource(iUrlLetreroPausado);
     private URL imgBarraURL = this.getClass().getResource(iUrlBarra);
+    private URL imgRI1URL = this.getClass().getResource(iUrlRI1);
+    private URL imgRI2URL = this.getClass().getResource(iUrlRI2);
+    private URL imgRI3URL = this.getClass().getResource(iUrlRI3);
+    private URL imgRI4URL = this.getClass().getResource(iUrlRI4);
+    private URL imgRI5URL = this.getClass().getResource(iUrlRI5);
+    private URL imgRI6URL = this.getClass().getResource(iUrlRI6);
+    private URL imgRI7URL = this.getClass().getResource(iUrlRI7);
+    private URL imgRI8URL = this.getClass().getResource(iUrlRI8);
+    private URL imgRI9URL = this.getClass().getResource(iUrlRI9);
+    private URL imgRIGifURL = this.getClass().getResource(iUrlRIGIF);
 
     //Estados del juego (Para saber cuando estoy jugando on menus)
     private enum STATE {
@@ -229,7 +244,21 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         //Fondo
         fondo = Toolkit.getDefaultToolkit().getImage(fondoURL);
         escenario = 1;
+        // Rum Intro
+        RumIntroGif = Toolkit.getDefaultToolkit().getImage(imgRIGifURL);
+        RumIntroCont = 0;
+        RumIntro = new Animacion();
+        RumIntro.sumaCuadro(Toolkit.getDefaultToolkit().getImage(imgRI1URL), 400);
+        RumIntro.sumaCuadro(Toolkit.getDefaultToolkit().getImage(imgRI2URL), 400);
+        RumIntro.sumaCuadro(Toolkit.getDefaultToolkit().getImage(imgRI3URL), 400);
+        RumIntro.sumaCuadro(Toolkit.getDefaultToolkit().getImage(imgRI4URL), 400);
+        RumIntro.sumaCuadro(Toolkit.getDefaultToolkit().getImage(imgRI5URL), 400);
+        RumIntro.sumaCuadro(Toolkit.getDefaultToolkit().getImage(imgRI6URL), 400);
+        RumIntro.sumaCuadro(Toolkit.getDefaultToolkit().getImage(imgRI7URL), 400);
+        RumIntro.sumaCuadro(Toolkit.getDefaultToolkit().getImage(imgRI8URL), 400);
+        RumIntro.sumaCuadro(Toolkit.getDefaultToolkit().getImage(imgRI9URL), 400);
 
+        // cheats
         BQT = new Cheat();
         BQT.betoQuiereNovia();
 //        infoBar = Toolkit.getDefaultToolkit().getImage(barraInfoURL);
@@ -258,7 +287,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         //nombres de jugador
         nameJ1 = "alesso";
         nameJ2 = "lukas";
-        
+
         detenerGanaste = 0;
 
         //jugadores init
@@ -436,6 +465,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         tiempoActual = System.currentTimeMillis();
 
         while (true) {
+            actualizaRumIntro();
             if (state == state.GAME) {
                 Actualiza();
                 ChecaColision();
@@ -448,6 +478,16 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 System.out.println("Error en " + ex.toString());
             }
         }
+    }
+
+    public void actualizaRumIntro() {
+        //Determina el tiempo que ha transcurrido desde que el Applet 
+        //inicio su ejecución
+        long tiempoTranscurrido = System.currentTimeMillis() - tiempoActual;
+        //Guarda el tiempo actual
+        tiempoActual += tiempoTranscurrido;
+        //Actualiza la animación en base al tiempo transcurrido
+        RumIntro.actualiza(tiempoTranscurrido);
     }
 
     /**
@@ -610,8 +650,12 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         }
 
         // Update la imagen de fondo.
-        dbg.setColor(new Color(0x78, 0xae, 0xe3));
-        dbg.fillRect(0, 0, this.getSize().width, this.getSize().height);
+        if (RumIntroCont < 190) {
+            dbg.setColor(Color.WHITE);
+        } else {
+            dbg.setColor(new Color(0x78, 0xae, 0xe3));
+            dbg.fillRect(0, 0, this.getSize().width, this.getSize().height);
+        }
 
         // Update el Foreground.
         dbg.setColor(getForeground());
@@ -689,10 +733,16 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         }
 
         if (state == STATE.MENU_MAIN) {
-            g.drawImage(imgLogoGrande, 200, 20, this);
-            g.drawImage(bPlay.getImageIcon().getImage(), bPlay.getPosX(), bPlay.getPosY(), this);
-            g.drawImage(bCredits.getImageIcon().getImage(), bCredits.getPosX(), bCredits.getPosY(), this);
-            g.drawImage(bHighScore.getImageIcon().getImage(), bHighScore.getPosX(), bHighScore.getPosY(), this);
+            if (RumIntroCont < 190) {
+                g.drawImage(RumIntro.getImagen(), 0, 0, this);
+                RumIntroCont++;
+
+            } else {
+                g.drawImage(imgLogoGrande, 200, 20, this);
+                g.drawImage(bPlay.getImageIcon().getImage(), bPlay.getPosX(), bPlay.getPosY(), this);
+                g.drawImage(bCredits.getImageIcon().getImage(), bCredits.getPosX(), bCredits.getPosY(), this);
+                g.drawImage(bHighScore.getImageIcon().getImage(), bHighScore.getPosX(), bHighScore.getPosY(), this);
+            }
         }
 
         if (state == state.SELECT_COLOR_1) {
