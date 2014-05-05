@@ -364,8 +364,10 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         // Se inicializa con escenario = 1... y el metodo a continuacion te lleva a centrales.
         // Comentar la siguiente linea te regresa al bar.
         escenario3();
-
-        playMusic(trackList, 0, 3); //0 means that I want music, 1 means I dont want music; 1 means first song; 
+        if (escenario == 1) {
+            playMusic(trackList, 0, 1);
+        }
+//        playMusic(trackList, 0, 3); //0 means that I want music, 1 means I dont want music; 1 means first song; 
 
         // Declaras un hilo
         Thread th = new Thread(this);
@@ -379,6 +381,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         fondo = Toolkit.getDefaultToolkit().getImage(fondoURL2);
         listaTables = new LinkedList<Mesa>();
         crearMesasYSillas();
+        playMusic(trackList, 0, 2);
     }
     
     public void escenario3() {
@@ -388,6 +391,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         ola2 = Toolkit.getDefaultToolkit().getImage(olaURL2);
         moverOla1 = 0;
         moverOla2 = - 900;
+        playMusic(trackList, 0, 3);
         //listaTables = new LinkedList<Mesa>();
         //crearMesasYSillas();
     }
