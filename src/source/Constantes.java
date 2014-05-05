@@ -96,9 +96,9 @@ public interface Constantes {
     public static final int GAME_HEIGHT = 600;
 
     //Musica
-    String songOne =    "src/source/music/heisapirate.wav";
+    String songThree =    "src/source/music/heisapirate.wav";
     String songTwo =    "src/source/music/goldontheceiling.wav";
-    String songThree =  "src/source/music/rickrolled.wav";
+    String songOne =  "src/source/music/rickrolled.wav";
     
 
 }
