@@ -7,13 +7,18 @@ package source;
 
 /**
  *
- * @author bernardot
+ * @author ferrufino, hugolg, betoesquivel, bernardot
  */
 import javax.swing.ImageIcon;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 
+/**
+ * La clase base describe a nuestros objetos bases en el juego. 
+ * Esta clase simplemente posiciona una <I>Animacion</I> o un 
+ * <code>ImageIcon</code> dentro del <code>JFrame</code>.
+ */
 public class Base {
 
     private int posX;    //posicion en x.       
@@ -166,7 +171,6 @@ public class Base {
      */
     public boolean clicked(MouseEvent e) {
         return getPerimetro().contains(e.getX(), e.getY());
-//        return (getPerimetro().intersects(new Rectangle(e.getX(), e.getY(), 1, 1)));
     }
 
     /**
