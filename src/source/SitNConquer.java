@@ -6,10 +6,6 @@
 
 package source;
 
-/**
- *
- * @author bernardot
- */
 import javax.swing.JFrame;
 
 /**

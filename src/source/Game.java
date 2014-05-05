@@ -30,8 +30,10 @@ import javax.sound.sampled.Clip;
 import javax.swing.JFrame;// 
 
 /**
+ * La clase <I>Game</I> contiene el thread principal del juego. Este es el
+ * <code>JFrame</code> donde está el juego.
  *
- * @author Ferrufino y Andres
+ * @author ferrufino, hugolg, betoesquivel, bernardot
  */
 public class Game extends JFrame implements Constantes, Runnable, KeyListener, MouseListener, MouseMotionListener {
 
@@ -243,8 +245,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private long tiempoInicial;
 
     /**
-     * Metodo <I>PlayGround()</I> de la clase <code>PlayGround</code>. Es el
-     * constructor de la clase donde se definen las variables
+     * Método constructor de la clase <I>Game</I> que inicializa el juego.
      */
     public Game() {
 
@@ -377,6 +378,10 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
     }
 
+    /**
+     * Método que actualiza las variables que representan el escenario del juego
+     * al escenario 2. Este es la <code>cafetería del tec</code>.
+     */
     public void escenario2() {
         escenario = 2;
         fondo = Toolkit.getDefaultToolkit().getImage(fondoURL2);
@@ -385,6 +390,10 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         playMusic(trackList, 0, 2);
     }
 
+    /**
+     * Método que actualiza las variables que representan el escenario del juego
+     * al escenario 3. Este es la <code>la bahía</code>.
+     */
     public void escenario3() {
         escenario = 3;
         fondo = Toolkit.getDefaultToolkit().getImage(fondoURL3);
@@ -452,68 +461,62 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 {670, 320, BAHIA_ROUND},
                 {770, 420, BAHIA_ROUND},
                 {770, 120, BAHIA_ROUND}
-        };
-    }
-    for (int r = 0;
-    r< mapa.length ;
-    r
-
-    
-        ++) {
+            };
+        }
+        for (int r = 0;
+                r < mapa.length;
+                r++) {
             URL url;
-        int tipo = 0;
-        switch (mapa[r][2]) {
-            case BAR_POOL:
-                url = poolURL;
-                tipo = 2;
-                break;
-            case BAR_ROUND:
-                url = tableURL;
-                tipo = 1;
-                break;
-            case CENTRALES_ROUND:
-                url = mesaCentralesURL;
-                tipo = 3;
-                break;
-            case BAHIA_ROUND:
-                url = mesaBahiaURL;
-                tipo = 4;
-                break;
-            default:
-                url = tableURL;
-                tipo = 0;
-                break;
+            int tipo = 0;
+            switch (mapa[r][2]) {
+                case BAR_POOL:
+                    url = poolURL;
+                    tipo = 2;
+                    break;
+                case BAR_ROUND:
+                    url = tableURL;
+                    tipo = 1;
+                    break;
+                case CENTRALES_ROUND:
+                    url = mesaCentralesURL;
+                    tipo = 3;
+                    break;
+                case BAHIA_ROUND:
+                    url = mesaBahiaURL;
+                    tipo = 4;
+                    break;
+                default:
+                    url = tableURL;
+                    tipo = 0;
+                    break;
+            }
+            Animacion a = new Animacion();
+            a.sumaCuadro(Toolkit.getDefaultToolkit().getImage(url), 10);
+            table = new Mesa(mapa[r][0], mapa[r][1], Toolkit.getDefaultToolkit().getImage(url), tipo);
+            table.setAnim(a);
+            int upgrade = (int) (Math.random() * 11);
+            if (upgrade < 2) {
+                table.setUpgrade(new Upgrade(1));
+            } else if (upgrade > 9) {
+                table.setUpgrade(new Upgrade(2));
+            } else if (upgrade == 5 || upgrade == 6) {
+                table.setUpgrade(new Upgrade(3));
+            }
+            listaTables.add(table);
         }
-        Animacion a = new Animacion();
-        a.sumaCuadro(Toolkit.getDefaultToolkit().getImage(url), 10);
-        table = new Mesa(mapa[r][0], mapa[r][1], Toolkit.getDefaultToolkit().getImage(url), tipo);
-        table.setAnim(a);
-        int upgrade = (int) (Math.random() * 11);
-        if (upgrade < 2) {
-            table.setUpgrade(new Upgrade(1));
-        } else if (upgrade > 9) {
-            table.setUpgrade(new Upgrade(2));
-        } else if (upgrade == 5 || upgrade == 6) {
-            table.setUpgrade(new Upgrade(3));
-        }
-        listaTables.add(table);
-    }
-    for (Mesa mesa : listaTables
-
-    
-        ) {
+        for (Mesa mesa : listaTables) {
             mesa.crearSillas();
+        }
     }
-}
 
-/**
- * Metodo <I>run</I> sobrescrito de la clase <code>Thread</code>.<P>
- * En este metodo se ejecuta el hilo, es un ciclo indefinido donde se incrementa
- * la posicion en x o y dependiendo de la direccion, finalmente se repinta el
- * <code>Applet</code> y luego manda a dormir el hilo.
- *
- */
-public void run() {
+    /**
+     * Metodo <I>run</I> sobrescrito de la clase <code>Thread</code>.<P>
+     * En este metodo se ejecuta el hilo, es un ciclo indefinido donde se
+     * incrementa la posicion en x o y dependiendo de la direccion, finalmente
+     * se repinta el <code>Applet</code> y luego manda a dormir el hilo.
+     *
+     */
+    public void run() {
         //Guarda el tiempo actual del sistema 
         tiempoActual = System.currentTimeMillis();
 
@@ -533,6 +536,9 @@ public void run() {
         }
     }
 
+    /**
+     * Método que actualiza la animación de introducción al juego.
+     */
     public void actualizaRumIntro() {
         //Determina el tiempo que ha transcurrido desde que el Applet 
         //inicio su ejecución
@@ -544,7 +550,7 @@ public void run() {
     }
 
     /**
-     * Metodo usado para actualizar la posicion de objetos del juego
+     * Metodo usado para actualizar la posicion de objetos dentro del juego
      */
     public void Actualiza() {
 
@@ -602,7 +608,8 @@ public void run() {
     }
 
     /**
-     * Checa colisiones dentro del <code>JFrame</code>.
+     * Checa colisiones dentro del <code>JFrame</code>. Colisiones con la
+     * ventana y de los personajes con las mesas.
      */
     public void ChecaColision() {
         //checa colision con el applet
@@ -942,7 +949,17 @@ public void run() {
 
     }
 
-    //plays different music throughout game if user wants to
+    /**
+     * Toca la música del juego. Extraido de
+     * https://github.com/tylucaskelley/BrickBreaker
+     *
+     * @param songs de tipo <code>String[]</code> con la ubicación de las
+     * canciones.
+     * @param yesNo de tipo <code>int</code> siendo 0 = con musica y 1 lo
+     * contrario.
+     * @param level de tipo <code>int</code> con el número de la canción a
+     * reproducir de entre la lista de canciones <code>songs</code>
+     */
     public void playMusic(String[] songs, int yesNo, int level) {
         if (yesNo == 1) {
             return;
@@ -984,12 +1001,10 @@ public void run() {
         }
     }
 
-
-    /*
-     *Metodo keyPressed
-     *Cuando una tecla esta apretada
-     *recibe de param un evento, en este caso se busca que sea la p
-     *para pausar el juego
+    /**
+     * Metodo keyPressed Cuando una tecla esta apretada recibe de param un
+     * evento de tipo <code>KeyEvent</code>, en este caso se busca que sea la p
+     * para pausar el juego
      */
     public void keyPressed(KeyEvent e) {
         if (state == state.GAME) {
@@ -1087,6 +1102,14 @@ public void run() {
         }
     }
 
+    /**
+     * Método que modifica el nombre del Jugador conforme se va tecleando en la
+     * pantallas de selección de nombre al inicio del juego.
+     *
+     * @param e de tipo <code>KeyEvent</code>
+     * @param n de tipo <cdoe>String</code> con el nombre acumulado.
+     * @return el string n modificado hasta ahora.
+     */
     public String modificaNombreJ(KeyEvent e, String n) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_BACK_SPACE:
@@ -1214,11 +1237,11 @@ public void run() {
 
     }
 
-    /*
-     *Metodo mouseClicked
-     *Cuando el mouse es apretado
-     *recibe de param un evento, que ayudara a definir donde fue picado
-     *dentro del applet
+    /**
+     * Metodo mouseClicked 
+     * Cuando el mouse es apretado recibe de param un
+     * evento, que ayudara a definir donde fue picado dentro del applet
+     * @param e de tipo <code>MouseEvent</code> con el evento capturado. 
      */
     public void mouseClicked(MouseEvent e) {
         // Si hubo click dentro del objeto pTravolta1 se guarda posicion y diferencia.
@@ -1383,7 +1406,7 @@ public void run() {
                 //nameJ2 = jugador2.getText();
                 switch (colorJ2) {
                     case 1:
-                        j1 = new Jugador(1, Color.red, nameJ2, listaTables.size() -1);
+                        j1 = new Jugador(1, Color.red, nameJ2, listaTables.size() - 1);
                         break;
                     case 2:
                         j1 = new Jugador(1, Color.gray, nameJ2, listaTables.size() - 1);
@@ -1420,6 +1443,11 @@ public void run() {
 
     }
 
+    /**
+     * Metodo que funciona para habilitar el movimiento de los monitos 
+     * con mouseDrag...
+     * @param e de tipo <code>MouseEvent</code>
+     */
     public void mouseReleased(MouseEvent e) {//metodo cuando el mouse es soltado
         // La bandera se apaga cuando se deja de picar en el mouse.
         mouseDrag = false;
@@ -1429,6 +1457,11 @@ public void run() {
 
     }
 
+    /**
+     * Otro método para escuchar el mouse drag y permitir el movimiento del 
+     * personaje hacia esta posición
+     * @param e de tipo <code>MouseEvent</code>
+     */
     public void mouseDragged(MouseEvent e) {   //metodos de MouseMotionListener
         // Si la bandera esta prendida, salvar los valores del drag.
         if (mouseDrag) {
@@ -1437,6 +1470,9 @@ public void run() {
         }
     }
 
+    /**
+     * Método que reinicia el juego cambiando el estado del mismo.
+     */
     public void restart() {
         state = state.MENU_MAIN;
     }
