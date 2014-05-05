@@ -100,7 +100,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
     // Cheats
     private Cheat BQT;
-    
+
     //Contadores
     private int detenerGanaste;
 
@@ -281,7 +281,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         //nombres de jugador
         nameJ1 = "alesso";
         nameJ2 = "lukas";
-        
+
         detenerGanaste = 0;
 
         //jugadores init
@@ -523,7 +523,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
         if (j1.checarGana(listaTables) || j2.checarGana(listaTables)) {
             state = state.MENU_POSTJUEGO;
-            
+
         }
     }
 
@@ -642,8 +642,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             dbg.setColor(Color.WHITE);
         } else {
             dbg.setColor(new Color(0x78, 0xae, 0xe3));
+            dbg.fillRect(0, 0, this.getSize().width, this.getSize().height);
         }
-        dbg.fillRect(0, 0, this.getSize().width, this.getSize().height);
 
         // Update el Foreground.
         dbg.setColor(getForeground());
@@ -821,10 +821,10 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             g.drawImage(bBack.getImageIcon().getImage(), bBack.getPosX(), bBack.getPosY(), this);
 
         }
-        
-        if(state == state.MENU_POSTJUEGO) {
-            if(detenerGanaste <= 100) {
-                g.drawImage(imgGanasteVerde, 0, 0, this);                
+
+        if (state == state.MENU_POSTJUEGO) {
+            if (detenerGanaste <= 100) {
+                g.drawImage(imgGanasteVerde, 0, 0, this);
                 detenerGanaste++;
             } else {
                 restart();
