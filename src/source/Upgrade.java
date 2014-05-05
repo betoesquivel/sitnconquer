@@ -105,7 +105,7 @@ public class Upgrade {
     }
 
     public void paint(Graphics g, int x, int y, Mesa m) {
-        if (m.getTipo() == 1) {
+        if (m.getTipo() == 1 || m.getTipo() == 4) {
             g.setColor(Color.WHITE);
             if (funcion == 1) {
                 g.drawImage(anim.getImagen(), x + 15, y, null);
@@ -135,6 +135,7 @@ public class Upgrade {
                     }
                 }
             }
+            
         } else if (m.getTipo() == 3) {
             g.setColor(Color.YELLOW);
             if (funcion == 1) {
