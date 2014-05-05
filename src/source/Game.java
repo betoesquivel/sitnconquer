@@ -346,7 +346,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         //Sounds
         sitClip = new SoundClip(sSentar);
         standClip = new SoundClip(sParar);
-        conquerClip = new SoundClip(sMesaCapturada);
+        
         
         rojo = true;
         gris = verde = azul = false;
