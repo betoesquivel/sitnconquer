@@ -56,7 +56,18 @@ public interface Constantes {
     public static final String iUrlInstruccionesMovimiento = "images/instruccionesMovimiento.png";
     public static final String iUrlLetreroPausado = "images/letreroPausado.png";
     public static final String iUrlBarra = "images/infoBar2.png";
-    //Colores
+    public static final String iUrlRI1 = "images/Rum_intro/1.png";
+    public static final String iUrlRI2 = "images/Rum_intro/2.png";
+    public static final String iUrlRI3 = "images/Rum_intro/3.png";
+    public static final String iUrlRI4 = "images/Rum_intro/4.png";
+    public static final String iUrlRI5 = "images/Rum_intro/5.png";
+    public static final String iUrlRI6 = "images/Rum_intro/6.png";
+    public static final String iUrlRI7 = "images/Rum_intro/7.png";
+    public static final String iUrlRI8 = "images/Rum_intro/8.png";
+    public static final String iUrlRI9 = "images/Rum_intro/9.png";
+    public static final String iUrlRIGIF = "images/Rum_intro/rum.gif";
+
+//Colores
     public static final int BLUE = 1;
     public static final int GRAY = 2;
     public static final int RED = 3;
