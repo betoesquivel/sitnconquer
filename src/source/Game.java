@@ -776,6 +776,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             if(detenerGanaste <= 100) {
                 g.drawImage(imgGanasteVerde, 0, 0, this);                
                 detenerGanaste++;
+            } else {
+                restart();
             }
         }
 
@@ -1277,7 +1279,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     }
 
     public void restart() {
-
+        state = state.MENU_MAIN;
     }
 
 }
