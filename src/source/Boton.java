@@ -7,12 +7,17 @@ package source;
 
 /**
  *
- * @author bernardot
+ * @author ferrufino, hugolg, betoesquivel, bernardot
  */
 
 import java.awt.Image;
 import javax.swing.ImageIcon;
 
+/**
+ * La clase <code>Boton</code> describe a un objeto, definido por un rectángulo 
+ * y una imagen que cambia el estado del juego (es decir, mueve al usuario a otra
+ * pantalla, o cambia características de los jugadores)
+ */
 public class Boton extends Base {
 
     private int tipo;   // Variable que ayudará a saber para que sirve el boton
@@ -30,6 +35,14 @@ public class Boton extends Base {
         tipo = 0;   // Valor default
     }
     
+    /**
+     * Método constructor de Boton para definir posición e imagen 
+     * del objeto.
+     *
+     * @param posX es la <code>posicion en x</code> del objeto.
+     * @param posY es la <code>posicion en y</code> del objeto.
+     * @param image es la <code>imagen</code> del objeto. 
+     */
     public Boton(int posX, int posY, Image image) {
         super(posX, posY);
         anim = new Animacion();
