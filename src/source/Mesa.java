@@ -37,7 +37,8 @@ public class Mesa extends Base implements Constantes {
     /* tipo = 0: mesa indefinida
      *  tipo = 1: mesa redonda con 4 sillas
      *  tipo = 2: mesa de billar
-     *  tipo = 2: mesa de centrales
+     *  tipo = 3: mesa de centrales
+     *  tipo = 4: mesa de bahia
      */
 
     /**
@@ -80,7 +81,7 @@ public class Mesa extends Base implements Constantes {
         color = 0;
         cantSillas = 0; // Valor default
         tipo = t;
-        if (tipo == 1 || tipo == 3) {
+        if (tipo == 1 || tipo == 3 || tipo == 4) {
             cantSillas = 4;
         }
         upgrade = new Upgrade();

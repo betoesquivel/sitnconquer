@@ -159,6 +159,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private URL tableURL = this.getClass().getResource(iUrlMesa);
     private URL poolURL = this.getClass().getResource(iUrlMesaBillar1);
     private URL mesaCentralesURL = this.getClass().getResource(iUrlMesaCentrales);
+    private URL mesaBahiaURL = this.getClass().getResource(iUrlMesaBahia);
     //private URL cervezaURL = this.getClass().getResource(iUrlCerveza);
     private URL imgLogoGrandeURL = this.getClass().getResource(iUrlLogoGrande);
     private URL imgPlayBotonURL = this.getClass().getResource(iUrlBotonPlay);
@@ -388,8 +389,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         ola2 = Toolkit.getDefaultToolkit().getImage(olaURL2);
         moverOla1 = 0;
         moverOla2 = - 900;
-        //listaTables = new LinkedList<Mesa>();
-        //crearMesasYSillas();
+        listaTables = new LinkedList<Mesa>();
+        crearMesasYSillas();
     }
 
     /**
@@ -431,6 +432,23 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 {700, 440, CENTRALES_ROUND}
             };
         }
+        
+        if (escenario == 3) {
+            mapa = new int[][]{
+                {125, 160, BAHIA_ROUND},
+                {75, 300, BAHIA_ROUND},
+                {125, 440, BAHIA_ROUND},
+                {330, 140, BAHIA_ROUND},
+                {520, 140, BAHIA_ROUND},
+                {310, 300, BAHIA_ROUND},
+                {540, 300, BAHIA_ROUND},
+                {330, 460, BAHIA_ROUND},
+                {520, 460, BAHIA_ROUND},
+                {700, 160, BAHIA_ROUND},
+                {750, 300, BAHIA_ROUND},
+                {700, 440, BAHIA_ROUND}
+            };
+        }
         for (int r = 0; r < mapa.length; r++) {
             URL url;
             int tipo = 0;
@@ -446,6 +464,10 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 case CENTRALES_ROUND:
                     url = mesaCentralesURL;
                     tipo = 3;
+                    break;
+                case BAHIA_ROUND:
+                    url = mesaBahiaURL;
+                    tipo = 4;
                     break;
                 default:
                     url = tableURL;
