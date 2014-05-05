@@ -75,6 +75,9 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private Image imgLetreroPausado;
     private Image imgBarra;
     private Image imgGanasteVerde;
+    private Image imgGanasteAzul;
+    private Image imgGanasteRojo;
+    private Image imgGanasteGris;
 
     //rectangle
     private Rectangle rec;
@@ -165,6 +168,9 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private URL imgBotonBackURL = this.getClass().getResource(iUrlBotonBack);
     private URL imgPantallaPausaURL = this.getClass().getResource(iUrlPantallaPausa);
     private URL imgGanasteVerdeURL = this.getClass().getResource(iUrlGanasteVerde);
+    private URL imgGanasteAzulURL = this.getClass().getResource(iUrlGanasteAzul);
+    private URL imgGanasteRojoURL = this.getClass().getResource(iUrlGanasteRojo);
+    private URL imgGanasteGrisURL = this.getClass().getResource(iUrlGanasteGris);
     private URL imgSelectColor1URL = this.getClass().getResource(iUrlSelectColor1);
     private URL imgSelectColor2URL = this.getClass().getResource(iUrlSelectColor2);
     private URL imgSelectName1URL = this.getClass().getResource(iUrlSelectName1);
@@ -286,6 +292,9 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         imgLetreroPausado = Toolkit.getDefaultToolkit().getImage(imgLetreroPausadoURL);
         imgBarra = Toolkit.getDefaultToolkit().getImage(imgBarraURL);
         imgGanasteVerde = Toolkit.getDefaultToolkit().getImage(imgGanasteVerdeURL);
+        imgGanasteAzul = Toolkit.getDefaultToolkit().getImage(imgGanasteAzulURL);
+        imgGanasteRojo = Toolkit.getDefaultToolkit().getImage(imgGanasteRojoURL);
+        imgGanasteGris = Toolkit.getDefaultToolkit().getImage(imgGanasteGrisURL);
 
         //Booleans
         movHorizontal = false;
@@ -481,9 +490,12 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         pTravolta2.actualizaPosicion();
 //        }
 
-        if (j1.checarGana(listaTables) || j2.checarGana(listaTables)) {
+        if (j1.checarGana(listaTables)) {
             state = state.MENU_POSTJUEGO;
-            
+            Ganaste = 1;
+        } else if (j2.checarGana(listaTables)) {
+            state = state.MENU_POSTJUEGO;
+            Ganaste = 2;
         }
     }
 
@@ -774,7 +786,33 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         
         if(state == state.MENU_POSTJUEGO) {
             if(detenerGanaste <= 100) {
-                g.drawImage(imgGanasteVerde, 0, 0, this);                
+
+                switch(Ganaste) {
+                    case 1:
+                        if(Color.red == j1.getColor()) {
+                            g.drawImage(imgGanasteRojo, 0, 0, this); 
+                        } else if (Color.blue == j1.getColor()) {
+                            g.drawImage(imgGanasteAzul, 0, 0, this); 
+                        } else if (Color.gray == j1.getColor()) {
+                            g.drawImage(imgGanasteGris, 0, 0, this); 
+                        } else {
+                            g.drawImage(imgGanasteVerde, 0, 0, this); 
+                        }
+                        break;
+                    case 2:
+                        if(Color.red == j2.getColor()) {
+                            g.drawImage(imgGanasteRojo, 0, 0, this); 
+                        } else if (Color.blue == j2.getColor()) {
+                            g.drawImage(imgGanasteAzul, 0, 0, this); 
+                        } else if (Color.gray == j2.getColor()) {
+                            g.drawImage(imgGanasteGris, 0, 0, this); 
+                        } else {
+                            g.drawImage(imgGanasteVerde, 0, 0, this); 
+                        }
+                        
+                        break;
+                }
+                               
                 detenerGanaste++;
             } else {
                 restart();

@@ -47,6 +47,9 @@ public interface Constantes {
     public static final String iUrlLogoGrande = "images/sit&conquer_biglogo.png";
     public static final String iUrlPantallaPausa = "images/pantallaPausaSinTexto.png";
     public static final String iUrlGanasteVerde = "images/ganasteVerde.png";
+    public static final String iUrlGanasteAzul = "images/ganasteAzul.png";
+    public static final String iUrlGanasteRojo = "images/ganasteRojo.png";
+    public static final String iUrlGanasteGris = "images/ganasteGris.png";
     public static final String iUrlSelectColor1 = "images/selectColorForPlayer1.png";
     public static final String iUrlSelectColor2 = "images/selectColorForPlayer2.png";
     public static final String iUrlSelectName1 = "images/selectNameForPlayer1.png";
