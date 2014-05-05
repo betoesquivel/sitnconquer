@@ -14,6 +14,9 @@ public interface Constantes {
     //URLs Imagenes
     public static final String iUrlFondo = "images/background1.png";
     public static final String iUrlFondo2 = "images/cafeterias.png";
+    public static final String iUrlFondo3 = "images/bahia.png";
+    public static final String iUrlola = "images/waves1.png";
+    public static final String iUrlola2 = "images/waves2.png";
     public static final String iUrlCerveza = "images/beers.png";
     public static final String iUrlBotellas = "images/bottles.png";
     public static final String iUrlSilla1 = "images/chair1.png";

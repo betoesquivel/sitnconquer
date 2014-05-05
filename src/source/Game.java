@@ -92,6 +92,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private int dY;
     private int incX;
     private int incY;
+    private int moverOla1;// Importante para el escenario 3
+    private int moverOla2; // Importante para el escenario 3
 
     // Saber que escenario es
     private int escenario;
@@ -144,11 +146,16 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
     //Objetos Imagen
     private Image fondo;
+    private Image ola1;
+    private Image ola2;
     //private Image cerveza;
 
     //Objetos URL
     private URL fondoURL = this.getClass().getResource(iUrlFondo);
     private URL fondoURL2 = this.getClass().getResource(iUrlFondo2);
+    private URL fondoURL3 = this.getClass().getResource(iUrlFondo3);
+    private URL olaURL1 = this.getClass().getResource(iUrlola);
+    private URL olaURL2 = this.getClass().getResource(iUrlola2);
     private URL tableURL = this.getClass().getResource(iUrlMesa);
     private URL poolURL = this.getClass().getResource(iUrlMesaBillar1);
     private URL mesaCentralesURL = this.getClass().getResource(iUrlMesaCentrales);
@@ -356,7 +363,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
         // Se inicializa con escenario = 1... y el metodo a continuacion te lleva a centrales.
         // Comentar la siguiente linea te regresa al bar.
-        escenario2();
+        escenario3();
 
         playMusic(trackList, 0, 3); //0 means that I want music, 1 means I dont want music; 1 means first song; 
 
@@ -372,6 +379,17 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         fondo = Toolkit.getDefaultToolkit().getImage(fondoURL2);
         listaTables = new LinkedList<Mesa>();
         crearMesasYSillas();
+    }
+    
+    public void escenario3() {
+        escenario = 3;
+        fondo = Toolkit.getDefaultToolkit().getImage(fondoURL3);
+        ola1 = Toolkit.getDefaultToolkit().getImage(olaURL1);
+        ola2 = Toolkit.getDefaultToolkit().getImage(olaURL2);
+        moverOla1 = 0;
+        moverOla2 = - 900;
+        //listaTables = new LinkedList<Mesa>();
+        //crearMesasYSillas();
     }
 
     /**
@@ -505,6 +523,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             }
             BQT.setEncendido(false);
         }
+        
         listaTables.get(j1.getMesaSeleccionada()).setColor1(j1.getColor());
         listaTables.get(j2.getMesaSeleccionada()).setColor2(j2.getColor());
 
@@ -524,6 +543,14 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         j2.actualiza(tiempoTranscurrido);
         j1.checaFactorDeCreacion(listaTables);
         j2.checaFactorDeCreacion(listaTables);
+        
+        moverOla1++;
+        moverOla2++;
+        if (moverOla1 > 900) {
+            moverOla1 = - 900;
+        } else if (moverOla2 > 900) {
+            moverOla2 = - 900;
+        }
 
         //Acutalizo la posicion del pTravolta2
 //        for (Personaje p : j1.listaPersonajes) {
@@ -675,6 +702,10 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
      */
     public void paint1(Graphics g) {
         if (state == STATE.GAME) {
+            if (escenario == 3) {
+                g.drawImage(ola1, moverOla1, 0, this);
+                g.drawImage(ola2, moverOla2, 0, this);
+            }
             g.drawImage(fondo, 0, 0, this);
             detenerGanaste = 0;
 
