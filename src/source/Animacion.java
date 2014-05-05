@@ -7,7 +7,7 @@ package source;
 
 /**
  *
- * @author bernardot
+ * @author ferrufino, hugolg, betoesquivel, bernardot
  */
 import java.awt.Image;
 import java.util.ArrayList;

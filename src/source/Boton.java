@@ -14,7 +14,7 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 
 /**
- * La clase <code>Boton</code> describe a un objeto, definido por un rectángulo 
+ * La clase <I>Boton</I> describe a un objeto, definido por un rectángulo 
  * y una imagen que cambia el estado del juego (es decir, mueve al usuario a otra
  * pantalla, o cambia características de los jugadores)
  */
