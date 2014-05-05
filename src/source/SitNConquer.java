@@ -12,6 +12,11 @@ package source;
  */
 import javax.swing.JFrame;
 
+
+/**
+ * La clase <I>SitNConquer</I>  inicializa el juego con el mismo nombre de la
+ * clase.
+ */
 public class SitNConquer {
 
     /**

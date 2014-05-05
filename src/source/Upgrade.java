@@ -15,6 +15,12 @@ import java.net.URL;
  *
  * @author bernardot
  */
+
+/**
+ * La clase <I>Upgrade</I> maneja los objetos que permiten a un jugador
+ * conseguir extra puntos o una ventaja durante el juego.
+ * 
+ */
 public class Upgrade {
 
     private boolean pintar;
