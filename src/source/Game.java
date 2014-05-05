@@ -244,6 +244,11 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private long tiempoActual;
     private long tiempoInicial;
 
+    //Sonidos
+    SoundClip sitClip;
+    SoundClip standClip;
+    SoundClip conquerClip;
+    
     /**
      * Método constructor de la clase <I>Game</I> que inicializa el juego.
      */
@@ -338,6 +343,11 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         movHorizontal = false;
         movVertical = false;
 
+        //Sounds
+        sitClip = new SoundClip(sSentar);
+        standClip = new SoundClip(sParar);
+        conquerClip = new SoundClip(sMesaCapturada);
+        
         rojo = true;
         gris = verde = azul = false;
 
@@ -1037,9 +1047,11 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                     break;
                 case KeyEvent.VK_DOWN:
                     j1.sentarAMesa(listaTables.get(j1.getMesaSeleccionada()));
+                    sitClip.play();
                     break;
                 case KeyEvent.VK_UP:
                     listaTables.get(j1.getMesaSeleccionada()).parar(j1);
+                    standClip.play();
                     break;
 
                 //Controles para el jugador 2
@@ -1065,9 +1077,11 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                     break;
                 case KeyEvent.VK_S:
                     j2.sentarAMesa(listaTables.get(j2.getMesaSeleccionada()));
+                    sitClip.play();
                     break;
                 case KeyEvent.VK_W:
                     listaTables.get(j2.getMesaSeleccionada()).parar(j2);
+                    standClip.play();
                     break;
                 case KeyEvent.VK_0:
                     state = state.INSTRUCCIONES;
