@@ -19,6 +19,17 @@ import java.awt.Toolkit;
 import java.net.URL;
 import javax.swing.ImageIcon;
 
+/**
+ * La clase <I>Mesa</I> describe a una mesa dentro del juego. Las mesas pueden
+ * estar siendo seleccionadas por máximo 2 jugadores y pertenecerle a solamente
+ * 1 jugador.
+ *
+ * Las mesas tienen una lista de personajes de tipo
+ * <code>LinkedList<Personaje></code> con los personajes que se encuentran
+ * sentados en ella.
+ *
+ * @author ferrufino, hugolg, betoesquivel, bernardot
+ */
 public class Mesa extends Base implements Constantes {
 
     private int sentados;   // Variable entera pasa saber cuantos están sentados
@@ -58,6 +69,14 @@ public class Mesa extends Base implements Constantes {
         upgrade = new Upgrade();
     }
 
+    /**
+     * Método constructor de Mesa para definir la posición y la imágen de la
+     * mesa.
+     *
+     * @param posX es la <cdoe>posicion en x</code> del objeto.
+     * @param posY es la <code>posicion en y</code> del objeto.
+     * @param image es la Imagen de tipo <code>Image</code> del objeto.
+     */
     public Mesa(int posX, int posY, Image image) {
         super(posX, posY);
         ImageIcon icono = new ImageIcon(image);
@@ -71,6 +90,15 @@ public class Mesa extends Base implements Constantes {
         colorPrincipal = null;
     }
 
+    /**
+     * Método constructor de Mesa para definir la posición y la imágen de la
+     * mesa. Así como también para definir el tipo de la misma. 
+     *
+     * @param posX es la <cdoe>posicion en x</code> del objeto.
+     * @param posY es la <code>posicion en y</code> del objeto.
+     * @param image es la Imagen de tipo <code>Image</code> del objeto.
+     * @param t es el tipo de tipo <code>int</code> del objeto. 
+     */
     public Mesa(int posX, int posY, Image image, int t) {
         super(posX, posY);
         ImageIcon icono = new ImageIcon(image);
@@ -131,6 +159,10 @@ public class Mesa extends Base implements Constantes {
         colorPrincipal = null;
     }
 
+    /**
+     * Método paint de la clase mesa que pinta la mesa.
+     * @param g de tipo <code>Graphics</code>
+     */
     public void paint(Graphics g) {
         Font helvetica = new Font("Helvetica", Font.BOLD, 18);
         g.setFont(helvetica);
@@ -150,6 +182,10 @@ public class Mesa extends Base implements Constantes {
         }
     }
 
+    /**
+     * Método que pinta las sillas en la parte superior de la mesa.
+     * @param g de tipo <code>Graphics</code>
+     */
     public void paintSillasArriba(Graphics g) {
         //Color c = new Color(6, 100, 6, 100);
         //g.setColor(c);
@@ -166,6 +202,10 @@ public class Mesa extends Base implements Constantes {
         }
     }
 
+    /**
+     * Método que pinta las sillas en la parte inferior de la mesa.
+     * @param g de tipo <code>Graphics</code>
+     */
     public void paintSillasAbajo(Graphics g) {
         if (tipo == 1 || tipo == 3) {
             paintMonitoAbajo(g);
@@ -181,6 +221,10 @@ public class Mesa extends Base implements Constantes {
         }
     }
 
+    /**
+     * Método que pinta las sillas en la parte izquierda de la mesa.
+     * @param g de tipo <code>Graphics</code>
+     */
     public void paintMonitoIzqDer(Graphics g) {
         if (tipo == 1 || tipo == 3 && monitosSentados.size() > 0) {
             for (int x = 0; x < sillas.size() - 2; x++) {
@@ -192,6 +236,10 @@ public class Mesa extends Base implements Constantes {
         }
     }
 
+    /**
+     * Método que pinta un monito sentado en la parte superior de la mesa.
+     * @param g de tipo <code>Graphics</code>
+     */
     public void paintMonitoArriba(Graphics g) {
         if (tipo == 2 && sentados > 0) {
             monitosSentados.get(0).paintBillar(g, this, 0);
@@ -206,6 +254,10 @@ public class Mesa extends Base implements Constantes {
         }
     }
 
+    /**
+     * Método que pinta un monito sentado en la parte inferior de la mesa.
+     * @param g de tipo <code>Graphics</code>
+     */
     public void paintMonitoAbajo(Graphics g) {
         if (tipo == 1 || tipo == 3 && monitosSentados.size() > 3) {
             Silla aux = (Silla) sillas.get(3);
@@ -215,6 +267,11 @@ public class Mesa extends Base implements Constantes {
         }
     }
 
+    /**
+     * Método que pinta los selectores que estén posicionados dentro 
+     * de la mesa. El selector del jugador 1 y el del jugador 2.
+     * @param g de tipo <code>Graphics</code>
+     */
     public void paintSelectors(Graphics g) {
         Color playerColor;
         int displacement = 5; //table selector size
@@ -230,10 +287,19 @@ public class Mesa extends Base implements Constantes {
         }
     }
 
+    /**
+     * Metodo de acceso que regresa el valor de la mesa
+     *
+     * @return valor de tipo <code>int</code>
+     */
     public int getValor() {
         return valor;
     }
 
+    /**
+     * Método modificador que cambia el valor de la mesa.
+     * @param valor de tipo <code>int</code>
+     */
     public void setValor(int valor) {
         this.valor = valor;
     }
@@ -268,14 +334,31 @@ public class Mesa extends Base implements Constantes {
         return color1;
     }
 
+    /**
+     * Método modificador que cambia el color del primer selector que está 
+     * sobre la mesa. 
+     * @param color1 de tipo <code>Color</code>
+     */
     public void setColor1(Color color1) {
         this.color1 = color1;
     }
 
+    /**
+     * Metodo de acceso usado para obtener el color2 del jugador2 seleccionando
+     * la mesa. 
+     *
+     * @param sentados es la <code>cantidad de personas sentadas</code> del
+     * objeto.
+     */
     public Color getColor2() {
         return color2;
     }
 
+    /**
+     * Método modificador que cambia el color del segundo selector que está 
+     * sobre la mesa. 
+     * @param color1 de tipo <code>Color</code>
+     */
     public void setColor2(Color color2) {
         this.color2 = color2;
     }
@@ -443,10 +526,19 @@ public class Mesa extends Base implements Constantes {
         this.monitosSentados = monitosSentados;
     }
 
+    /**
+     * Método de acceso que regresa el 
+     * @return perimetro de tipo<code>Rectangle</code> del objeto. 
+     */
     public Rectangle getPerimetro() {
         return new Rectangle(getPosX() - 25, getPosY() - 30, getAncho() + 40, getAlto() + 50);
     }
 
+    /**
+     * Método de acceso que regresa el color del jugador que es dueño 
+     * de la mesa. 
+     * @return colorPrincipal de tipo <code>Color</code>
+     */
     public Color getColorPrincipal() {
         return colorPrincipal;
     }
@@ -488,6 +580,12 @@ public class Mesa extends Base implements Constantes {
         }
     }
 
+    /**
+     * Método que sienta a un personaje dentro de la mesa. Modificando
+     * el valor de la mesa y pintándolo si es que todavía no se han llenado
+     * las sillas. 
+     * @param p de tipo <code>Personaje</code>
+     */
     public synchronized void sentar(Personaje p) {
         if (color == 0 || color == p.getColor()) {
             color = p.getColor();
@@ -541,6 +639,10 @@ public class Mesa extends Base implements Constantes {
         }
     }
 
+    /**
+     * Método que crea un jugador parado y adjunto a la mesa. 
+     * @param j de tipo <code>Jugador</code>
+     */
     public void doyVida(Jugador j) {
         contTiempo++;
         if (contTiempo % 250 == 0) {
