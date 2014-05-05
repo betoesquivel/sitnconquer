@@ -384,7 +384,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         crearMesasYSillas();
         playMusic(trackList, 0, 2);
     }
-    
+
     public void escenario3() {
         escenario = 3;
         fondo = Toolkit.getDefaultToolkit().getImage(fondoURL3);
@@ -435,7 +435,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 {700, 440, CENTRALES_ROUND}
             };
         }
-        
+
         if (escenario == 3) {
             mapa = new int[][]{
                 {125, 160, BAHIA_ROUND},
@@ -548,7 +548,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             }
             BQT.setEncendido(false);
         }
-        
+
         listaTables.get(j1.getMesaSeleccionada()).setColor1(j1.getColor());
         listaTables.get(j2.getMesaSeleccionada()).setColor2(j2.getColor());
 
@@ -568,7 +568,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         j2.actualiza(tiempoTranscurrido);
         j1.checaFactorDeCreacion(listaTables);
         j2.checaFactorDeCreacion(listaTables);
-        
+
         moverOla1++;
         moverOla2++;
         if (moverOla1 > 900) {
@@ -839,11 +839,11 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         if (state == state.SELECT_COLOR_2) {
             Color c = new Color(255, 255, 0, 100);
             g.setColor(c);
-            if (azul) {
+            if (azul && j2.getColor() != Color.blue) {
                 g.fillOval(bColorAzul.getPosX() - 10, bColorAzul.getPosY() - 10, bColorAzul.getAncho() + 20, bColorAzul.getAlto() + 20);
-            } else if (rojo) {
+            } else if (rojo && j2.getColor() != Color.red) {
                 g.fillOval(bColorRojo.getPosX() - 10, bColorRojo.getPosY() - 10, bColorRojo.getAncho() + 20, bColorRojo.getAlto() + 20);
-            } else if (verde) {
+            } else if (verde && j2.getColor() != Color.green) {
                 g.fillOval(bColorVerde.getPosX() - 10, bColorVerde.getPosY() - 10, bColorVerde.getAncho() + 20, bColorVerde.getAlto() + 20);
             } else {
                 g.fillOval(bColorGris.getPosX() - 10, bColorGris.getPosY() - 10, bColorGris.getAncho() + 20, bColorGris.getAlto() + 20);
@@ -872,7 +872,12 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
         if (state == state.CREDITS) {
             g.drawImage(imgLogoGrande, 200, 20, this);
+            Font helvetica = new Font("Helvetica", Font.BOLD, 20);
+            g.setFont(helvetica);
+            g.setColor(Color.WHITE);
             g.drawString("DESARROLLADO POR RUM", 350, 420);
+            helvetica = new Font("Helvetica", Font.BOLD, 20);
+            g.setFont(helvetica);
             g.drawString("Hugo León ", 300, 440);
             g.drawString("Bernardo Treviño", 300, 460);
             g.drawString("José Alberto Esquivel", 300, 480);
@@ -889,36 +894,36 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             g.drawImage(bBack.getImageIcon().getImage(), bBack.getPosX(), bBack.getPosY(), this);
 
         }
-        
-        if(state == state.MENU_POSTJUEGO) {
-            if(detenerGanaste <= 100) {
 
-                switch(Ganaste) {
+        if (state == state.MENU_POSTJUEGO) {
+            if (detenerGanaste <= 100) {
+
+                switch (Ganaste) {
                     case 1:
-                        if(Color.red == j1.getColor()) {
-                            g.drawImage(imgGanasteRojo, 0, 0, this); 
+                        if (Color.red == j1.getColor()) {
+                            g.drawImage(imgGanasteRojo, 0, 0, this);
                         } else if (Color.blue == j1.getColor()) {
-                            g.drawImage(imgGanasteAzul, 0, 0, this); 
+                            g.drawImage(imgGanasteAzul, 0, 0, this);
                         } else if (Color.gray == j1.getColor()) {
-                            g.drawImage(imgGanasteGris, 0, 0, this); 
+                            g.drawImage(imgGanasteGris, 0, 0, this);
                         } else {
-                            g.drawImage(imgGanasteVerde, 0, 0, this); 
+                            g.drawImage(imgGanasteVerde, 0, 0, this);
                         }
                         break;
                     case 2:
-                        if(Color.red == j2.getColor()) {
-                            g.drawImage(imgGanasteRojo, 0, 0, this); 
+                        if (Color.red == j2.getColor()) {
+                            g.drawImage(imgGanasteRojo, 0, 0, this);
                         } else if (Color.blue == j2.getColor()) {
-                            g.drawImage(imgGanasteAzul, 0, 0, this); 
+                            g.drawImage(imgGanasteAzul, 0, 0, this);
                         } else if (Color.gray == j2.getColor()) {
-                            g.drawImage(imgGanasteGris, 0, 0, this); 
+                            g.drawImage(imgGanasteGris, 0, 0, this);
                         } else {
-                            g.drawImage(imgGanasteVerde, 0, 0, this); 
+                            g.drawImage(imgGanasteVerde, 0, 0, this);
                         }
-                        
+
                         break;
                 }
-                               
+
                 detenerGanaste++;
             } else {
                 restart();
