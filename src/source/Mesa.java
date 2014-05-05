@@ -192,7 +192,7 @@ public class Mesa extends Base implements Constantes {
         //g.fillRect(getPosX() - 25, getPosY() - 30, getAncho() + 50, getAlto() + 40);
         if (tipo == 2) {
             paintMonitoArriba(g);
-        } else if (tipo == 1 || tipo == 3) {
+        } else if (tipo == 1 || tipo == 3 || tipo == 4) {
             for (int x = 0; x < sillas.size() - 1; x++) {
                 Silla aux = (Silla) sillas.get(x);
                 aux.paint(g);
@@ -218,6 +218,12 @@ public class Mesa extends Base implements Constantes {
             if (sentados > 3) {
                 monitosSentados.get(2).paintBillar(g, this, 3);
             }
+        } else if (tipo == 4) {
+            for (int x = sillas.size() - 1; x < sillas.size(); x++) {
+                Silla aux = (Silla) sillas.get(x);
+                aux.paint(g);
+            }
+            paintMonitoAbajo(g);
         }
     }
 
@@ -226,7 +232,7 @@ public class Mesa extends Base implements Constantes {
      * @param g de tipo <code>Graphics</code>
      */
     public void paintMonitoIzqDer(Graphics g) {
-        if (tipo == 1 || tipo == 3 && monitosSentados.size() > 0) {
+        if (tipo == 1 || tipo == 3 || tipo == 4 && monitosSentados.size() > 0) {
             for (int x = 0; x < sillas.size() - 2; x++) {
                 Silla aux = (Silla) sillas.get(x);
                 if (aux.isOcupada()) {
@@ -246,7 +252,7 @@ public class Mesa extends Base implements Constantes {
             if (sentados > 1) {
                 monitosSentados.get(1).paintBillar(g, this, 1);
             }
-        } else if (tipo == 1 || tipo == 3 && monitosSentados.size() > 2) {
+        } else if (tipo == 1 || tipo == 3 || tipo == 4 && monitosSentados.size() > 2) {
             Silla aux = (Silla) sillas.get(2);
             if (aux.isOcupada()) {
                 monitosSentados.get(2).paintSentado(g, aux, this);
@@ -259,7 +265,7 @@ public class Mesa extends Base implements Constantes {
      * @param g de tipo <code>Graphics</code>
      */
     public void paintMonitoAbajo(Graphics g) {
-        if (tipo == 1 || tipo == 3 && monitosSentados.size() > 3) {
+        if (tipo == 1 || tipo == 3 || tipo == 4 && monitosSentados.size() > 3) {
             Silla aux = (Silla) sillas.get(3);
             if (aux.isOcupada()) {
                 monitosSentados.get(3).paintSentado(g, aux, this);
@@ -276,12 +282,12 @@ public class Mesa extends Base implements Constantes {
         Color playerColor;
         int displacement = 5; //table selector size
         if (color1 != null) {
-            playerColor = new Color(color1.getRed(), color1.getGreen(), color1.getBlue(), 100);
+            playerColor = new Color(color1.getRed(), color1.getGreen(), color1.getBlue(), 150);
             g.setColor(playerColor);
             g.fillRect(getPosX() - displacement, getPosY() - displacement, icono.getIconWidth() + (displacement * 2), icono.getIconHeight() + (displacement * 2));
         }
         if (color2 != null) {
-            playerColor = new Color(color2.getRed(), color2.getGreen(), color2.getBlue(), 100);
+            playerColor = new Color(color2.getRed(), color2.getGreen(), color2.getBlue(), 150);
             g.setColor(playerColor);
             g.fillOval(getPosX() - displacement, getPosY() - displacement, icono.getIconWidth() + (displacement * 2), icono.getIconHeight() + (displacement * 2));
         }
@@ -433,7 +439,7 @@ public class Mesa extends Base implements Constantes {
      */
     public void setTipo(int tipo) {
         this.tipo = tipo;
-        if (tipo == 1 || tipo == 3) {
+        if (tipo == 1 || tipo == 3 || tipo == 4) {
             cantSillas = 4;
         }
     }
@@ -494,6 +500,32 @@ public class Mesa extends Base implements Constantes {
                 Silla auxRight = new Silla(this.getPosX() + icono.getIconWidth(), this.getPosY());
                 Silla auxUp = new Silla(this.getPosX() + icono.getIconWidth() / 4 + 5, this.getPosY() - icono.getIconHeight() / 2 + 10);
                 Silla auxDown = new Silla(this.getPosX() + icono.getIconWidth() / 4 + 5, this.getPosY() + icono.getIconHeight() / 2 - 10);
+                auxLeft.setImageIcon(siLeft);
+                auxRight.setImageIcon(siRight);
+                auxUp.setImageIcon(siUp);
+                auxDown.setImageIcon(siDown);
+
+                sillas.add(auxLeft);
+                sillas.add(auxRight);
+                sillas.add(auxUp);
+                sillas.add(auxDown);
+            } else if (tipo == 4) {
+                URL sillaLeft = this.getClass().getResource("images/sillaBahia.png");
+                Image sillaL = Toolkit.getDefaultToolkit().getImage(sillaLeft);
+                URL sillaRight = this.getClass().getResource("images/sillaBahia.png");
+                Image sillaR = Toolkit.getDefaultToolkit().getImage(sillaRight);
+                URL sillaUp = this.getClass().getResource("images/sillaBahia.png");
+                Image sillaU = Toolkit.getDefaultToolkit().getImage(sillaUp);
+                URL sillaDown = this.getClass().getResource("images/sillaBahia.png");
+                Image sillaD = Toolkit.getDefaultToolkit().getImage(sillaDown);
+                ImageIcon siLeft = new ImageIcon(sillaL);
+                ImageIcon siRight = new ImageIcon(sillaR);
+                ImageIcon siUp = new ImageIcon(sillaU);
+                ImageIcon siDown = new ImageIcon(sillaD);
+                Silla auxLeft = new Silla(this.getPosX() - 28, this.getPosY() + 18);
+                Silla auxRight = new Silla(this.getPosX() + icono.getIconWidth(), this.getPosY() + 18);
+                Silla auxUp = new Silla(this.getPosX() + icono.getIconWidth() / 4 + 5, this.getPosY() - icono.getIconHeight() / 2 + 20);
+                Silla auxDown = new Silla(this.getPosX() + icono.getIconWidth() / 4 + 5, this.getPosY() + icono.getIconHeight() / 2 + 10);
                 auxLeft.setImageIcon(siLeft);
                 auxRight.setImageIcon(siRight);
                 auxUp.setImageIcon(siUp);

@@ -19,6 +19,12 @@ import java.net.URL;
  *
  * @author ferrufino, hugolg, betoesquivel, bernardot
  */
+
+/**
+ * La clase <I>Upgrade</I> maneja los objetos que permiten a un jugador
+ * conseguir extra puntos o una ventaja durante el juego.
+ * 
+ */
 public class Upgrade {
 
     private boolean pintar;
@@ -145,7 +151,7 @@ public class Upgrade {
      * @param m de tipo <code>Mesa</code>
      */
     public void paint(Graphics g, int x, int y, Mesa m) {
-        if (m.getTipo() == 1) {
+        if (m.getTipo() == 1 || m.getTipo() == 4) {
             g.setColor(Color.WHITE);
             if (funcion == 1) {
                 g.drawImage(anim.getImagen(), x + 15, y, null);
@@ -175,6 +181,7 @@ public class Upgrade {
                     }
                 }
             }
+            
         } else if (m.getTipo() == 3) {
             g.setColor(Color.YELLOW);
             if (funcion == 1) {

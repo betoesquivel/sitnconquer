@@ -559,7 +559,18 @@ public class Personaje extends Base implements Constantes {
                 } else if (sentado == 3) {
                     g.drawImage(aDown.getImagen(), s.getPosX(), s.getPosY() - 20, null);
                 }
+            } else if (m.getTipo() == 4) {
+                if (sentado == 0) {
+                    g.drawImage(aLeft.getImagen(), s.getPosX(), s.getPosY() - 35, null);
+                } else if (sentado == 1) {
+                    g.drawImage(aRight.getImagen(), s.getPosX() - 5, s.getPosY() - 35, null);
+                } else if (sentado == 2) {
+                    g.drawImage(aUp.getImagen(), s.getPosX(), s.getPosY() - 28, null);
+                } else if (sentado == 3) {
+                    g.drawImage(aDown.getImagen(), s.getPosX(), s.getPosY() - 38, null);
+                }
             }
+
         } else if (tipo == 2) {
             if (m.getTipo() == 1) {
                 if (sentado == 0) {
@@ -581,7 +592,18 @@ public class Personaje extends Base implements Constantes {
                 } else if (sentado == 3) {
                     g.drawImage(aDown.getImagen(), s.getPosX(), s.getPosY() - 20, null);
                 }
+            } else if (m.getTipo() == 4) {
+                if (sentado == 0) {
+                    g.drawImage(aLeft.getImagen(), s.getPosX(), s.getPosY() - 35, null);
+                } else if (sentado == 1) {
+                    g.drawImage(aRight.getImagen(), s.getPosX() - 5, s.getPosY() - 35, null);
+                } else if (sentado == 2) {
+                    g.drawImage(aUp.getImagen(), s.getPosX(), s.getPosY() - 28, null);
+                } else if (sentado == 3) {
+                    g.drawImage(aDown.getImagen(), s.getPosX(), s.getPosY() - 38, null);
+                }
             }
+            
         } else if (tipo == 3) {
             if (m.getTipo() == 1) {
                 if (sentado == 0) {
@@ -603,7 +625,18 @@ public class Personaje extends Base implements Constantes {
                 } else if (sentado == 3) {
                     g.drawImage(aDown.getImagen(), s.getPosX() - 7, s.getPosY() - 20, null);
                 }
+            } else if (m.getTipo() == 4) {
+                if (sentado == 0) {
+                    g.drawImage(aLeft.getImagen(), s.getPosX(), s.getPosY() - 40, null);
+                } else if (sentado == 1) {
+                    g.drawImage(aRight.getImagen(), s.getPosX() - 20, s.getPosY() - 40, null);
+                } else if (sentado == 2) {
+                    g.drawImage(aUp.getImagen(), s.getPosX() - 7, s.getPosY() - 28, null);
+                } else if (sentado == 3) {
+                    g.drawImage(aDown.getImagen(), s.getPosX() - 7, s.getPosY() - 38, null);
+                }
             }
+            
         } else if (tipo == 4) {
             if (m.getTipo() == 1) {
                 if (sentado == 0) {
@@ -624,6 +657,16 @@ public class Personaje extends Base implements Constantes {
                     g.drawImage(aUp.getImagen(), s.getPosX(), s.getPosY() - 20, null);
                 } else if (sentado == 3) {
                     g.drawImage(aDown.getImagen(), s.getPosX(), s.getPosY() - 20, null);
+                }
+            } else if (m.getTipo() == 4) {
+                if (sentado == 0) {
+                    g.drawImage(aLeft.getImagen(), s.getPosX(), s.getPosY() - 35, null);
+                } else if (sentado == 1) {
+                    g.drawImage(aRight.getImagen(), s.getPosX() - 5, s.getPosY() - 35, null);
+                } else if (sentado == 2) {
+                    g.drawImage(aUp.getImagen(), s.getPosX(), s.getPosY() - 28, null);
+                } else if (sentado == 3) {
+                    g.drawImage(aDown.getImagen(), s.getPosX(), s.getPosY() - 38, null);
                 }
             }
         }

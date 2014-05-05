@@ -364,7 +364,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
         // Se inicializa con escenario = 1... y el metodo a continuacion te lleva a centrales.
         // Comentar la siguiente linea te regresa al bar.
-        escenario3();
+        escenario2();
         if (escenario == 1) {
             playMusic(trackList, 0, 1);
         }
@@ -438,72 +438,82 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
         if (escenario == 3) {
             mapa = new int[][]{
-                {125, 160, BAHIA_ROUND},
-                {75, 300, BAHIA_ROUND},
-                {125, 440, BAHIA_ROUND},
-                {330, 140, BAHIA_ROUND},
-                {520, 140, BAHIA_ROUND},
-                {310, 300, BAHIA_ROUND},
-                {540, 300, BAHIA_ROUND},
-                {330, 460, BAHIA_ROUND},
-                {520, 460, BAHIA_ROUND},
-                {700, 160, BAHIA_ROUND},
-                {750, 300, BAHIA_ROUND},
-                {700, 440, BAHIA_ROUND}
-            };
-        }
-        for (int r = 0; r < mapa.length; r++) {
-            URL url;
-            int tipo = 0;
-            switch (mapa[r][2]) {
-                case BAR_POOL:
-                    url = poolURL;
-                    tipo = 2;
-                    break;
-                case BAR_ROUND:
-                    url = tableURL;
-                    tipo = 1;
-                    break;
-                case CENTRALES_ROUND:
-                    url = mesaCentralesURL;
-                    tipo = 3;
-                    break;
-                case BAHIA_ROUND:
-                    url = mesaBahiaURL;
-                    tipo = 4;
-                    break;
-                default:
-                    url = tableURL;
-                    tipo = 0;
-                    break;
-            }
-            Animacion a = new Animacion();
-            a.sumaCuadro(Toolkit.getDefaultToolkit().getImage(url), 10);
-            table = new Mesa(mapa[r][0], mapa[r][1], Toolkit.getDefaultToolkit().getImage(url), tipo);
-            table.setAnim(a);
-            int upgrade = (int) (Math.random() * 11);
-            if (upgrade < 2) {
-                table.setUpgrade(new Upgrade(1));
-            } else if (upgrade > 9) {
-                table.setUpgrade(new Upgrade(2));
-            } else if (upgrade == 5 || upgrade == 6) {
-                table.setUpgrade(new Upgrade(3));
-            }
-            listaTables.add(table);
-        }
-        for (Mesa mesa : listaTables) {
-            mesa.crearSillas();
-        }
+                {60, 420, BAHIA_ROUND},
+                {50, 120, BAHIA_ROUND},
+                {150, 220, BAHIA_ROUND},
+                {250, 320, BAHIA_ROUND},
+                {350, 420, BAHIA_ROUND},
+                {260, 120, BAHIA_ROUND},
+                {360, 220, BAHIA_ROUND},
+                {460, 320, BAHIA_ROUND},
+                {560, 420, BAHIA_ROUND},
+                {470, 120, BAHIA_ROUND},
+                {570, 220, BAHIA_ROUND},
+                {670, 320, BAHIA_ROUND},
+                {770, 420, BAHIA_ROUND},
+                {770, 120, BAHIA_ROUND}
+        };
     }
+    for (int r = 0;
+    r< mapa.length ;
+    r
 
-    /**
-     * Metodo <I>run</I> sobrescrito de la clase <code>Thread</code>.<P>
-     * En este metodo se ejecuta el hilo, es un ciclo indefinido donde se
-     * incrementa la posicion en x o y dependiendo de la direccion, finalmente
-     * se repinta el <code>Applet</code> y luego manda a dormir el hilo.
-     *
-     */
-    public void run() {
+    
+        ++) {
+            URL url;
+        int tipo = 0;
+        switch (mapa[r][2]) {
+            case BAR_POOL:
+                url = poolURL;
+                tipo = 2;
+                break;
+            case BAR_ROUND:
+                url = tableURL;
+                tipo = 1;
+                break;
+            case CENTRALES_ROUND:
+                url = mesaCentralesURL;
+                tipo = 3;
+                break;
+            case BAHIA_ROUND:
+                url = mesaBahiaURL;
+                tipo = 4;
+                break;
+            default:
+                url = tableURL;
+                tipo = 0;
+                break;
+        }
+        Animacion a = new Animacion();
+        a.sumaCuadro(Toolkit.getDefaultToolkit().getImage(url), 10);
+        table = new Mesa(mapa[r][0], mapa[r][1], Toolkit.getDefaultToolkit().getImage(url), tipo);
+        table.setAnim(a);
+        int upgrade = (int) (Math.random() * 11);
+        if (upgrade < 2) {
+            table.setUpgrade(new Upgrade(1));
+        } else if (upgrade > 9) {
+            table.setUpgrade(new Upgrade(2));
+        } else if (upgrade == 5 || upgrade == 6) {
+            table.setUpgrade(new Upgrade(3));
+        }
+        listaTables.add(table);
+    }
+    for (Mesa mesa : listaTables
+
+    
+        ) {
+            mesa.crearSillas();
+    }
+}
+
+/**
+ * Metodo <I>run</I> sobrescrito de la clase <code>Thread</code>.<P>
+ * En este metodo se ejecuta el hilo, es un ciclo indefinido donde se incrementa
+ * la posicion en x o y dependiendo de la direccion, finalmente se repinta el
+ * <code>Applet</code> y luego manda a dormir el hilo.
+ *
+ */
+public void run() {
         //Guarda el tiempo actual del sistema 
         tiempoActual = System.currentTimeMillis();
 
@@ -1373,16 +1383,16 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 //nameJ2 = jugador2.getText();
                 switch (colorJ2) {
                     case 1:
-                        j1 = new Jugador(1, Color.red, nameJ2, 9);
+                        j1 = new Jugador(1, Color.red, nameJ2, listaTables.size() -1);
                         break;
                     case 2:
-                        j1 = new Jugador(1, Color.gray, nameJ2, 9);
+                        j1 = new Jugador(1, Color.gray, nameJ2, listaTables.size() - 1);
                         break;
                     case 3:
-                        j1 = new Jugador(1, Color.blue, nameJ2, 9);
+                        j1 = new Jugador(1, Color.blue, nameJ2, listaTables.size() - 1);
                         break;
                     case 4:
-                        j1 = new Jugador(1, Color.green, nameJ2, 9);
+                        j1 = new Jugador(1, Color.green, nameJ2, listaTables.size() - 1);
                         break;
                 }
                 state = state.GAME;
