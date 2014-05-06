@@ -6,14 +6,19 @@
 package source;
 
 /**
+ * La interfaz <I>Constantes</I> es un método para centralizar constantes dentro
+ * del juego.
  *
- * @author ppesq
+ * @author ferrufino, hugolg, betoesquivel, bernardot
  */
 public interface Constantes {
 
     //URLs Imagenes
     public static final String iUrlFondo = "images/background1.png";
     public static final String iUrlFondo2 = "images/cafeterias.png";
+    public static final String iUrlFondo3 = "images/bahia.png";
+    public static final String iUrlola = "images/waves1.png";
+    public static final String iUrlola2 = "images/waves2.png";
     public static final String iUrlCerveza = "images/beers.png";
     public static final String iUrlBotellas = "images/bottles.png";
     public static final String iUrlSilla1 = "images/chair1.png";
@@ -27,6 +32,7 @@ public interface Constantes {
     public static final String iUrlMesaBillar1 = "images/pooltable1.png";
     public static final String iUrlMesa = "images/table1.1.png";
     public static final String iUrlMesaCentrales = "images/mesa.png";
+    public static final String iUrlMesaBahia = "images/mesaBahia.png";
     public static final String iUrlBotonAtras = "images/backBoton.png";
     public static final String iUrlColorAzul = "images/colorAzul.png";
     public static final String iUrlColorGris = "images/colorGris.png";
@@ -80,6 +86,7 @@ public interface Constantes {
     public static final int BAR_ROUND = 0;
     public static final int BAR_POOL = 1;
     public static final int CENTRALES_ROUND = 2;
+    public static final int BAHIA_ROUND = 3;
 
     //Int values de personaje
     public static final int SENTADO = 0;
@@ -91,11 +98,13 @@ public interface Constantes {
     public static final int GAME_HEIGHT = 600;
 
     //Musica
-    String songOne =    "src/source/music/heisapirate.wav";
+    String songThree =    "src/source/music/heisapirate.wav";
     String songTwo =    "src/source/music/goldontheceiling.wav";
-    String songThree =  "src/source/music/rickrolled.wav";
+    String songOne =  "src/source/music/rickrolled.wav";
     
-    //Duración intro Rum
-    public static final int DURACION_INTRO_RUM = 190; 
+    //Sounds
+    String sParar = "sounds/pararse.wav";
+    String sSentar = "sounds/flap.wav";
+    String sMesaCapturada = "sounds/mesacapturada.wav";
 
 }

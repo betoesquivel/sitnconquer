@@ -13,8 +13,17 @@ import java.awt.Toolkit;
 import java.net.URL;
 
 /**
+ * La clase <I>Personaje</I> describe a un personaje o un monito dentro del
+ * juego. Un monito tiene: un <code>color</code> que define el dueño al que
+ * pertenece. <code>velocidad en x y en y</code>, que define la dirección de su
+ * movimiento. <code>animaciones</code>, del personaje. <code>sentado</code>,
+ * con la orientación en la que se ha sentado. <code>mesa destino</code>, que
+ * define la mesa a la que se dirige en caso de estar <I>ENMOVIMIENTO</I>
+ * <code>estado</code>, que define el estado en el que está
+ * <I>PARADO, SENTADO o ENMOVIMIENTO</I>
  *
- * @author bernardot
+ *
+ * @author ferrufino, hugolg, betoesquivel, bernardot
  */
 public class Personaje extends Base implements Constantes {
 
@@ -101,6 +110,9 @@ public class Personaje extends Base implements Constantes {
         crearAnimaciones();
     }
 
+    /**
+     * Método que inicializa todas las animaciones del personaje.
+     */
     public void crearAnimaciones() {
         anim = new Animacion();
         aRight = new Animacion();
@@ -239,6 +251,12 @@ public class Personaje extends Base implements Constantes {
         }
     }
 
+    /**
+     * Método que actualiza la animación del personaje que está actualmente en
+     * uso.
+     *
+     * @param tiempoTranscurrido
+     */
     public void actualizaAnimaciones(long tiempoTranscurrido) {
         if (anim != null) {
             anim.actualiza(tiempoTranscurrido);
@@ -420,38 +438,85 @@ public class Personaje extends Base implements Constantes {
         this.velocidad = velocidad;
     }
 
+    /**
+     * Metodo de acceso que regresa la velocidad horizontal del objeto
+     *
+     * @return velX de tipo <code>int</code>
+     */
     public int getVelX() {
         return velX;
     }
 
+    /**
+     * Método modificador que cambia la velocidad horizontal del objeto
+     *
+     * @param velX de tipo <code>int</code>
+     */
     public void setVelX(int velX) {
         this.velX = velX;
     }
 
+    /**
+     * Metodo de acceso que regresa la velocidad vertical del objeto
+     *
+     * @return velY de tipo <code>int</code>
+     */
     public int getVelY() {
         return velY;
     }
 
+    /**
+     * Método modificador que cambia la velocidad vertical del objeto
+     *
+     * @param velY de tipo <code>int</code>
+     */
     public void setVelY(int velY) {
         this.velY = velY;
     }
 
+    /**
+     * Metodo de acceso que regresa si el objeto está en una intersección
+     *
+     * @return intersecta de tipo <code>boolean</code>
+     */
     public boolean isIntersecta() {
         return intersecta;
     }
 
+    /**
+     * Método modificador que cambia el valor de la variable intersecta.
+     *
+     * @param intersecta de tipo <code>boolean</code>
+     */
     public void setIntersecta(boolean intersecta) {
         this.intersecta = intersecta;
     }
 
+    /**
+     * Metodo de acceso que regresa el perímetro del objeto en un
+     *
+     * @return rectángulo de tipo <code>Rectangle</code>
+     */
     public Rectangle getPerimetro() {
         return new Rectangle(getPosX(), getPosY() + 40, getAncho(), getAlto() - 40);
     }
 
+    /**
+     * Método que pinta al personaje.
+     *
+     * @param g de tipo <code>Graphics</code>
+     */
     public void paint(Graphics g) {
         g.drawImage(anim.getImagen(), getPosX(), getPosY(), null);
     }
 
+    /**
+     * Método que pinta al personaje en una mesa de billar
+     *
+     * @param g de tipo <code> Graphics </code>
+     * @param m de tipo <code> Mesa </code>
+     * @param pos de tipo <cdoe> int </code>
+     */
     public void paintBillar(Graphics g, Mesa m, int pos) {
         if (pos == 0) {
             g.drawImage(anim.getImagen(), m.getPosX() + 60, m.getPosY() - 25, null);
@@ -464,6 +529,14 @@ public class Personaje extends Base implements Constantes {
         }
     }
 
+    /**
+     * Método que pinta al personaje sentado en el caso de que se encuentre
+     * sentado en una mesa.
+     *
+     * @param g de tipo <code>Graphics</code>
+     * @param s de tipo <code>Silla</code>
+     * @param m de tipo <code>Mesa</code>
+     */
     public void paintSentado(Graphics g, Silla s, Mesa m) {
         if (tipo == 1) {
             if (m.getTipo() == 1) {
@@ -486,7 +559,18 @@ public class Personaje extends Base implements Constantes {
                 } else if (sentado == 3) {
                     g.drawImage(aDown.getImagen(), s.getPosX(), s.getPosY() - 20, null);
                 }
+            } else if (m.getTipo() == 4) {
+                if (sentado == 0) {
+                    g.drawImage(aLeft.getImagen(), s.getPosX(), s.getPosY() - 35, null);
+                } else if (sentado == 1) {
+                    g.drawImage(aRight.getImagen(), s.getPosX() - 5, s.getPosY() - 35, null);
+                } else if (sentado == 2) {
+                    g.drawImage(aUp.getImagen(), s.getPosX(), s.getPosY() - 28, null);
+                } else if (sentado == 3) {
+                    g.drawImage(aDown.getImagen(), s.getPosX(), s.getPosY() - 38, null);
+                }
             }
+
         } else if (tipo == 2) {
             if (m.getTipo() == 1) {
                 if (sentado == 0) {
@@ -508,7 +592,18 @@ public class Personaje extends Base implements Constantes {
                 } else if (sentado == 3) {
                     g.drawImage(aDown.getImagen(), s.getPosX(), s.getPosY() - 20, null);
                 }
+            } else if (m.getTipo() == 4) {
+                if (sentado == 0) {
+                    g.drawImage(aLeft.getImagen(), s.getPosX(), s.getPosY() - 35, null);
+                } else if (sentado == 1) {
+                    g.drawImage(aRight.getImagen(), s.getPosX() - 5, s.getPosY() - 35, null);
+                } else if (sentado == 2) {
+                    g.drawImage(aUp.getImagen(), s.getPosX(), s.getPosY() - 28, null);
+                } else if (sentado == 3) {
+                    g.drawImage(aDown.getImagen(), s.getPosX(), s.getPosY() - 38, null);
+                }
             }
+            
         } else if (tipo == 3) {
             if (m.getTipo() == 1) {
                 if (sentado == 0) {
@@ -530,7 +625,18 @@ public class Personaje extends Base implements Constantes {
                 } else if (sentado == 3) {
                     g.drawImage(aDown.getImagen(), s.getPosX() - 7, s.getPosY() - 20, null);
                 }
+            } else if (m.getTipo() == 4) {
+                if (sentado == 0) {
+                    g.drawImage(aLeft.getImagen(), s.getPosX(), s.getPosY() - 40, null);
+                } else if (sentado == 1) {
+                    g.drawImage(aRight.getImagen(), s.getPosX() - 20, s.getPosY() - 40, null);
+                } else if (sentado == 2) {
+                    g.drawImage(aUp.getImagen(), s.getPosX() - 7, s.getPosY() - 28, null);
+                } else if (sentado == 3) {
+                    g.drawImage(aDown.getImagen(), s.getPosX() - 7, s.getPosY() - 38, null);
+                }
             }
+            
         } else if (tipo == 4) {
             if (m.getTipo() == 1) {
                 if (sentado == 0) {
@@ -552,14 +658,36 @@ public class Personaje extends Base implements Constantes {
                 } else if (sentado == 3) {
                     g.drawImage(aDown.getImagen(), s.getPosX(), s.getPosY() - 20, null);
                 }
+            } else if (m.getTipo() == 4) {
+                if (sentado == 0) {
+                    g.drawImage(aLeft.getImagen(), s.getPosX(), s.getPosY() - 35, null);
+                } else if (sentado == 1) {
+                    g.drawImage(aRight.getImagen(), s.getPosX() - 5, s.getPosY() - 35, null);
+                } else if (sentado == 2) {
+                    g.drawImage(aUp.getImagen(), s.getPosX(), s.getPosY() - 28, null);
+                } else if (sentado == 3) {
+                    g.drawImage(aDown.getImagen(), s.getPosX(), s.getPosY() - 38, null);
+                }
             }
         }
     }
 
+    /**
+     * Metodo de acceso que regresa la orientación en la que se encuentra
+     * sentado el personaje.
+     *
+     * @return sentado de tipo <code>int</code>
+     */
     public int getSentado() {
         return sentado;
     }
 
+    /**
+     * Método modificador que cambia la orientación en la que se encuentra
+     * sentado el personaje.
+     *
+     * @param sentado de tipo <code>int</code>
+     */
     public void setSentado(int sentado) {
         this.sentado = sentado;
     }

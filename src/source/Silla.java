@@ -11,6 +11,12 @@ import java.awt.Graphics;
  *
  * @author bernardot
  */
+
+
+/**
+ * La clase <I>Silla</I> define el estado de cada silla y su debida imagen
+ * 
+ */
 public class Silla extends Base {
 
     boolean ocupada;    // Variable booleana para saber si un personaje está sentado

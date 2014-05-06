@@ -36,8 +36,10 @@ import javax.sound.sampled.Clip;
 import javax.swing.JFrame;// 
 
 /**
+ * La clase <I>Game</I> contiene el thread principal del juego. Este es el
+ * <code>JFrame</code> donde está el juego.
  *
- * @author Ferrufino y Andres
+ * @author ferrufino, hugolg, betoesquivel, bernardot
  */
 public class Game extends JFrame implements Constantes, Runnable, KeyListener, MouseListener, MouseMotionListener {
 
@@ -98,6 +100,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private int dY;
     private int incX;
     private int incY;
+    private int moverOla1;// Importante para el escenario 3
+    private int moverOla2; // Importante para el escenario 3
 
     // Saber que escenario es
     private int escenario;
@@ -150,14 +154,20 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
     //Objetos Imagen
     private Image fondo;
+    private Image ola1;
+    private Image ola2;
     //private Image cerveza;
 
     //Objetos URL
     private URL fondoURL = this.getClass().getResource(iUrlFondo);
     private URL fondoURL2 = this.getClass().getResource(iUrlFondo2);
+    private URL fondoURL3 = this.getClass().getResource(iUrlFondo3);
+    private URL olaURL1 = this.getClass().getResource(iUrlola);
+    private URL olaURL2 = this.getClass().getResource(iUrlola2);
     private URL tableURL = this.getClass().getResource(iUrlMesa);
     private URL poolURL = this.getClass().getResource(iUrlMesaBillar1);
     private URL mesaCentralesURL = this.getClass().getResource(iUrlMesaCentrales);
+    private URL mesaBahiaURL = this.getClass().getResource(iUrlMesaBahia);
     //private URL cervezaURL = this.getClass().getResource(iUrlCerveza);
     private URL imgLogoGrandeURL = this.getClass().getResource(iUrlLogoGrande);
     private URL imgPlayBotonURL = this.getClass().getResource(iUrlBotonPlay);
@@ -240,9 +250,13 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private long tiempoActual;
     private long tiempoInicial;
 
+    //Sonidos
+    SoundClip sitClip;
+    SoundClip standClip;
+    SoundClip conquerClip;
+    
     /**
-     * Metodo <I>PlayGround()</I> de la clase <code>PlayGround</code>. Es el
-     * constructor de la clase donde se definen las variables
+     * Método constructor de la clase <I>Game</I> que inicializa el juego.
      */
     public Game() {
 
@@ -335,6 +349,11 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         movHorizontal = false;
         movVertical = false;
 
+        //Sounds
+        sitClip = new SoundClip(sSentar);
+        standClip = new SoundClip(sParar);
+        
+        
         rojo = true;
         gris = verde = azul = false;
 
@@ -363,8 +382,10 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         // Se inicializa con escenario = 1... y el metodo a continuacion te lleva a centrales.
         // Comentar la siguiente linea te regresa al bar.
         escenario2();
-
-        playMusic(trackList, 0, 3); //0 means that I want music, 1 means I dont want music; 1 means first song; 
+        if (escenario == 1) {
+            playMusic(trackList, 0, 1);
+        }
+//        playMusic(trackList, 0, 3); //0 means that I want music, 1 means I dont want music; 1 means first song; 
 
         // Declaras un hilo
         Thread th = new Thread(this);
@@ -373,9 +394,29 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
     }
 
+    /**
+     * Método que actualiza las variables que representan el escenario del juego
+     * al escenario 2. Este es la <code>cafetería del tec</code>.
+     */
     public void escenario2() {
         escenario = 2;
         fondo = Toolkit.getDefaultToolkit().getImage(fondoURL2);
+        listaTables = new LinkedList<Mesa>();
+        crearMesasYSillas();
+        playMusic(trackList, 0, 2);
+    }
+
+    /**
+     * Método que actualiza las variables que representan el escenario del juego
+     * al escenario 3. Este es la <code>la bahía</code>.
+     */
+    public void escenario3() {
+        escenario = 3;
+        fondo = Toolkit.getDefaultToolkit().getImage(fondoURL3);
+        ola1 = Toolkit.getDefaultToolkit().getImage(olaURL1);
+        ola2 = Toolkit.getDefaultToolkit().getImage(olaURL2);
+        moverOla1 = 0;
+        moverOla2 = - 900;
         listaTables = new LinkedList<Mesa>();
         crearMesasYSillas();
     }
@@ -419,7 +460,28 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 {700, 440, CENTRALES_ROUND}
             };
         }
-        for (int r = 0; r < mapa.length; r++) {
+
+        if (escenario == 3) {
+            mapa = new int[][]{
+                {60, 420, BAHIA_ROUND},
+                {50, 120, BAHIA_ROUND},
+                {150, 220, BAHIA_ROUND},
+                {250, 320, BAHIA_ROUND},
+                {350, 420, BAHIA_ROUND},
+                {260, 120, BAHIA_ROUND},
+                {360, 220, BAHIA_ROUND},
+                {460, 320, BAHIA_ROUND},
+                {560, 420, BAHIA_ROUND},
+                {470, 120, BAHIA_ROUND},
+                {570, 220, BAHIA_ROUND},
+                {670, 320, BAHIA_ROUND},
+                {770, 420, BAHIA_ROUND},
+                {770, 120, BAHIA_ROUND}
+            };
+        }
+        for (int r = 0;
+                r < mapa.length;
+                r++) {
             URL url;
             int tipo = 0;
             switch (mapa[r][2]) {
@@ -434,6 +496,10 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 case CENTRALES_ROUND:
                     url = mesaCentralesURL;
                     tipo = 3;
+                    break;
+                case BAHIA_ROUND:
+                    url = mesaBahiaURL;
+                    tipo = 4;
                     break;
                 default:
                     url = tableURL;
@@ -486,6 +552,9 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         }
     }
 
+    /**
+     * Método que actualiza la animación de introducción al juego.
+     */
     public void actualizaRumIntro() {
         //Determina el tiempo que ha transcurrido desde que el Applet 
         //inicio su ejecución
@@ -497,7 +566,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     }
 
     /**
-     * Metodo usado para actualizar la posicion de objetos del juego
+     * Metodo usado para actualizar la posicion de objetos dentro del juego
      */
     public void Actualiza() {
 
@@ -511,6 +580,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             }
             BQT.setEncendido(false);
         }
+
         listaTables.get(j1.getMesaSeleccionada()).setColor1(j1.getColor());
         listaTables.get(j2.getMesaSeleccionada()).setColor2(j2.getColor());
 
@@ -530,6 +600,14 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         j2.actualiza(tiempoTranscurrido);
         j1.checaFactorDeCreacion(listaTables);
         j2.checaFactorDeCreacion(listaTables);
+
+        moverOla1++;
+        moverOla2++;
+        if (moverOla1 > 900) {
+            moverOla1 = - 900;
+        } else if (moverOla2 > 900) {
+            moverOla2 = - 900;
+        }
 
         //Acutalizo la posicion del pTravolta2
 //        for (Personaje p : j1.listaPersonajes) {
@@ -560,7 +638,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     }
     
     /**
-     * Checa colisiones dentro del <code>JFrame</code>.
+     * Checa colisiones dentro del <code>JFrame</code>. Colisiones con la
+     * ventana y de los personajes con las mesas.
      */
     public void ChecaColision() {
         //checa colision con el applet
@@ -695,6 +774,10 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
      */
     public void paint1(Graphics g) {
         if (state == STATE.GAME) {
+            if (escenario == 3) {
+                g.drawImage(ola1, moverOla1, 0, this);
+                g.drawImage(ola2, moverOla2, 0, this);
+            }
             g.drawImage(fondo, 0, 0, this);
             detenerGanaste = 0;
 
@@ -803,11 +886,11 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         if (state == state.SELECT_COLOR_2) {
             Color c = new Color(255, 255, 0, 100);
             g.setColor(c);
-            if (azul) {
+            if (azul && j2.getColor() != Color.blue) {
                 g.fillOval(bColorAzul.getPosX() - 10, bColorAzul.getPosY() - 10, bColorAzul.getAncho() + 20, bColorAzul.getAlto() + 20);
-            } else if (rojo) {
+            } else if (rojo && j2.getColor() != Color.red) {
                 g.fillOval(bColorRojo.getPosX() - 10, bColorRojo.getPosY() - 10, bColorRojo.getAncho() + 20, bColorRojo.getAlto() + 20);
-            } else if (verde) {
+            } else if (verde && j2.getColor() != Color.green) {
                 g.fillOval(bColorVerde.getPosX() - 10, bColorVerde.getPosY() - 10, bColorVerde.getAncho() + 20, bColorVerde.getAlto() + 20);
             } else {
                 g.fillOval(bColorGris.getPosX() - 10, bColorGris.getPosY() - 10, bColorGris.getAncho() + 20, bColorGris.getAlto() + 20);
@@ -836,7 +919,12 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
         if (state == state.CREDITS) {
             g.drawImage(imgLogoGrande, 200, 20, this);
+            Font helvetica = new Font("Helvetica", Font.BOLD, 20);
+            g.setFont(helvetica);
+            g.setColor(Color.WHITE);
             g.drawString("DESARROLLADO POR RUM", 350, 420);
+            helvetica = new Font("Helvetica", Font.BOLD, 20);
+            g.setFont(helvetica);
             g.drawString("Hugo León ", 300, 440);
             g.drawString("Bernardo Treviño", 300, 460);
             g.drawString("José Alberto Esquivel", 300, 480);
@@ -853,36 +941,36 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             g.drawImage(bBack.getImageIcon().getImage(), bBack.getPosX(), bBack.getPosY(), this);
 
         }
-        
-        if(state == state.MENU_POSTJUEGO) {
-            if(detenerGanaste <= 100) {
 
-                switch(Ganaste) {
+        if (state == state.MENU_POSTJUEGO) {
+            if (detenerGanaste <= 100) {
+
+                switch (Ganaste) {
                     case 1:
-                        if(Color.red == j1.getColor()) {
-                            g.drawImage(imgGanasteRojo, 0, 0, this); 
+                        if (Color.red == j1.getColor()) {
+                            g.drawImage(imgGanasteRojo, 0, 0, this);
                         } else if (Color.blue == j1.getColor()) {
-                            g.drawImage(imgGanasteAzul, 0, 0, this); 
+                            g.drawImage(imgGanasteAzul, 0, 0, this);
                         } else if (Color.gray == j1.getColor()) {
-                            g.drawImage(imgGanasteGris, 0, 0, this); 
+                            g.drawImage(imgGanasteGris, 0, 0, this);
                         } else {
-                            g.drawImage(imgGanasteVerde, 0, 0, this); 
+                            g.drawImage(imgGanasteVerde, 0, 0, this);
                         }
                         break;
                     case 2:
-                        if(Color.red == j2.getColor()) {
-                            g.drawImage(imgGanasteRojo, 0, 0, this); 
+                        if (Color.red == j2.getColor()) {
+                            g.drawImage(imgGanasteRojo, 0, 0, this);
                         } else if (Color.blue == j2.getColor()) {
-                            g.drawImage(imgGanasteAzul, 0, 0, this); 
+                            g.drawImage(imgGanasteAzul, 0, 0, this);
                         } else if (Color.gray == j2.getColor()) {
-                            g.drawImage(imgGanasteGris, 0, 0, this); 
+                            g.drawImage(imgGanasteGris, 0, 0, this);
                         } else {
-                            g.drawImage(imgGanasteVerde, 0, 0, this); 
+                            g.drawImage(imgGanasteVerde, 0, 0, this);
                         }
-                        
+
                         break;
                 }
-                               
+
                 detenerGanaste++;
             } else {
                 restart();
@@ -891,7 +979,17 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
     }
 
-    //plays different music throughout game if user wants to
+    /**
+     * Toca la música del juego. Extraido de
+     * https://github.com/tylucaskelley/BrickBreaker
+     *
+     * @param songs de tipo <code>String[]</code> con la ubicación de las
+     * canciones.
+     * @param yesNo de tipo <code>int</code> siendo 0 = con musica y 1 lo
+     * contrario.
+     * @param level de tipo <code>int</code> con el número de la canción a
+     * reproducir de entre la lista de canciones <code>songs</code>
+     */
     public void playMusic(String[] songs, int yesNo, int level) {
         if (yesNo == 1) {
             return;
@@ -933,12 +1031,10 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         }
     }
 
-
-    /*
-     *Metodo keyPressed
-     *Cuando una tecla esta apretada
-     *recibe de param un evento, en este caso se busca que sea la p
-     *para pausar el juego
+    /**
+     * Metodo keyPressed Cuando una tecla esta apretada recibe de param un
+     * evento de tipo <code>KeyEvent</code>, en este caso se busca que sea la p
+     * para pausar el juego
      */
     public void keyPressed(KeyEvent e) {
         if (state == state.GAME) {
@@ -971,9 +1067,11 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                     break;
                 case KeyEvent.VK_DOWN:
                     j1.sentarAMesa(listaTables.get(j1.getMesaSeleccionada()));
+                    sitClip.play();
                     break;
                 case KeyEvent.VK_UP:
                     listaTables.get(j1.getMesaSeleccionada()).parar(j1);
+                    standClip.play();
                     break;
 
                 //Controles para el jugador 2
@@ -999,9 +1097,11 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                     break;
                 case KeyEvent.VK_S:
                     j2.sentarAMesa(listaTables.get(j2.getMesaSeleccionada()));
+                    sitClip.play();
                     break;
                 case KeyEvent.VK_W:
                     listaTables.get(j2.getMesaSeleccionada()).parar(j2);
+                    standClip.play();
                     break;
                 case KeyEvent.VK_0:
                     state = state.INSTRUCCIONES;
@@ -1036,6 +1136,14 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         }
     }
 
+    /**
+     * Método que modifica el nombre del Jugador conforme se va tecleando en la
+     * pantallas de selección de nombre al inicio del juego.
+     *
+     * @param e de tipo <code>KeyEvent</code>
+     * @param n de tipo <cdoe>String</code> con el nombre acumulado.
+     * @return el string n modificado hasta ahora.
+     */
     public String modificaNombreJ(KeyEvent e, String n) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_BACK_SPACE:
@@ -1163,11 +1271,11 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
     }
 
-    /*
-     *Metodo mouseClicked
-     *Cuando el mouse es apretado
-     *recibe de param un evento, que ayudara a definir donde fue picado
-     *dentro del applet
+    /**
+     * Metodo mouseClicked 
+     * Cuando el mouse es apretado recibe de param un
+     * evento, que ayudara a definir donde fue picado dentro del applet
+     * @param e de tipo <code>MouseEvent</code> con el evento capturado. 
      */
     public void mouseClicked(MouseEvent e) {
         // Si hubo click dentro del objeto pTravolta1 se guarda posicion y diferencia.
@@ -1337,16 +1445,16 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 //nameJ2 = jugador2.getText();
                 switch (colorJ2) {
                     case 1:
-                        j1 = new Jugador(1, Color.red, nameJ2, 9);
+                        j1 = new Jugador(1, Color.red, nameJ2, listaTables.size() - 1);
                         break;
                     case 2:
-                        j1 = new Jugador(1, Color.gray, nameJ2, 9);
+                        j1 = new Jugador(1, Color.gray, nameJ2, listaTables.size() - 1);
                         break;
                     case 3:
-                        j1 = new Jugador(1, Color.blue, nameJ2, 9);
+                        j1 = new Jugador(1, Color.blue, nameJ2, listaTables.size() - 1);
                         break;
                     case 4:
-                        j1 = new Jugador(1, Color.green, nameJ2, 9);
+                        j1 = new Jugador(1, Color.green, nameJ2, listaTables.size() - 1);
                         break;
                 }
                 state = state.GAME;
@@ -1374,6 +1482,11 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
     }
 
+    /**
+     * Metodo que funciona para habilitar el movimiento de los monitos 
+     * con mouseDrag...
+     * @param e de tipo <code>MouseEvent</code>
+     */
     public void mouseReleased(MouseEvent e) {//metodo cuando el mouse es soltado
         // La bandera se apaga cuando se deja de picar en el mouse.
         mouseDrag = false;
@@ -1383,6 +1496,11 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
     }
 
+    /**
+     * Otro método para escuchar el mouse drag y permitir el movimiento del 
+     * personaje hacia esta posición
+     * @param e de tipo <code>MouseEvent</code>
+     */
     public void mouseDragged(MouseEvent e) {   //metodos de MouseMotionListener
         // Si la bandera esta prendida, salvar los valores del drag.
         if (mouseDrag) {
@@ -1391,6 +1509,9 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         }
     }
 
+    /**
+     * Método que reinicia el juego cambiando el estado del mismo.
+     */
     public void restart() {
         state = state.MENU_MAIN;
     }
