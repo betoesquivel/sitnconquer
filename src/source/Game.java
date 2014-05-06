@@ -863,11 +863,11 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             g.drawString(nameJ2, getWidth() - 300, getHeight() - 35);
             g.drawString(nameJ1, 50, getHeight() - 35);
             g.setFont(new Font("Monospaced", Font.BOLD, 15));
-            g.drawString("Sentados: " + j1.getCantSentados(), getWidth() - 150, getHeight() - 35);
-            g.drawString("Parados: " + j1.getCantParados(), getWidth() - 150, getHeight() - 15);
+            g.drawString("Sitting: " + j1.getCantSentados(), getWidth() - 150, getHeight() - 35);
+            g.drawString("Standing: " + j1.getCantParados(), getWidth() - 150, getHeight() - 15);
 
-            g.drawString("Sentados: " + j2.getCantSentados(), 220, getHeight() - 35);
-            g.drawString("Parados: " + j2.getCantParados(), 220, getHeight() - 15);
+            g.drawString("Sitting: " + j2.getCantSentados(), 220, getHeight() - 35);
+            g.drawString("Standing: " + j2.getCantParados(), 220, getHeight() - 15);
 
             for (Mesa mesa : listaTables) {
                 mesa.paintSillasArriba(g);
