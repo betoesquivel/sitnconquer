@@ -21,9 +21,15 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.net.URL;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -651,7 +657,21 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             Ganaste = 2;
         }
     }
-
+    
+    public void leerHighscore() throws FileNotFoundException, IOException {
+        BufferedReader reader = new BufferedReader(new FileReader("src/source/score.txt"));
+        String line = null;
+        while ((line = reader.readLine()) != null) {
+            // ...
+            String[] parts = line.split(" ");
+            System.out.println(parts[0] + "  " + parts[1]);
+        }
+    }
+    
+    public void guardarHighscore(String nombre, int jGanados) {
+        
+    }
+    
     /**
      * Checa colisiones dentro del <code>JFrame</code>. Colisiones con la
      * ventana y de los personajes con las mesas.
@@ -764,7 +784,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         }
 
         // Update la imagen de fondo.
-        if (RumIntroCont < 190) {
+        if (RumIntroCont < DURACION_INTRO_RUM) {
             dbg.setColor(Color.WHITE);
         } else {
             dbg.setColor(new Color(0x78, 0xae, 0xe3));
@@ -851,7 +871,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         }
 
         if (state == STATE.MENU_MAIN) {
-            if (RumIntroCont < 190) {
+            if (RumIntroCont < DURACION_INTRO_RUM) {
                 g.drawImage(RumIntro.getImagen(), 0, 0, this);
                 RumIntroCont++;
 
@@ -1317,6 +1337,11 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
             if (bHighScore.clicked(e)) {
                 state = state.HIGHSCORE;
+                try {
+                    leerHighscore();
+                } catch (IOException ex) {
+                    Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
 
         }
