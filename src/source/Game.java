@@ -163,6 +163,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private URL fondoURL2 = this.getClass().getResource(iUrlFondo2);
     private URL fondoURL3 = this.getClass().getResource(iUrlFondo3);
     private URL fondoURL4 = this.getClass().getResource(iUrlFondo4);
+    private URL fondoURL5 = this.getClass().getResource(iUrlFondo5);
     private URL olaURL1 = this.getClass().getResource(iUrlola);
     private URL olaURL2 = this.getClass().getResource(iUrlola2);
     private URL tableURL = this.getClass().getResource(iUrlMesa);
@@ -171,6 +172,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private URL mesaBahiaURL = this.getClass().getResource(iUrlMesaBahia);
     private URL mesaPlaya1URL = this.getClass().getResource(iUrlMesaPlaya1);
     private URL mesaPlaya2URL = this.getClass().getResource(iUrlMesaPlaya2);
+    private URL mesaCasinoURL = this.getClass().getResource(iUrlMesaCasino);
     //private URL cervezaURL = this.getClass().getResource(iUrlCerveza);
     private URL imgLogoGrandeURL = this.getClass().getResource(iUrlLogoGrande);
     private URL imgPlayBotonURL = this.getClass().getResource(iUrlBotonPlay);
@@ -266,7 +268,6 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         setSize(GAME_WIDTH, GAME_HEIGHT);
         //Fondo
         fondo = Toolkit.getDefaultToolkit().getImage(fondoURL);
-        escenario = 1;
         // Rum Intro
         RumIntroGif = Toolkit.getDefaultToolkit().getImage(imgRIGifURL);
         RumIntroCont = 0;
@@ -291,6 +292,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 //        cerveza = Toolkit.getDefaultToolkit().getImage(cervezaURL);
         Image travolta1 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/ilDivo/azul/divo_01.png"));
         Image travolta2 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/ilDivo/azul/divo_02.png"));
+        
+        // travolta debugging
         travolta = new Animacion();
         travolta.sumaCuadro(travolta1, 400);
         travolta.sumaCuadro(travolta2, 400);
@@ -302,16 +305,6 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
         pTravolta3 = new Personaje(0, 0, 3, 3);
         pTravolta4 = new Personaje(0, 0, 4, 4);
-
-//        bPausa = new Boton(850, 20, plateP);
-        listaTables = new LinkedList<Mesa>();
-        crearMesasYSillas();
-
-        //nombres de jugador
-        nameJ1 = "alesso";
-        nameJ2 = "lukas";
-
-        detenerGanaste = 0;
 
         //jugadores init
         // LO COMENTE PARA QUE SE INICIALICEN CON LOS COLORES BUENOS
@@ -348,16 +341,9 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         imgGanasteRojo = Toolkit.getDefaultToolkit().getImage(imgGanasteRojoURL);
         imgGanasteGris = Toolkit.getDefaultToolkit().getImage(imgGanasteGrisURL);
 
-        //Booleans
-        movHorizontal = false;
-        movVertical = false;
-
         //Sounds
         sitClip = new SoundClip(sSentar);
         standClip = new SoundClip(sParar);
-
-        rojo = true;
-        gris = verde = azul = false;
 
         //Controladores 
         addKeyListener(this);
@@ -381,14 +367,39 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         bNext = new Boton(750, 490, imgNextBoton);
         bBack = new Boton(20, 490, imgBackBoton);
 
+        init();
+        start();
+    }
+    
+    public void init() {
+        escenario = 1;
+        
+        //        bPausa = new Boton(850, 20, plateP);
+        listaTables = new LinkedList<Mesa>();
+        crearMesasYSillas();
+
+        //nombres de jugador
+        nameJ1 = "alesso";
+        nameJ2 = "lukas";
+
+        detenerGanaste = 0;
+        //Booleans
+        movHorizontal = false;
+        movVertical = false;
+        rojo = true;
+        gris = verde = azul = false;
+        
         // Se inicializa con escenario = 1... y el metodo a continuacion te lleva a centrales.
         // Comentar la siguiente linea te regresa al bar.
-        escenario4();
+        escenario5();
         if (escenario == 1) {
             playMusic(trackList, 0, 1);
         }
 //        playMusic(trackList, 0, 3); //0 means that I want music, 1 means I dont want music; 1 means first song; 
 
+    }
+    
+    public void start() {
         // Declaras un hilo
         Thread th = new Thread(this);
         // Empieza el hilo
@@ -426,6 +437,13 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     public void escenario4() {
         escenario = 4;
         fondo = Toolkit.getDefaultToolkit().getImage(fondoURL4);
+        listaTables = new LinkedList<Mesa>();
+        crearMesasYSillas();
+    }
+
+    public void escenario5() {
+        escenario = 5;
+        fondo = Toolkit.getDefaultToolkit().getImage(fondoURL5);
         listaTables = new LinkedList<Mesa>();
         crearMesasYSillas();
     }
@@ -506,6 +524,24 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 {770, 370, PLAYA_ROUND}
             };
         }
+
+        if (escenario == 5) {
+            mapa = new int[][]{
+                {100, 160, CASINO_ROUND},
+                {100, 300, CASINO_ROUND},
+                {100, 440, CASINO_ROUND},
+                {300, 160, CASINO_ROUND},
+                {300, 300, CASINO_ROUND},
+                {300, 440, CASINO_ROUND},
+                {500, 160, CASINO_ROUND},
+                {500, 300, CASINO_ROUND},
+                {500, 440, CASINO_ROUND},
+                {700, 160, CASINO_ROUND},
+                {700, 300, CASINO_ROUND},
+                {700, 440, CASINO_ROUND}
+            };
+        }
+
         for (int r = 0;
                 r < mapa.length;
                 r++) {
@@ -535,6 +571,10 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 case PLAYA_SQUARE:
                     url = mesaPlaya2URL;
                     tipo = 6;
+                    break;
+                case CASINO_ROUND:
+                    url = mesaCasinoURL;
+                    tipo = 7;
                     break;
                 default:
                     url = tableURL;
@@ -657,7 +697,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             Ganaste = 2;
         }
     }
-    
+
     public void leerHighscore() throws FileNotFoundException, IOException {
         BufferedReader reader = new BufferedReader(new FileReader("src/source/score.txt"));
         String line = null;
@@ -667,11 +707,11 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             System.out.println(parts[0] + "  " + parts[1]);
         }
     }
-    
+
     public void guardarHighscore(String nombre, int jGanados) {
-        
+
     }
-    
+
     /**
      * Checa colisiones dentro del <code>JFrame</code>. Colisiones con la
      * ventana y de los personajes con las mesas.
@@ -837,7 +877,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 Color colorPisoMesa = mesa.getColorPrincipal();
                 if (colorPisoMesa != null) {
                     g.setColor(colorPisoMesa);
-                    if (mesa.getTipo() == 1 || mesa.getTipo() == 2 || mesa.getTipo() == 4 || mesa.getTipo() == 5 || mesa.getTipo() == 6) {
+                    if (mesa.getTipo() == 1 || mesa.getTipo() == 2 || mesa.getTipo() == 4 || mesa.getTipo() == 5 || mesa.getTipo() == 6 || mesa.getTipo() == 7) {
                         g.drawRect(mesa.getPosX() - 25, mesa.getPosY() - 30, mesa.getAncho() + 50, mesa.getAlto() + 40);
                     } else {
                         g.drawRect(mesa.getPosX() - 30, mesa.getPosY() - 42, mesa.getAncho() + 60, mesa.getAlto() + 45);
@@ -1550,6 +1590,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
      * Método que reinicia el juego cambiando el estado del mismo.
      */
     public void restart() {
+        init();
         state = state.MENU_MAIN;
     }
 

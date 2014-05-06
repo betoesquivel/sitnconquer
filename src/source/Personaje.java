@@ -539,7 +539,7 @@ public class Personaje extends Base implements Constantes {
      */
     public void paintSentado(Graphics g, Silla s, Mesa m) {
         if (tipo == 1) {
-            if (m.getTipo() == 1) {
+            if (m.getTipo() == 1 || m.getTipo() == 7) {
                 if (sentado == 0) {
                     g.drawImage(aLeft.getImagen(), s.getPosX() + 5, s.getPosY() - 10, null);
                 } else if (sentado == 1) {
@@ -582,7 +582,7 @@ public class Personaje extends Base implements Constantes {
             }
 
         } else if (tipo == 2) {
-            if (m.getTipo() == 1) {
+            if (m.getTipo() == 1 || m.getTipo() == 7) {
                 if (sentado == 0) {
                     g.drawImage(aLeft.getImagen(), s.getPosX() + 5, s.getPosY() - 10, null);
                 } else if (sentado == 1) {
@@ -625,7 +625,7 @@ public class Personaje extends Base implements Constantes {
             }
             
         } else if (tipo == 3) {
-            if (m.getTipo() == 1) {
+            if (m.getTipo() == 1 || m.getTipo() == 7) {
                 if (sentado == 0) {
                     g.drawImage(aLeft.getImagen(), s.getPosX() + 6, s.getPosY() - 10, null);
                 } else if (sentado == 1) {
@@ -668,7 +668,7 @@ public class Personaje extends Base implements Constantes {
             }
             
         } else if (tipo == 4) {
-            if (m.getTipo() == 1) {
+            if (m.getTipo() == 1 || m.getTipo() == 7) {
                 if (sentado == 0) {
                     g.drawImage(aLeft.getImagen(), s.getPosX() + 3, s.getPosY() - 10, null);
                 } else if (sentado == 1) {

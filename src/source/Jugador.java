@@ -178,7 +178,7 @@ public class Jugador implements Constantes {
         }
         if (cont != conFDC) {
             conFDC = cont;
-            factorDeCreacion = 1 + conFDC * .1;
+            factorDeCreacion = 1 + conFDC * .05;
         }
     }
 

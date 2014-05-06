@@ -156,7 +156,7 @@ public class Upgrade {
             if (funcion == 1) {
                 g.drawImage(anim.getImagen(), x + 15, y, null);
                 if (pintar) {
-                    g.drawString("+ Rápido", x, y + 5);
+                    g.drawString("Faster", x + 10, y + 5);
                     contPintar++;
                     if (contPintar > 25) {
                         pintar = false;
@@ -165,7 +165,7 @@ public class Upgrade {
             } else if (funcion == 2) {
                 g.drawImage(anim.getImagen(), x + 7, y - 25, null);
                 if (pintar) {
-                    g.drawString("+ Fuerte", x, y + 5);
+                    g.drawString("Stronger", x + 10, y + 5);
                     contPintar++;
                     if (contPintar > 25) {
                         pintar = false;
@@ -174,7 +174,7 @@ public class Upgrade {
             } else if (funcion == 3) {
                 g.drawImage(anim.getImagen(), x + 22, y, null);
                 if (pintar) {
-                    g.drawString("Hola amigo", x - 85, y - 5);
+                    g.drawString("Hello Friend", x - 90, y - 5);
                     contPintar++;
                     if (contPintar > 25) {
                         pintar = false;
@@ -187,7 +187,7 @@ public class Upgrade {
             if (funcion == 1) {
                 g.drawImage(anim.getImagen(), x + 12, y - 15, null);
                 if (pintar) {
-                    g.drawString("+ Rápido", x, y);
+                    g.drawString("Faster", x + 10, y);
                     contPintar++;
                     if (contPintar > 25) {
                         pintar = false;
@@ -196,7 +196,7 @@ public class Upgrade {
             } else if (funcion == 2) {
                 g.drawImage(anim.getImagen(), x + 7, y - 45, null);
                 if (pintar) {
-                    g.drawString("+ Fuerte", x, y);
+                    g.drawString("Stronger", x + 10, y);
                     contPintar++;
                     if (contPintar > 25) {
                         pintar = false;
@@ -205,7 +205,7 @@ public class Upgrade {
             } else if (funcion == 3) {
                 g.drawImage(anim.getImagen(), x + 20, y - 20, null);
                 if (pintar) {
-                    g.drawString("Hola amigo", x, y);
+                    g.drawString("Hello friend", x - 90, y - 5);
                     contPintar++;
                     if (contPintar > 25) {
                         pintar = false;
@@ -217,7 +217,7 @@ public class Upgrade {
             if (funcion == 1) {
                 g.drawImage(anim.getImagen(), x + 22, y, null);
                 if (pintar) {
-                    g.drawString("+ Rápido", x, y + 5);
+                    g.drawString("Faster", x + 10, y + 5);
                     contPintar++;
                     if (contPintar > 25) {
                         pintar = false;
@@ -226,7 +226,7 @@ public class Upgrade {
             } else if (funcion == 2) {
                 g.drawImage(anim.getImagen(), x + 14, y - 25, null);
                 if (pintar) {
-                    g.drawString("+ Fuerte", x, y + 5);
+                    g.drawString("Stronger", x + 10, y + 5);
                     contPintar++;
                     if (contPintar > 25) {
                         pintar = false;
@@ -235,7 +235,37 @@ public class Upgrade {
             } else if (funcion == 3) {
                 g.drawImage(anim.getImagen(), x + 29, y, null);
                 if (pintar) {
-                    g.drawString("Hola amigo", x, y + 5);
+                    g.drawString("Hello friend", x - 90, y - 5);
+                    contPintar++;
+                    if (contPintar > 25) {
+                        pintar = false;
+                    }
+                }
+            }
+        } else if (m.getTipo() == 7) {
+            g.setColor(Color.WHITE);
+            if (funcion == 1) {
+                g.drawImage(anim.getImagen(), x + 18, y - 5, null);
+                if (pintar) {
+                    g.drawString("Faster", x + 10, y + 5);
+                    contPintar++;
+                    if (contPintar > 25) {
+                        pintar = false;
+                    }
+                }
+            } else if (funcion == 2) {
+                g.drawImage(anim.getImagen(), x + 10, y - 30, null);
+                if (pintar) {
+                    g.drawString("Stronger", x + 10, y + 5);
+                    contPintar++;
+                    if (contPintar > 25) {
+                        pintar = false;
+                    }
+                }
+            } else if (funcion == 3) {
+                g.drawImage(anim.getImagen(), x + 25, y, null);
+                if (pintar) {
+                    g.drawString("Hello friend", x - 90, y - 10);
                     contPintar++;
                     if (contPintar > 25) {
                         pintar = false;

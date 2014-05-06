@@ -53,6 +53,7 @@ public class Mesa extends Base implements Constantes {
      *  tipo = 4: mesa de bahia
      *  tipo = 5: mesa de playa redonda
      *  tipo = 6: mesa de playa cuadrada
+     *  tipo = 7: mesa de casino
      */
 
     /**
@@ -114,7 +115,7 @@ public class Mesa extends Base implements Constantes {
         color = 0;
         cantSillas = 0; // Valor default
         tipo = t;
-        if (tipo == 1 || tipo == 3 || tipo == 4 || tipo == 5) {
+        if (tipo == 1 || tipo == 3 || tipo == 4 || tipo == 5 || tipo == 7) {
             cantSillas = 4;
         } else if (tipo == 6) {
             cantSillas = 2;
@@ -178,7 +179,7 @@ public class Mesa extends Base implements Constantes {
         g.setColor(Color.WHITE);
         //draws the number of sitted people on the center of a table...
         //moves the text 10 units up to avoid being covered by the sitted fellas
-        if (tipo == 1 || tipo == 2 || tipo == 4 || tipo == 5 || tipo == 6) {
+        if (tipo == 1 || tipo == 2 || tipo == 4 || tipo == 5 || tipo == 6 || tipo == 7) {
             g.drawString(getValor() + "", getPosX() + getAncho(), getPosY() - 10);
         } else {
             g.setColor(Color.YELLOW);
@@ -202,7 +203,7 @@ public class Mesa extends Base implements Constantes {
         //g.fillRect(getPosX() - 25, getPosY() - 30, getAncho() + 50, getAlto() + 40);
         if (tipo == 2) {
             paintMonitoArriba(g);
-        } else if (tipo == 1 || tipo == 3 || tipo == 4 || tipo == 5) {
+        } else if (tipo == 1 || tipo == 3 || tipo == 4 || tipo == 5 || tipo == 7) {
             for (int x = 0; x < sillas.size() - 1; x++) {
                 Silla aux = (Silla) sillas.get(x);
                 aux.paint(g);
@@ -224,7 +225,7 @@ public class Mesa extends Base implements Constantes {
      * @param g de tipo <code>Graphics</code>
      */
     public void paintSillasAbajo(Graphics g) {
-        if (tipo == 1 || tipo == 3 || tipo == 5) {
+        if (tipo == 1 || tipo == 3 || tipo == 5 || tipo == 7) {
             paintMonitoAbajo(g);
             for (int x = sillas.size() - 1; x < sillas.size(); x++) {
                 Silla aux = (Silla) sillas.get(x);
@@ -250,7 +251,7 @@ public class Mesa extends Base implements Constantes {
      * @param g de tipo <code>Graphics</code>
      */
     public void paintMonitoIzqDer(Graphics g) {
-        if (tipo == 1 || tipo == 3 || tipo == 4 || tipo == 5 && monitosSentados.size() > 0) {
+        if (tipo == 1 || tipo == 3 || tipo == 4 || tipo == 5 || tipo == 7 && monitosSentados.size() > 0) {
             for (int x = 0; x < sillas.size() - 2; x++) {
                 Silla aux = (Silla) sillas.get(x);
                 if (aux.isOcupada()) {
@@ -278,7 +279,7 @@ public class Mesa extends Base implements Constantes {
             if (sentados > 1) {
                 monitosSentados.get(1).paintBillar(g, this, 1);
             }
-        } else if (tipo == 1 || tipo == 3 || tipo == 4 || tipo == 5 && monitosSentados.size() > 2) {
+        } else if (tipo == 1 || tipo == 3 || tipo == 4 || tipo == 5 || tipo == 7 && monitosSentados.size() > 2) {
             Silla aux = (Silla) sillas.get(2);
             if (aux.isOcupada()) {
                 monitosSentados.get(2).paintSentado(g, aux, this);
@@ -292,7 +293,7 @@ public class Mesa extends Base implements Constantes {
      * @param g de tipo <code>Graphics</code>
      */
     public void paintMonitoAbajo(Graphics g) {
-        if (tipo == 1 || tipo == 3 || tipo == 4 || tipo == 5 && monitosSentados.size() > 3) {
+        if (tipo == 1 || tipo == 3 || tipo == 4 || tipo == 5 || tipo == 7 && monitosSentados.size() > 3) {
             Silla aux = (Silla) sillas.get(3);
             if (aux.isOcupada()) {
                 monitosSentados.get(3).paintSentado(g, aux, this);
@@ -470,7 +471,7 @@ public class Mesa extends Base implements Constantes {
      */
     public void setTipo(int tipo) {
         this.tipo = tipo;
-        if (tipo == 1 || tipo == 3 || tipo == 4 || tipo == 5) {
+        if (tipo == 1 || tipo == 3 || tipo == 4 || tipo == 5 || tipo == 7) {
             cantSillas = 4;
         } else if (tipo == 6) {
             cantSillas = 2;
@@ -485,7 +486,7 @@ public class Mesa extends Base implements Constantes {
     public void crearSillas() {
         if (tipo != 0) {
             sillas = new LinkedList();
-            if (tipo == 1) {
+            if (tipo == 1 || tipo == 7) {
                 URL sillaLeft = this.getClass().getResource("images/chair2.png");
                 Image sillaL = Toolkit.getDefaultToolkit().getImage(sillaLeft);
                 URL sillaRight = this.getClass().getResource("images/chair1.png");
@@ -609,7 +610,7 @@ public class Mesa extends Base implements Constantes {
 
                 sillas.add(auxLeft);
                 sillas.add(auxRight);
-            }
+            } 
         }
     }
 
