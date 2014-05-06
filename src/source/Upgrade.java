@@ -151,7 +151,7 @@ public class Upgrade {
      * @param m de tipo <code>Mesa</code>
      */
     public void paint(Graphics g, int x, int y, Mesa m) {
-        if (m.getTipo() == 1 || m.getTipo() == 4) {
+        if (m.getTipo() == 1 || m.getTipo() == 4 || m.getTipo() == 6) {
             g.setColor(Color.WHITE);
             if (funcion == 1) {
                 g.drawImage(anim.getImagen(), x + 15, y, null);
@@ -174,7 +174,7 @@ public class Upgrade {
             } else if (funcion == 3) {
                 g.drawImage(anim.getImagen(), x + 22, y, null);
                 if (pintar) {
-                    g.drawString("Hola amigo", x, y + 5);
+                    g.drawString("Hola amigo", x - 85, y - 5);
                     contPintar++;
                     if (contPintar > 25) {
                         pintar = false;
@@ -206,6 +206,36 @@ public class Upgrade {
                 g.drawImage(anim.getImagen(), x + 20, y - 20, null);
                 if (pintar) {
                     g.drawString("Hola amigo", x, y);
+                    contPintar++;
+                    if (contPintar > 25) {
+                        pintar = false;
+                    }
+                }
+            }
+        } else if (m.getTipo() == 5) {
+            g.setColor(Color.WHITE);
+            if (funcion == 1) {
+                g.drawImage(anim.getImagen(), x + 22, y, null);
+                if (pintar) {
+                    g.drawString("+ Rápido", x, y + 5);
+                    contPintar++;
+                    if (contPintar > 25) {
+                        pintar = false;
+                    }
+                }
+            } else if (funcion == 2) {
+                g.drawImage(anim.getImagen(), x + 14, y - 25, null);
+                if (pintar) {
+                    g.drawString("+ Fuerte", x, y + 5);
+                    contPintar++;
+                    if (contPintar > 25) {
+                        pintar = false;
+                    }
+                }
+            } else if (funcion == 3) {
+                g.drawImage(anim.getImagen(), x + 29, y, null);
+                if (pintar) {
+                    g.drawString("Hola amigo", x, y + 5);
                     contPintar++;
                     if (contPintar > 25) {
                         pintar = false;

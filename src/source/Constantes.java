@@ -17,6 +17,7 @@ public interface Constantes {
     public static final String iUrlFondo = "images/background1.png";
     public static final String iUrlFondo2 = "images/cafeterias.png";
     public static final String iUrlFondo3 = "images/bahia.png";
+    public static final String iUrlFondo4 = "images/playa.png";
     public static final String iUrlola = "images/waves1.png";
     public static final String iUrlola2 = "images/waves2.png";
     public static final String iUrlCerveza = "images/beers.png";
@@ -33,6 +34,8 @@ public interface Constantes {
     public static final String iUrlMesa = "images/table1.1.png";
     public static final String iUrlMesaCentrales = "images/mesa.png";
     public static final String iUrlMesaBahia = "images/mesaBahia.png";
+    public static final String iUrlMesaPlaya1 = "images/mesaPlaya1.png";
+    public static final String iUrlMesaPlaya2 = "images/mesaPlaya2.png";
     public static final String iUrlBotonAtras = "images/backBoton.png";
     public static final String iUrlColorAzul = "images/colorAzul.png";
     public static final String iUrlColorGris = "images/colorGris.png";
@@ -87,6 +90,8 @@ public interface Constantes {
     public static final int BAR_POOL = 1;
     public static final int CENTRALES_ROUND = 2;
     public static final int BAHIA_ROUND = 3;
+    public static final int PLAYA_ROUND = 4;
+    public static final int PLAYA_SQUARE = 5;
 
     //Int values de personaje
     public static final int SENTADO = 0;
@@ -98,10 +103,10 @@ public interface Constantes {
     public static final int GAME_HEIGHT = 600;
 
     //Musica
-    String songThree =    "src/source/music/heisapirate.wav";
-    String songTwo =    "src/source/music/goldontheceiling.wav";
-    String songOne =  "src/source/music/rickrolled.wav";
-    
+    String songThree = "src/source/music/heisapirate.wav";
+    String songTwo = "src/source/music/goldontheceiling.wav";
+    String songOne = "src/source/music/rickrolled.wav";
+
     //Sounds
     String sParar = "sounds/pararse.wav";
     String sSentar = "sounds/flap.wav";

@@ -156,12 +156,15 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private URL fondoURL = this.getClass().getResource(iUrlFondo);
     private URL fondoURL2 = this.getClass().getResource(iUrlFondo2);
     private URL fondoURL3 = this.getClass().getResource(iUrlFondo3);
+    private URL fondoURL4 = this.getClass().getResource(iUrlFondo4);
     private URL olaURL1 = this.getClass().getResource(iUrlola);
     private URL olaURL2 = this.getClass().getResource(iUrlola2);
     private URL tableURL = this.getClass().getResource(iUrlMesa);
     private URL poolURL = this.getClass().getResource(iUrlMesaBillar1);
     private URL mesaCentralesURL = this.getClass().getResource(iUrlMesaCentrales);
     private URL mesaBahiaURL = this.getClass().getResource(iUrlMesaBahia);
+    private URL mesaPlaya1URL = this.getClass().getResource(iUrlMesaPlaya1);
+    private URL mesaPlaya2URL = this.getClass().getResource(iUrlMesaPlaya2);
     //private URL cervezaURL = this.getClass().getResource(iUrlCerveza);
     private URL imgLogoGrandeURL = this.getClass().getResource(iUrlLogoGrande);
     private URL imgPlayBotonURL = this.getClass().getResource(iUrlBotonPlay);
@@ -248,7 +251,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     SoundClip sitClip;
     SoundClip standClip;
     SoundClip conquerClip;
-    
+
     /**
      * Método constructor de la clase <I>Game</I> que inicializa el juego.
      */
@@ -346,8 +349,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         //Sounds
         sitClip = new SoundClip(sSentar);
         standClip = new SoundClip(sParar);
-        
-        
+
         rojo = true;
         gris = verde = azul = false;
 
@@ -375,7 +377,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
         // Se inicializa con escenario = 1... y el metodo a continuacion te lleva a centrales.
         // Comentar la siguiente linea te regresa al bar.
-        escenario2();
+        escenario4();
         if (escenario == 1) {
             playMusic(trackList, 0, 1);
         }
@@ -411,6 +413,13 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         ola2 = Toolkit.getDefaultToolkit().getImage(olaURL2);
         moverOla1 = 0;
         moverOla2 = - 900;
+        listaTables = new LinkedList<Mesa>();
+        crearMesasYSillas();
+    }
+
+    public void escenario4() {
+        escenario = 4;
+        fondo = Toolkit.getDefaultToolkit().getImage(fondoURL4);
         listaTables = new LinkedList<Mesa>();
         crearMesasYSillas();
     }
@@ -473,6 +482,24 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 {770, 120, BAHIA_ROUND}
             };
         }
+
+        if (escenario == 4) {
+            mapa = new int[][]{
+                {60, 250, PLAYA_ROUND},
+                {60, 370, PLAYA_ROUND},
+                {220, 180, PLAYA_SQUARE},
+                {225, 310, PLAYA_SQUARE},
+                {225, 440, PLAYA_SQUARE},
+                {415, 180, PLAYA_SQUARE},
+                {410, 310, PLAYA_SQUARE},
+                {410, 440, PLAYA_SQUARE},
+                {595, 180, PLAYA_SQUARE},
+                {595, 310, PLAYA_SQUARE},
+                {595, 440, PLAYA_SQUARE},
+                {770, 250, PLAYA_ROUND},
+                {770, 370, PLAYA_ROUND}
+            };
+        }
         for (int r = 0;
                 r < mapa.length;
                 r++) {
@@ -494,6 +521,14 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 case BAHIA_ROUND:
                     url = mesaBahiaURL;
                     tipo = 4;
+                    break;
+                case PLAYA_ROUND:
+                    url = mesaPlaya1URL;
+                    tipo = 5;
+                    break;
+                case PLAYA_SQUARE:
+                    url = mesaPlaya2URL;
+                    tipo = 6;
                     break;
                 default:
                     url = tableURL;
@@ -782,7 +817,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 Color colorPisoMesa = mesa.getColorPrincipal();
                 if (colorPisoMesa != null) {
                     g.setColor(colorPisoMesa);
-                    if (mesa.getTipo() == 1 || mesa.getTipo() == 2) {
+                    if (mesa.getTipo() == 1 || mesa.getTipo() == 2 || mesa.getTipo() == 4 || mesa.getTipo() == 5 || mesa.getTipo() == 6) {
                         g.drawRect(mesa.getPosX() - 25, mesa.getPosY() - 30, mesa.getAncho() + 50, mesa.getAlto() + 40);
                     } else {
                         g.drawRect(mesa.getPosX() - 30, mesa.getPosY() - 42, mesa.getAncho() + 60, mesa.getAlto() + 45);
@@ -1252,10 +1287,10 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     }
 
     /**
-     * Metodo mouseClicked 
-     * Cuando el mouse es apretado recibe de param un
+     * Metodo mouseClicked Cuando el mouse es apretado recibe de param un
      * evento, que ayudara a definir donde fue picado dentro del applet
-     * @param e de tipo <code>MouseEvent</code> con el evento capturado. 
+     *
+     * @param e de tipo <code>MouseEvent</code> con el evento capturado.
      */
     public void mouseClicked(MouseEvent e) {
         // Si hubo click dentro del objeto pTravolta1 se guarda posicion y diferencia.
@@ -1458,8 +1493,9 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     }
 
     /**
-     * Metodo que funciona para habilitar el movimiento de los monitos 
-     * con mouseDrag...
+     * Metodo que funciona para habilitar el movimiento de los monitos con
+     * mouseDrag...
+     *
      * @param e de tipo <code>MouseEvent</code>
      */
     public void mouseReleased(MouseEvent e) {//metodo cuando el mouse es soltado
@@ -1472,8 +1508,9 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     }
 
     /**
-     * Otro método para escuchar el mouse drag y permitir el movimiento del 
+     * Otro método para escuchar el mouse drag y permitir el movimiento del
      * personaje hacia esta posición
+     *
      * @param e de tipo <code>MouseEvent</code>
      */
     public void mouseDragged(MouseEvent e) {   //metodos de MouseMotionListener
