@@ -92,6 +92,7 @@ public interface Constantes {
     public static final int BAHIA_ROUND = 3;
     public static final int PLAYA_ROUND = 4;
     public static final int PLAYA_SQUARE = 5;
+    public static final int DURACION_INTRO_RUM = 190;
 
     //Int values de personaje
     public static final int SENTADO = 0;
