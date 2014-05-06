@@ -70,7 +70,7 @@ public interface Constantes {
     public static final String iUrlRI9 = "images/Rum_intro/9.png";
     public static final String iUrlRIGIF = "images/Rum_intro/rum.gif";
 
-//Colores
+    //Colores
     public static final int BLUE = 1;
     public static final int GRAY = 2;
     public static final int RED = 3;
@@ -95,5 +95,7 @@ public interface Constantes {
     String songTwo =    "src/source/music/goldontheceiling.wav";
     String songThree =  "src/source/music/rickrolled.wav";
     
+    //Duración intro Rum
+    public static final int DURACION_INTRO_RUM = 190; 
 
 }
