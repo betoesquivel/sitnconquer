@@ -3,3 +3,5 @@ bernard,3
 lukas,1
 alesso,1
 bravo,1
+alesso,1
+lukas,1
