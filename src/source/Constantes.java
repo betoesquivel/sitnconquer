@@ -122,8 +122,4 @@ public interface Constantes {
     String sParar = "sounds/pararse.wav";
     String sSentar = "sounds/flap.wav";
     String sMesaCapturada = "sounds/mesacapturada.wav";
-    
-    //Duracion intro
-    public final int DURACION_INTRO_RUM = 190;
-
 }
