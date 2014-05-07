@@ -1,4 +1,3 @@
-Beto,3
 Hugo,7
-Berny,6
-Ferrufino,1
+beto,3
+berny,1
