@@ -112,6 +112,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private int incY;
     private int moverOla1;// Importante para el escenario 3
     private int moverOla2; // Importante para el escenario 3
+    private int contadorPausa;
 
     // Saber que escenario es
     private int escenario;
@@ -413,6 +414,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         nameJ1 = "alesso";
         nameJ2 = "lukas";
 
+        contadorPausa = 0;
         detenerGanaste = 0;
         //Booleans
         movHorizontal = false;
@@ -988,12 +990,23 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             g.drawImage(fondo, 0, 0, this);
             detenerGanaste = 0;
 
+            //Mensaje de pausa
+            if (contadorPausa < 190) {
+                if (escenario == 5) {
+                    g.setColor(Color.YELLOW);
+                } else {
+                    g.setColor(Color.WHITE);
+                }
+                g.drawString("Press key '0' for gameplay instructions", 500, 50);
+                contadorPausa++;
+            }
+
             //Info De Barra
             g.drawImage(imgBarra, 0, getHeight() - 70, this);
             g.setColor(Color.white);
             g.setFont(new Font("Monospaced", Font.BOLD, 30));
-            g.drawString(nameJ2, getWidth() - 300, getHeight() - 35);
-            g.drawString(nameJ1, 50, getHeight() - 35);
+            g.drawString(nameJ2, getWidth() - 340, getHeight() - 35);
+            g.drawString(nameJ1, 40, getHeight() - 35);
             g.setFont(new Font("Monospaced", Font.BOLD, 15));
             g.drawString("Sitting: " + j1.getCantSentados(), getWidth() - 150, getHeight() - 35);
             g.drawString("Standing: " + j1.getCantParados(), getWidth() - 150, getHeight() - 15);
@@ -1033,13 +1046,13 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             //está pausado
             g.drawImage(imgLogoGrande, 200, 20, this);
             g.drawImage(imgLetreroPausado, 300, 420, this);
-            g.drawString("Para quitar la pausa volver a presionar la letra 'p' ", 200, 520);
+            g.drawString("To return to the game press '0' ", 300, 520);
         }
 
         if (state == STATE.INSTRUCCIONES) {
             //está pausado
             g.drawImage(imgInstruccionesMovimiento, 100, 100, this);
-            g.drawString("Para quitar las instrucciones volver a presionar la letra 'i' ", 200, 520);
+            g.drawString("Para quitar las instrucciones volver a presionar la letra '0' ", 200, 520);
         }
 
         if (state == STATE.MENU_MAIN) {
@@ -1378,121 +1391,128 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
      * @return el string n modificado hasta ahora.
      */
     public String modificaNombreJ(KeyEvent e, String n) {
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_BACK_SPACE:
+        if (n.length() > 8) {
+            if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
                 n = n.substring(0, n.length() - 1);
-                break;
-            case KeyEvent.VK_0:
-                n += e.getKeyChar();
-                break;
-            case KeyEvent.VK_1:
-                n += e.getKeyChar();
-                break;
-            case KeyEvent.VK_2:
-                n += e.getKeyChar();
-                break;
-            case KeyEvent.VK_3:
-                n += e.getKeyChar();
-                break;
-            case KeyEvent.VK_4:
-                n += e.getKeyChar();
-                break;
-            case KeyEvent.VK_5:
-                n += e.getKeyChar();
-                break;
-            case KeyEvent.VK_6:
-                n += e.getKeyChar();
-                break;
-            case KeyEvent.VK_7:
-                n += e.getKeyChar();
-                break;
-            case KeyEvent.VK_8:
-                n += e.getKeyChar();
-                break;
-            case KeyEvent.VK_9:
-                n += e.getKeyChar();
-                break;
-            case KeyEvent.VK_A:
-                n += e.getKeyChar();
-                break;
-            case KeyEvent.VK_B:
-                n += e.getKeyChar();
-                break;
-            case KeyEvent.VK_C:
-                n += e.getKeyChar();
-                break;
-            case KeyEvent.VK_D:
-                n += e.getKeyChar();
-                break;
-            case KeyEvent.VK_E:
-                n += e.getKeyChar();
-                break;
-            case KeyEvent.VK_F:
-                n += e.getKeyChar();
-                break;
-            case KeyEvent.VK_G:
-                n += e.getKeyChar();
-                break;
-            case KeyEvent.VK_H:
-                n += e.getKeyChar();
-                break;
-            case KeyEvent.VK_I:
-                n += e.getKeyChar();
-                break;
-            case KeyEvent.VK_J:
-                n += e.getKeyChar();
-                break;
-            case KeyEvent.VK_K:
-                n += e.getKeyChar();
-                break;
-            case KeyEvent.VK_L:
-                n += e.getKeyChar();
-                break;
-            case KeyEvent.VK_M:
-                n += e.getKeyChar();
-                break;
-            case KeyEvent.VK_N:
-                n += e.getKeyChar();
-                break;
-            case KeyEvent.VK_O:
-                n += e.getKeyChar();
-                break;
-            case KeyEvent.VK_P:
-                n += e.getKeyChar();
-                break;
-            case KeyEvent.VK_Q:
-                n += e.getKeyChar();
-                break;
-            case KeyEvent.VK_R:
-                n += e.getKeyChar();
-                break;
-            case KeyEvent.VK_S:
-                n += e.getKeyChar();
-                break;
-            case KeyEvent.VK_T:
-                n += e.getKeyChar();
-                break;
-            case KeyEvent.VK_U:
-                n += e.getKeyChar();
-                break;
-            case KeyEvent.VK_V:
-                n += e.getKeyChar();
-                break;
-            case KeyEvent.VK_W:
-                n += e.getKeyChar();
-                break;
-            case KeyEvent.VK_X:
-                n += e.getKeyChar();
-                break;
-            case KeyEvent.VK_Y:
-                n += e.getKeyChar();
-                break;
-            case KeyEvent.VK_Z:
-                n += e.getKeyChar();
-                break;
-            case KeyEvent.VK_SPACE:
-                n += e.getKeyChar();
-                break;
+
+            }
+        } else {
+            switch (e.getKeyCode()) {
+                case KeyEvent.VK_BACK_SPACE:
+                    n = n.substring(0, n.length() - 1);
+                    break;
+                case KeyEvent.VK_0:
+                    n += e.getKeyChar();
+                    break;
+                case KeyEvent.VK_1:
+                    n += e.getKeyChar();
+                    break;
+                case KeyEvent.VK_2:
+                    n += e.getKeyChar();
+                    break;
+                case KeyEvent.VK_3:
+                    n += e.getKeyChar();
+                    break;
+                case KeyEvent.VK_4:
+                    n += e.getKeyChar();
+                    break;
+                case KeyEvent.VK_5:
+                    n += e.getKeyChar();
+                    break;
+                case KeyEvent.VK_6:
+                    n += e.getKeyChar();
+                    break;
+                case KeyEvent.VK_7:
+                    n += e.getKeyChar();
+                    break;
+                case KeyEvent.VK_8:
+                    n += e.getKeyChar();
+                    break;
+                case KeyEvent.VK_9:
+                    n += e.getKeyChar();
+                    break;
+                case KeyEvent.VK_A:
+                    n += e.getKeyChar();
+                    break;
+                case KeyEvent.VK_B:
+                    n += e.getKeyChar();
+                    break;
+                case KeyEvent.VK_C:
+                    n += e.getKeyChar();
+                    break;
+                case KeyEvent.VK_D:
+                    n += e.getKeyChar();
+                    break;
+                case KeyEvent.VK_E:
+                    n += e.getKeyChar();
+                    break;
+                case KeyEvent.VK_F:
+                    n += e.getKeyChar();
+                    break;
+                case KeyEvent.VK_G:
+                    n += e.getKeyChar();
+                    break;
+                case KeyEvent.VK_H:
+                    n += e.getKeyChar();
+                    break;
+                case KeyEvent.VK_I:
+                    n += e.getKeyChar();
+                    break;
+                case KeyEvent.VK_J:
+                    n += e.getKeyChar();
+                    break;
+                case KeyEvent.VK_K:
+                    n += e.getKeyChar();
+                    break;
+                case KeyEvent.VK_L:
+                    n += e.getKeyChar();
+                    break;
+                case KeyEvent.VK_M:
+                    n += e.getKeyChar();
+                    break;
+                case KeyEvent.VK_N:
+                    n += e.getKeyChar();
+                    break;
+                case KeyEvent.VK_O:
+                    n += e.getKeyChar();
+                    break;
+                case KeyEvent.VK_P:
+                    n += e.getKeyChar();
+                    break;
+                case KeyEvent.VK_Q:
+                    n += e.getKeyChar();
+                    break;
+                case KeyEvent.VK_R:
+                    n += e.getKeyChar();
+                    break;
+                case KeyEvent.VK_S:
+                    n += e.getKeyChar();
+                    break;
+                case KeyEvent.VK_T:
+                    n += e.getKeyChar();
+                    break;
+                case KeyEvent.VK_U:
+                    n += e.getKeyChar();
+                    break;
+                case KeyEvent.VK_V:
+                    n += e.getKeyChar();
+                    break;
+                case KeyEvent.VK_W:
+                    n += e.getKeyChar();
+                    break;
+                case KeyEvent.VK_X:
+                    n += e.getKeyChar();
+                    break;
+                case KeyEvent.VK_Y:
+                    n += e.getKeyChar();
+                    break;
+                case KeyEvent.VK_Z:
+                    n += e.getKeyChar();
+                    break;
+                case KeyEvent.VK_SPACE:
+                    n += e.getKeyChar();
+                    break;
+            }
         }
         return n;
     }
@@ -1537,8 +1557,10 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 state = state.HIGHSCORE;
                 try {
                     leerHighscore();
+
                 } catch (IOException ex) {
-                    Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(Game.class
+                            .getName()).log(Level.SEVERE, null, ex);
                 }
             }
 
