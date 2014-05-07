@@ -21,9 +21,11 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Collections;
@@ -791,11 +793,15 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             puntajes.add(fila);
             System.out.println(parts[0] + "," + parts[1]);
         }
+        
+        reader.close();
 
     }
 
     public void guardarHighscore(String nombre) throws FileNotFoundException, IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter("src/source/score.txt"));
         BufferedReader reader = new BufferedReader(new FileReader("src/source/score.txt"));
+        
         String line = null;
         LinkedList<ScoreRow> puntajes = new LinkedList<ScoreRow>();
         while ((line = reader.readLine()) != null) {
@@ -822,7 +828,13 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         //sort the LinkedList
         Collections.sort(puntajes, Collections.reverseOrder());
 
-        System.out.println(puntajes);
+        for (ScoreRow n : puntajes) {
+
+            writer.write(n.getNombre() + "," + n.getScore());
+        
+        }
+        writer.close();
+        reader.close();
     }
 
     /**
