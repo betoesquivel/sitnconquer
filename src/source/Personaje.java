@@ -44,6 +44,8 @@ public class Personaje extends Base implements Constantes {
      tipo = 2 es ilDivo
      tipo = 3 es mike
      tipo = 4 es travolta
+     tipo = 5 es alejandra
+     tipo = 6 es estefy
      */
     int color; // Color del monito que va de acuerdo con el jugador que es dueño
     Color colorPadre;
@@ -130,6 +132,10 @@ public class Personaje extends Base implements Constantes {
             aux += "mike";
         } else if (tipo == 4) {
             aux += "travolta";
+        } else if (tipo == 5) {
+            aux += "alejandra";
+        } else if (tipo == 6) {
+            aux += "estefy";
         }
 
         if (color == 1) {
@@ -244,6 +250,44 @@ public class Personaje extends Base implements Constantes {
             anim.sumaCuadro(a2, 400);
             aBack.sumaCuadro(aB1, 400);
             aBack.sumaCuadro(aB2, 400);
+            aLeft.sumaCuadro(aL, 400);
+            aRight.sumaCuadro(aR, 400);
+            aUp.sumaCuadro(aU, 400);
+            aDown.sumaCuadro(aD, 400);
+        } else if (tipo == 5) {
+            URL url1 = this.getClass().getResource("images/" + aux + "ale_01.png");
+            Image a1 = Toolkit.getDefaultToolkit().getImage(url1);
+            URL url2 = this.getClass().getResource("images/" + aux + "ale_02.png");
+            Image a2 = Toolkit.getDefaultToolkit().getImage(url2);
+            URL urlL = this.getClass().getResource("images/" + aux + "ale_03.png");
+            Image aL = Toolkit.getDefaultToolkit().getImage(urlL);
+            URL urlR = this.getClass().getResource("images/" + aux + "ale_04.png");
+            Image aR = Toolkit.getDefaultToolkit().getImage(urlR);
+            URL urlU = this.getClass().getResource("images/" + aux + "ale_05.png");
+            Image aU = Toolkit.getDefaultToolkit().getImage(urlU);
+            URL urlD = this.getClass().getResource("images/" + aux + "ale03.png");
+            Image aD = Toolkit.getDefaultToolkit().getImage(urlD);
+            anim.sumaCuadro(a1, 400);
+            anim.sumaCuadro(a2, 400);
+            aLeft.sumaCuadro(aL, 400);
+            aRight.sumaCuadro(aR, 400);
+            aUp.sumaCuadro(aU, 400);
+            aDown.sumaCuadro(aD, 400);
+        } else if (tipo == 6) {
+            URL url1 = this.getClass().getResource("images/" + aux + "estefy_01.png");
+            Image a1 = Toolkit.getDefaultToolkit().getImage(url1);
+            URL url2 = this.getClass().getResource("images/" + aux + "estefy_02.png");
+            Image a2 = Toolkit.getDefaultToolkit().getImage(url2);
+            URL urlL = this.getClass().getResource("images/" + aux + "estefy_03.png");
+            Image aL = Toolkit.getDefaultToolkit().getImage(urlL);
+            URL urlR = this.getClass().getResource("images/" + aux + "estefy_04.png");
+            Image aR = Toolkit.getDefaultToolkit().getImage(urlR);
+            URL urlU = this.getClass().getResource("images/" + aux + "estefy_05.png");
+            Image aU = Toolkit.getDefaultToolkit().getImage(urlU);
+            URL urlD = this.getClass().getResource("images/" + aux + "estefy05.png");
+            Image aD = Toolkit.getDefaultToolkit().getImage(urlD);
+            anim.sumaCuadro(a1, 400);
+            anim.sumaCuadro(a2, 400);
             aLeft.sumaCuadro(aL, 400);
             aRight.sumaCuadro(aR, 400);
             aUp.sumaCuadro(aU, 400);
@@ -667,7 +711,7 @@ public class Personaje extends Base implements Constantes {
                 }
             }
             
-        } else if (tipo == 4) {
+        } else if (tipo == 4 || tipo == 5 || tipo == 6) {
             if (m.getTipo() == 1 || m.getTipo() == 7) {
                 if (sentado == 0) {
                     g.drawImage(aLeft.getImagen(), s.getPosX() + 3, s.getPosY() - 10, null);
