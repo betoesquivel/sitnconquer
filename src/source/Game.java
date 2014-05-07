@@ -92,6 +92,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private Image imgMPlaya;
     private Image imgMCasino;
     private Image imgMapaT;
+    private Image imgCreditos;
 
     //rectangle
     private Rectangle rec;
@@ -233,6 +234,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private URL imgMPlayaURL = this.getClass().getResource(iUrlMPlaya);
     private URL imgMCasinoURL = this.getClass().getResource(iUrlMCasino);
     private URL imgMapaTURL = this.getClass().getResource(iUrlMapaT);
+    private URL imgCreditosURL = this.getClass().getResource(iUrlCreditos);
 
     //Estados del juego (Para saber cuando estoy jugando on menus)
     private enum STATE {
@@ -364,6 +366,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         imgMPlaya = Toolkit.getDefaultToolkit().getImage(imgMPlayaURL);
         imgMCasino = Toolkit.getDefaultToolkit().getImage(imgMCasinoURL);
         imgMapaT = Toolkit.getDefaultToolkit().getImage(imgMapaTURL);
+        imgCreditos = Toolkit.getDefaultToolkit().getImage(imgCreditosURL);
 
         //Sounds
         sitClip = new SoundClip(sSentar);
@@ -1098,7 +1101,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         }
 
         if (state == state.CREDITS) {
-            g.drawImage(imgLogoGrande, 200, 20, this);
+            /*g.drawImage(imgLogoGrande, 200, 20, this);
             Font helvetica = new Font("Helvetica", Font.BOLD, 20);
             g.setFont(helvetica);
             g.setColor(Color.WHITE);
@@ -1108,7 +1111,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             g.drawString("Hugo León ", 300, 440);
             g.drawString("Bernardo Treviño", 300, 460);
             g.drawString("José Alberto Esquivel", 300, 480);
-            g.drawString("Gustavo Ferrufino", 300, 500);
+            g.drawString("Gustavo Ferrufino", 300, 500);*/
+            g.drawImage(imgCreditos, 0, 0, this);
             g.drawImage(bBack.getImageIcon().getImage(), bBack.getPosX(), bBack.getPosY(), this);
         }
 
