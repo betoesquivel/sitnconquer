@@ -14,7 +14,6 @@ import java.awt.Image;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Rectangle;
-import java.awt.TextField;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -27,6 +26,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -254,7 +254,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     SoundClip sitClip;
     SoundClip standClip;
     SoundClip conquerClip;
-    
+
     /**
      * Método constructor de la clase <I>Game</I> que inicializa el juego.
      */
@@ -352,8 +352,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         //Sounds
         sitClip = new SoundClip(sSentar);
         standClip = new SoundClip(sParar);
-        
-        
+
         rojo = true;
         gris = verde = azul = false;
 
@@ -622,21 +621,52 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             Ganaste = 2;
         }
     }
-    
+
     public void leerHighscore() throws FileNotFoundException, IOException {
         BufferedReader reader = new BufferedReader(new FileReader("src/source/score.txt"));
         String line = null;
+        LinkedList<ScoreRow> puntajes = new LinkedList<ScoreRow>();
         while ((line = reader.readLine()) != null) {
             // ...
-            String[] parts = line.split(" ");
-            System.out.println(parts[0] + "  " + parts[1]);
+            String[] parts = line.split(",");
+            ScoreRow fila = new ScoreRow(parts[0], Integer.parseInt(parts[1]));
+            puntajes.add(fila);
+            System.out.println(parts[0] + "," + parts[1]);
         }
-    }
-    
-    public void guardarHighscore(String nombre, int jGanados) {
         
     }
-    
+
+    public void guardarHighscore(String nombre) throws FileNotFoundException, IOException {
+        BufferedReader reader = new BufferedReader(new FileReader("src/source/score.txt"));
+        String line = null;
+        LinkedList<ScoreRow> puntajes = new LinkedList<ScoreRow>();
+        while ((line = reader.readLine()) != null) {
+            // ...
+            String[] parts = line.split(",");
+            ScoreRow fila = new ScoreRow(parts[0], Integer.parseInt(parts[1]));
+            puntajes.add(fila);
+//            System.out.println(parts[0] + "," + parts[1]);
+        }
+        ScoreRow nuevo = new ScoreRow(nombre, 1);
+        boolean found = false;
+        //checo si está en la lista
+        for (ScoreRow p : puntajes) {
+            if (nuevo.getNombre() == p.getNombre()) {
+                p.setScore(p.getScore() + nuevo.getScore());
+                found = true;
+            }
+        }
+
+        if (!found) {
+            puntajes.add(nuevo);
+        }
+
+        //sort the LinkedList
+        Collections.sort(puntajes, Collections.reverseOrder());
+
+        System.out.println(puntajes);
+    }
+
     /**
      * Checa colisiones dentro del <code>JFrame</code>. Colisiones con la
      * ventana y de los personajes con las mesas.
@@ -1272,10 +1302,10 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     }
 
     /**
-     * Metodo mouseClicked 
-     * Cuando el mouse es apretado recibe de param un
+     * Metodo mouseClicked Cuando el mouse es apretado recibe de param un
      * evento, que ayudara a definir donde fue picado dentro del applet
-     * @param e de tipo <code>MouseEvent</code> con el evento capturado. 
+     *
+     * @param e de tipo <code>MouseEvent</code> con el evento capturado.
      */
     public void mouseClicked(MouseEvent e) {
         // Si hubo click dentro del objeto pTravolta1 se guarda posicion y diferencia.
@@ -1483,8 +1513,9 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     }
 
     /**
-     * Metodo que funciona para habilitar el movimiento de los monitos 
-     * con mouseDrag...
+     * Metodo que funciona para habilitar el movimiento de los monitos con
+     * mouseDrag...
+     *
      * @param e de tipo <code>MouseEvent</code>
      */
     public void mouseReleased(MouseEvent e) {//metodo cuando el mouse es soltado
@@ -1497,8 +1528,9 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     }
 
     /**
-     * Otro método para escuchar el mouse drag y permitir el movimiento del 
+     * Otro método para escuchar el mouse drag y permitir el movimiento del
      * personaje hacia esta posición
+     *
      * @param e de tipo <code>MouseEvent</code>
      */
     public void mouseDragged(MouseEvent e) {   //metodos de MouseMotionListener
