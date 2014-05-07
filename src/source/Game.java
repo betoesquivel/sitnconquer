@@ -113,7 +113,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private int escenario;
 
     // Music
-    private String[] trackList = {songOne, songTwo, songThree, songFour};
+    private String[] trackList = {songOne, songTwo, songThree, songFour, songFive, songIntro};
     private AudioInputStream audio;
     private Clip clip;
 
@@ -416,9 +416,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
         // Se inicializa con escenario = 1... y el metodo a continuacion te lleva a centrales.
         // Comentar la siguiente linea te regresa al bar.
-        if (escenario == 1) {
-            playMusic(trackList, 0, 1);
-        }
+        clip.close();
+        playMusic(trackList, 0, 6);
 //        playMusic(trackList, 0, 3); //0 means that I want music, 1 means I dont want music; 1 means first song; 
 
     }
@@ -453,6 +452,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         fondo = Toolkit.getDefaultToolkit().getImage(fondoURL);
         listaTables = new LinkedList<Mesa>();
         crearMesasYSillas();
+        clip.close();
         playMusic(trackList, 0, 1);
         hacerJugador2();
     }
@@ -466,6 +466,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         fondo = Toolkit.getDefaultToolkit().getImage(fondoURL2);
         listaTables = new LinkedList<Mesa>();
         crearMesasYSillas();
+        clip.close();
         playMusic(trackList, 0, 2);
         hacerJugador2();
     }
@@ -483,6 +484,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         moverOla2 = - 900;
         listaTables = new LinkedList<Mesa>();
         crearMesasYSillas();
+        clip.close();
         playMusic(trackList, 0, 3);
         hacerJugador2();
     }
@@ -492,6 +494,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         fondo = Toolkit.getDefaultToolkit().getImage(fondoURL4);
         listaTables = new LinkedList<Mesa>();
         crearMesasYSillas();
+        clip.close();
         playMusic(trackList, 0, 4);
         hacerJugador2();
     }
@@ -501,7 +504,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         fondo = Toolkit.getDefaultToolkit().getImage(fondoURL5);
         listaTables = new LinkedList<Mesa>();
         crearMesasYSillas();
-//        playMusic(trackList, 0, 5);
+        clip.close();
+        playMusic(trackList, 0, 5);
         hacerJugador2();
     }
 
