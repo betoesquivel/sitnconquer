@@ -113,7 +113,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private int escenario;
 
     // Music
-    private String[] trackList = {songOne, songTwo, songThree};
+    private String[] trackList = {songOne, songTwo, songThree, songFour};
     private AudioInputStream audio;
     private Clip clip;
 
@@ -492,7 +492,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         fondo = Toolkit.getDefaultToolkit().getImage(fondoURL4);
         listaTables = new LinkedList<Mesa>();
         crearMesasYSillas();
-//        playMusic(trackList, 0, 4);
+        playMusic(trackList, 0, 4);
         hacerJugador2();
     }
 

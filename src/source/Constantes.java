@@ -117,6 +117,8 @@ public interface Constantes {
     String songThree = "src/source/music/heisapirate.wav";
     String songTwo = "src/source/music/goldontheceiling.wav";
     String songOne = "src/source/music/rickrolled.wav";
+    String songFour = "src/source/music/atlantica.wav";
+    String songFour2 = "src/source/music/destinyislands.wav";
 
     //Sounds
     String sParar = "sounds/pararse.wav";
