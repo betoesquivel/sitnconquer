@@ -86,6 +86,12 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private Image imgGanasteAzul;
     private Image imgGanasteRojo;
     private Image imgGanasteGris;
+    private Image imgMBar;
+    private Image imgMCentrales;
+    private Image imgMBahia;
+    private Image imgMPlaya;
+    private Image imgMCasino;
+    private Image imgMapaT;
 
     //rectangle
     private Rectangle rec;
@@ -151,6 +157,11 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private Boton bColorRojo;
     private Boton bColorGris;
     private Boton bContinue;
+    private Boton bBar;
+    private Boton bCentrales;
+    private Boton bBahia;
+    private Boton bPlaya;
+    private Boton bCasino;
 
     //Objetos Imagen
     private Image fondo;
@@ -216,6 +227,12 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private URL imgRI8URL = this.getClass().getResource(iUrlRI8);
     private URL imgRI9URL = this.getClass().getResource(iUrlRI9);
     private URL imgRIGifURL = this.getClass().getResource(iUrlRIGIF);
+    private URL imgMBarURL = this.getClass().getResource(iUrlMBar);
+    private URL imgMCentralesURL = this.getClass().getResource(iUrlMCentrales);
+    private URL imgMBahiaURL = this.getClass().getResource(iUrlMBahia);
+    private URL imgMPlayaURL = this.getClass().getResource(iUrlMPlaya);
+    private URL imgMCasinoURL = this.getClass().getResource(iUrlMCasino);
+    private URL imgMapaTURL = this.getClass().getResource(iUrlMapaT);
 
     //Estados del juego (Para saber cuando estoy jugando on menus)
     private enum STATE {
@@ -231,7 +248,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         GANADOR,
         MENU_POSTJUEGO,
         CREDITS,
-        HIGHSCORE
+        HIGHSCORE,
+        SELECT_MAP
     };
 
     private STATE state = STATE.MENU_MAIN;
@@ -292,7 +310,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 //        cerveza = Toolkit.getDefaultToolkit().getImage(cervezaURL);
         Image travolta1 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/ilDivo/azul/divo_01.png"));
         Image travolta2 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/ilDivo/azul/divo_02.png"));
-        
+
         // travolta debugging
         travolta = new Animacion();
         travolta.sumaCuadro(travolta1, 400);
@@ -340,6 +358,12 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         imgGanasteAzul = Toolkit.getDefaultToolkit().getImage(imgGanasteAzulURL);
         imgGanasteRojo = Toolkit.getDefaultToolkit().getImage(imgGanasteRojoURL);
         imgGanasteGris = Toolkit.getDefaultToolkit().getImage(imgGanasteGrisURL);
+        imgMBar = Toolkit.getDefaultToolkit().getImage(imgMBarURL);
+        imgMCentrales = Toolkit.getDefaultToolkit().getImage(imgMCentralesURL);
+        imgMBahia = Toolkit.getDefaultToolkit().getImage(imgMBahiaURL);
+        imgMPlaya = Toolkit.getDefaultToolkit().getImage(imgMPlayaURL);
+        imgMCasino = Toolkit.getDefaultToolkit().getImage(imgMCasinoURL);
+        imgMapaT = Toolkit.getDefaultToolkit().getImage(imgMapaTURL);
 
         //Sounds
         sitClip = new SoundClip(sSentar);
@@ -365,19 +389,20 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         //bContinue = new Boton(20, 20);
         //bPausa = new Boton(850, 20, plateP);
         bNext = new Boton(750, 490, imgNextBoton);
-        bBack = new Boton(20, 490, imgBackBoton);
+        bBack = new Boton(30, 490, imgBackBoton);
+        bBar = new Boton(190, 210, imgMBar);
+        bCentrales = new Boton(490, 210, imgMCentrales);
+        bBahia = new Boton(30, 410, imgMBahia);
+        bPlaya = new Boton(330, 410, imgMPlaya);
+        bCasino = new Boton(630, 410, imgMCasino);
 
         init();
         start();
     }
-    
-    public void init() {
-        escenario = 1;
-        
-        //        bPausa = new Boton(850, 20, plateP);
-        listaTables = new LinkedList<Mesa>();
-        crearMesasYSillas();
 
+    public void init() {
+
+        //        bPausa = new Boton(850, 20, plateP);
         //nombres de jugador
         nameJ1 = "alesso";
         nameJ2 = "lukas";
@@ -388,23 +413,47 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         movVertical = false;
         rojo = true;
         gris = verde = azul = false;
-        
+
         // Se inicializa con escenario = 1... y el metodo a continuacion te lleva a centrales.
         // Comentar la siguiente linea te regresa al bar.
-        escenario5();
         if (escenario == 1) {
             playMusic(trackList, 0, 1);
         }
 //        playMusic(trackList, 0, 3); //0 means that I want music, 1 means I dont want music; 1 means first song; 
 
     }
-    
+
     public void start() {
         // Declaras un hilo
         Thread th = new Thread(this);
         // Empieza el hilo
         th.start();
 
+    }
+    
+    public void hacerJugador2() {
+        switch (colorJ2) {
+                case 1:
+                    j1 = new Jugador(1, Color.red, nameJ2, listaTables.size() - 1);
+                    break;
+                case 2:
+                    j1 = new Jugador(1, Color.gray, nameJ2, listaTables.size() - 1);
+                    break;
+                case 3:
+                    j1 = new Jugador(1, Color.blue, nameJ2, listaTables.size() - 1);
+                    break;
+                case 4:
+                    j1 = new Jugador(1, Color.green, nameJ2, listaTables.size() - 1);
+                    break;
+            }
+    }
+
+    public void escenario() {
+        escenario = 1;
+        fondo = Toolkit.getDefaultToolkit().getImage(fondoURL);
+        listaTables = new LinkedList<Mesa>();
+        crearMesasYSillas();
+        hacerJugador2();
     }
 
     /**
@@ -417,6 +466,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         listaTables = new LinkedList<Mesa>();
         crearMesasYSillas();
         playMusic(trackList, 0, 2);
+        hacerJugador2();
     }
 
     /**
@@ -432,6 +482,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         moverOla2 = - 900;
         listaTables = new LinkedList<Mesa>();
         crearMesasYSillas();
+        hacerJugador2();
     }
 
     public void escenario4() {
@@ -439,6 +490,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         fondo = Toolkit.getDefaultToolkit().getImage(fondoURL4);
         listaTables = new LinkedList<Mesa>();
         crearMesasYSillas();
+        hacerJugador2();
     }
 
     public void escenario5() {
@@ -446,6 +498,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         fondo = Toolkit.getDefaultToolkit().getImage(fondoURL5);
         listaTables = new LinkedList<Mesa>();
         crearMesasYSillas();
+        hacerJugador2();
     }
 
     /**
@@ -992,6 +1045,15 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             g.drawString(nameJ2, 35, 280);
         }
 
+        if (state == state.SELECT_MAP) {
+            g.drawImage(imgMapaT, 30, 30, this);
+            g.drawImage(bBar.getImageIcon().getImage(), bBar.getPosX(), bBar.getPosY(), this);
+            g.drawImage(bCentrales.getImageIcon().getImage(), bCentrales.getPosX(), bCentrales.getPosY(), this);
+            g.drawImage(bBahia.getImageIcon().getImage(), bBahia.getPosX(), bBahia.getPosY(), this);
+            g.drawImage(bPlaya.getImageIcon().getImage(), bPlaya.getPosX(), bPlaya.getPosY(), this);
+            g.drawImage(bCasino.getImageIcon().getImage(), bCasino.getPosX(), bCasino.getPosY(), this);
+        }
+
         if (state == state.CREDITS) {
             g.drawImage(imgLogoGrande, 200, 20, this);
             Font helvetica = new Font("Helvetica", Font.BOLD, 20);
@@ -1518,21 +1580,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             if (next) {
                 next = false;
                 //nameJ2 = jugador2.getText();
-                switch (colorJ2) {
-                    case 1:
-                        j1 = new Jugador(1, Color.red, nameJ2, listaTables.size() - 1);
-                        break;
-                    case 2:
-                        j1 = new Jugador(1, Color.gray, nameJ2, listaTables.size() - 1);
-                        break;
-                    case 3:
-                        j1 = new Jugador(1, Color.blue, nameJ2, listaTables.size() - 1);
-                        break;
-                    case 4:
-                        j1 = new Jugador(1, Color.green, nameJ2, listaTables.size() - 1);
-                        break;
-                }
-                state = state.GAME;
+                state = state.SELECT_MAP;
                 //this.remove(jugador2);
             }
 
@@ -1541,6 +1589,26 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 back = false;
                 //this.remove(jugador2);
             }
+        }
+
+        else if (state == state.SELECT_MAP) {
+            if (bBar.clicked(e)) {
+                escenario();
+                state = state.GAME;
+            } else if (bCentrales.clicked(e)) {
+                escenario2();
+                state = state.GAME;
+            } else if (bBahia.clicked(e)) {
+                escenario3();
+                state = state.GAME;
+            } else if (bPlaya.clicked(e)) {
+                escenario4();
+                state = state.GAME;
+            } else if (bCasino.clicked(e)) {
+                escenario5();
+                state = state.GAME;
+            }
+            
         }
 
     }

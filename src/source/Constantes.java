@@ -80,6 +80,13 @@ public interface Constantes {
     public static final String iUrlRI8 = "images/Rum_intro/8.png";
     public static final String iUrlRI9 = "images/Rum_intro/9.png";
     public static final String iUrlRIGIF = "images/Rum_intro/rum.gif";
+    public static final String iUrlMBar = "images/miniBar.png";
+    public static final String iUrlMCentrales = "images/miniCentrales.png";
+    public static final String iUrlMBahia = "images/miniDock.png";
+    public static final String iUrlMPlaya = "images/miniBeach.png";
+    public static final String iUrlMCasino = "images/miniCasino.png";
+    public static final String iUrlMapaT = "images/mapa_titulo.png";
+    
 
     //Colores
     public static final int BLUE = 1;
