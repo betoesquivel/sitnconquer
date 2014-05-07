@@ -416,7 +416,9 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
         // Se inicializa con escenario = 1... y el metodo a continuacion te lleva a centrales.
         // Comentar la siguiente linea te regresa al bar.
-        clip.close();
+        if (clip != null) {
+            clip.close();
+        }
         playMusic(trackList, 0, 6);
 //        playMusic(trackList, 0, 3); //0 means that I want music, 1 means I dont want music; 1 means first song; 
 
