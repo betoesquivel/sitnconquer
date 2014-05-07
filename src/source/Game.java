@@ -430,22 +430,22 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         th.start();
 
     }
-    
+
     public void hacerJugador2() {
         switch (colorJ2) {
-                case 1:
-                    j1 = new Jugador(1, Color.red, nameJ2, listaTables.size() - 1);
-                    break;
-                case 2:
-                    j1 = new Jugador(1, Color.gray, nameJ2, listaTables.size() - 1);
-                    break;
-                case 3:
-                    j1 = new Jugador(1, Color.blue, nameJ2, listaTables.size() - 1);
-                    break;
-                case 4:
-                    j1 = new Jugador(1, Color.green, nameJ2, listaTables.size() - 1);
-                    break;
-            }
+            case 1:
+                j1 = new Jugador(1, Color.red, nameJ2, listaTables.size() - 1);
+                break;
+            case 2:
+                j1 = new Jugador(1, Color.gray, nameJ2, listaTables.size() - 1);
+                break;
+            case 3:
+                j1 = new Jugador(1, Color.blue, nameJ2, listaTables.size() - 1);
+                break;
+            case 4:
+                j1 = new Jugador(1, Color.green, nameJ2, listaTables.size() - 1);
+                break;
+        }
     }
 
     public void escenario() {
@@ -744,9 +744,23 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
         if (j1.checarGana(listaTables)) {
             state = state.MENU_POSTJUEGO;
+            try {
+                guardarHighscore(j1.getNombre());
+            }catch(FileNotFoundException e){
+                System.out.println(e); 
+            }catch(IOException e2){
+                System.out.println(e2);
+            }
             Ganaste = 1;
         } else if (j2.checarGana(listaTables)) {
             state = state.MENU_POSTJUEGO;
+            try {
+                guardarHighscore(j2.getNombre());
+            }catch(FileNotFoundException e){
+                System.out.println(e); 
+            }catch(IOException e2){
+                System.out.println(e2);
+            }
             Ganaste = 2;
         }
     }
@@ -762,7 +776,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             puntajes.add(fila);
             System.out.println(parts[0] + "," + parts[1]);
         }
-        
+
     }
 
     public void guardarHighscore(String nombre) throws FileNotFoundException, IOException {
@@ -1620,9 +1634,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 back = false;
                 //this.remove(jugador2);
             }
-        }
-
-        else if (state == state.SELECT_MAP) {
+        } else if (state == state.SELECT_MAP) {
             if (bBar.clicked(e)) {
                 escenario();
                 state = state.GAME;
@@ -1639,7 +1651,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 escenario5();
                 state = state.GAME;
             }
-            
+
         }
 
     }
