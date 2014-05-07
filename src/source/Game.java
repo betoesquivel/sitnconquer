@@ -673,7 +673,9 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         tiempoActual = System.currentTimeMillis();
 
         while (true) {
-            actualizaRumIntro();
+            if (state == state.MENU_MAIN) {
+                actualizaRumIntro();
+            }
             if (state == state.GAME) {
                 Actualiza();
                 ChecaColision();
@@ -694,11 +696,11 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     public void actualizaRumIntro() {
         //Determina el tiempo que ha transcurrido desde que el Applet 
         //inicio su ejecución
-        long tiempoTranscurrido = System.currentTimeMillis() - tiempoActual;
+        long tiempoTrans = System.currentTimeMillis() - tiempoActual;
         //Guarda el tiempo actual
-        tiempoActual += tiempoTranscurrido;
+        tiempoActual += tiempoTrans;
         //Actualiza la animación en base al tiempo transcurrido
-        RumIntro.actualiza(tiempoTranscurrido);
+        RumIntro.actualiza(tiempoTrans);
     }
 
     /**
