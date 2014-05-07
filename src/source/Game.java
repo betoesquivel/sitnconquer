@@ -503,7 +503,10 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         escenario = 4;
         fondo = Toolkit.getDefaultToolkit().getImage(fondoURL4);
         listaTables = new LinkedList<Mesa>();
+        System.out.println("Creando mesas y sillas");
+
         crearMesasYSillas();
+        System.out.println("Cree mesas y sillas");
         clip.close();
         playMusic(trackList, 0, 4);
         hacerJugador2();
@@ -1178,7 +1181,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 LinkedList<ScoreRow> ps = leerHighscore();
                 int i = 1;
                 for (ScoreRow p : ps) {
-                    if (i>6) {
+                    if (i > 6) {
                         break;
                     }
                     String row = i + ".- " + p.getNombre() + "  Won: " + p.getScore();
@@ -1251,7 +1254,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             level = 1;
         }
         try {
-            audio = AudioSystem.getAudioInputStream(this.getClass().getResource(songs[level-1]));
+            audio = AudioSystem.getAudioInputStream(this.getClass().getResource(songs[level - 1]));
             clip = AudioSystem.getClip();
             clip.open(audio);
             clip.loop(Clip.LOOP_CONTINUOUSLY);
