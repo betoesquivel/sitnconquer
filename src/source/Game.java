@@ -28,6 +28,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -504,7 +505,6 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         fondo = Toolkit.getDefaultToolkit().getImage(fondoURL4);
         listaTables = new LinkedList<Mesa>();
         System.out.println("Creando mesas y sillas");
-
         crearMesasYSillas();
         System.out.println("Cree mesas y sillas");
         clip.close();
@@ -789,10 +789,21 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     }
 
     public LinkedList<ScoreRow> leerHighscore() throws FileNotFoundException, IOException {
-        BufferedReader reader = new BufferedReader(new FileReader("src/source/score.txt"));
+        BufferedReader fileIn;
+        try {
+            fileIn = new BufferedReader(new FileReader("score.txt"));
+        } catch (FileNotFoundException e) {
+            // Crear un archivo demo
+            File puntos = new File("score.txt");
+            PrintWriter fileOut = new PrintWriter(puntos);
+            // Valores default
+            fileOut.println("Beto,10");
+            fileOut.close();
+            fileIn = new BufferedReader(new FileReader("score.txt"));
+        }
         String line = null;
         LinkedList<ScoreRow> puntajes = new LinkedList<ScoreRow>();
-        while ((line = reader.readLine()) != null) {
+        while ((line = fileIn.readLine()) != null) {
             // ...
             String[] parts = line.split(",");
             ScoreRow fila = new ScoreRow(parts[0], Integer.parseInt(parts[1]));
@@ -800,17 +811,27 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             System.out.println(parts[0] + "," + parts[1]);
         }
 
-        reader.close();
+        fileIn.close();
         return puntajes;
 
     }
 
     public void guardarHighscore(String nombre) throws FileNotFoundException, IOException {
-        BufferedReader reader = new BufferedReader(new FileReader("src/source/score.txt"));
-
+        BufferedReader fileIn;
+        try {
+            fileIn = new BufferedReader(new FileReader("score.txt"));
+        } catch (FileNotFoundException e) {
+            // Crear un archivo demo
+            File puntos = new File("score.txt");
+            PrintWriter fileOut = new PrintWriter(puntos);
+            // Valores default
+            fileOut.println("Beto,10");
+            fileOut.close();
+            fileIn = new BufferedReader(new FileReader("score.txt"));
+        }
         String line = null;
         LinkedList<ScoreRow> puntajes = new LinkedList<ScoreRow>();
-        while ((line = reader.readLine()) != null) {
+        while ((line = fileIn.readLine()) != null) {
             String[] parts = line.split(",");
             ScoreRow fila = new ScoreRow(parts[0], Integer.parseInt(parts[1]));
             puntajes.add(fila);
@@ -835,12 +856,12 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         Collections.sort(puntajes, Collections.reverseOrder());
 
         //clear file
-        BufferedWriter eraser = new BufferedWriter(new FileWriter("src/source/score.txt", false));
+        BufferedWriter eraser = new BufferedWriter(new FileWriter("score.txt", false));
         eraser.write("");
         eraser.close();
 
         //print file
-        BufferedWriter writer = new BufferedWriter(new FileWriter("src/source/score.txt", true));
+        BufferedWriter writer = new BufferedWriter(new FileWriter("score.txt", true));
         for (ScoreRow p : puntajes) {
 
             writer.write(p.getNombre() + "," + p.getScore());
@@ -848,7 +869,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
         }
         writer.close();
-        reader.close();
+        fileIn.close();
     }
 
     /**
@@ -1553,25 +1574,28 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
         if (state == state.MENU_MAIN) {
 
-            if (bPlay.clicked(e)) {
-                state = state.SELECT_COLOR_1;
-            }
-
-            if (bCredits.clicked(e)) {
-                state = state.CREDITS;
-            }
-
-            if (bHighScore.clicked(e)) {
-                state = state.HIGHSCORE;
-                try {
-                    leerHighscore();
-
-                } catch (IOException ex) {
-                    Logger.getLogger(Game.class
-                            .getName()).log(Level.SEVERE, null, ex);
+            if (RumIntroCont < DURACION_INTRO_RUM) {
+            } else {
+                if (bPlay.clicked(e)) {
+                    state = state.SELECT_COLOR_1;
                 }
-            }
 
+                if (bCredits.clicked(e)) {
+                    state = state.CREDITS;
+                }
+
+                if (bHighScore.clicked(e)) {
+                    state = state.HIGHSCORE;
+                    try {
+                        leerHighscore();
+
+                    } catch (IOException ex) {
+                        Logger.getLogger(Game.class
+                                .getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+
+            }
         }
 
         if (state == state.CREDITS) {

@@ -592,13 +592,13 @@ public class Mesa extends Base implements Constantes {
                 sillas.add(auxUp);
                 sillas.add(auxDown);
             } else if (tipo == 5) {
-                URL sillaLeft = this.getClass().getResource("images/sillaPlaya1.png");
+                URL sillaLeft = this.getClass().getResource("images/sillaplaya1.png");
                 Image sillaL = Toolkit.getDefaultToolkit().getImage(sillaLeft);
-                URL sillaRight = this.getClass().getResource("images/sillaPlaya2.png");
+                URL sillaRight = this.getClass().getResource("images/sillaplaya2.png");
                 Image sillaR = Toolkit.getDefaultToolkit().getImage(sillaRight);
-                URL sillaUp = this.getClass().getResource("images/sillaPlaya4.png");
+                URL sillaUp = this.getClass().getResource("images/sillaplaya4.png");
                 Image sillaU = Toolkit.getDefaultToolkit().getImage(sillaUp);
-                URL sillaDown = this.getClass().getResource("images/sillaPlaya3.png");
+                URL sillaDown = this.getClass().getResource("images/sillaplaya3.png");
                 Image sillaD = Toolkit.getDefaultToolkit().getImage(sillaDown);
                 ImageIcon siLeft = new ImageIcon(sillaL);
                 ImageIcon siRight = new ImageIcon(sillaR);
@@ -618,9 +618,9 @@ public class Mesa extends Base implements Constantes {
                 sillas.add(auxUp);
                 sillas.add(auxDown);
             } else if (tipo == 6) {
-                URL sillaLeft = this.getClass().getResource("images/sillaPlaya1.png");
+                URL sillaLeft = this.getClass().getResource("images/sillaplaya1.png");
                 Image sillaL = Toolkit.getDefaultToolkit().getImage(sillaLeft);
-                URL sillaRight = this.getClass().getResource("images/sillaPlaya2.png");
+                URL sillaRight = this.getClass().getResource("images/sillaplaya2.png");
                 Image sillaR = Toolkit.getDefaultToolkit().getImage(sillaRight);
                 ImageIcon siLeft = new ImageIcon(sillaL);
                 ImageIcon siRight = new ImageIcon(sillaR);
