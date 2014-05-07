@@ -24,6 +24,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -763,9 +764,9 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             state = state.MENU_POSTJUEGO;
             try {
                 guardarHighscore(j1.getNombre());
-            }catch(FileNotFoundException e){
-                System.out.println(e); 
-            }catch(IOException e2){
+            } catch (FileNotFoundException e) {
+                System.out.println(e);
+            } catch (IOException e2) {
                 System.out.println(e2);
             }
             Ganaste = 1;
@@ -773,9 +774,9 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             state = state.MENU_POSTJUEGO;
             try {
                 guardarHighscore(j2.getNombre());
-            }catch(FileNotFoundException e){
-                System.out.println(e); 
-            }catch(IOException e2){
+            } catch (FileNotFoundException e) {
+                System.out.println(e);
+            } catch (IOException e2) {
                 System.out.println(e2);
             }
             Ganaste = 2;
@@ -793,23 +794,20 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             puntajes.add(fila);
             System.out.println(parts[0] + "," + parts[1]);
         }
-        
+
         reader.close();
 
     }
 
     public void guardarHighscore(String nombre) throws FileNotFoundException, IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter("src/source/score.txt"));
         BufferedReader reader = new BufferedReader(new FileReader("src/source/score.txt"));
-        
+
         String line = null;
         LinkedList<ScoreRow> puntajes = new LinkedList<ScoreRow>();
         while ((line = reader.readLine()) != null) {
-            // ...
             String[] parts = line.split(",");
             ScoreRow fila = new ScoreRow(parts[0], Integer.parseInt(parts[1]));
             puntajes.add(fila);
-//            System.out.println(parts[0] + "," + parts[1]);
         }
         ScoreRow nuevo = new ScoreRow(nombre, 1);
         boolean found = false;
@@ -828,10 +826,18 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         //sort the LinkedList
         Collections.sort(puntajes, Collections.reverseOrder());
 
-        for (ScoreRow n : puntajes) {
-
-            writer.write(n.getNombre() + "," + n.getScore());
+        //clear file
+        BufferedWriter eraser = new BufferedWriter(new FileWriter("src/source/score.txt", false));
+        eraser.write("");
+        eraser.close();
         
+        //print file
+        BufferedWriter writer = new BufferedWriter(new FileWriter("src/source/score.txt", true));
+        for (ScoreRow p : puntajes) {
+
+            writer.write(p.getNombre() + "," + p.getScore());
+            writer.newLine();
+
         }
         writer.close();
         reader.close();
@@ -1128,16 +1134,16 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
         if (state == state.CREDITS) {
             /*g.drawImage(imgLogoGrande, 200, 20, this);
-            Font helvetica = new Font("Helvetica", Font.BOLD, 20);
-            g.setFont(helvetica);
-            g.setColor(Color.WHITE);
-            g.drawString("DESARROLLADO POR RUM", 350, 420);
-            helvetica = new Font("Helvetica", Font.BOLD, 20);
-            g.setFont(helvetica);
-            g.drawString("Hugo León ", 300, 440);
-            g.drawString("Bernardo Treviño", 300, 460);
-            g.drawString("José Alberto Esquivel", 300, 480);
-            g.drawString("Gustavo Ferrufino", 300, 500);*/
+             Font helvetica = new Font("Helvetica", Font.BOLD, 20);
+             g.setFont(helvetica);
+             g.setColor(Color.WHITE);
+             g.drawString("DESARROLLADO POR RUM", 350, 420);
+             helvetica = new Font("Helvetica", Font.BOLD, 20);
+             g.setFont(helvetica);
+             g.drawString("Hugo León ", 300, 440);
+             g.drawString("Bernardo Treviño", 300, 460);
+             g.drawString("José Alberto Esquivel", 300, 480);
+             g.drawString("Gustavo Ferrufino", 300, 500);*/
             g.drawImage(imgCreditos, 0, 0, this);
             g.drawImage(bBack.getImageIcon().getImage(), bBack.getPosX(), bBack.getPosY(), this);
         }

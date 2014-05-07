@@ -1,3 +1,5 @@
-Hugo,7
-beto,3
-berny,1
+betiox,5
+bernard,3
+lukas,1
+alesso,1
+bravo,1
