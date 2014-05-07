@@ -254,15 +254,23 @@ public class Mesa extends Base implements Constantes {
         if (tipo == 1 || tipo == 3 || tipo == 4 || tipo == 5 || tipo == 7 && monitosSentados.size() > 0) {
             for (int x = 0; x < sillas.size() - 2; x++) {
                 Silla aux = (Silla) sillas.get(x);
-                if (aux.isOcupada()) {
-                    monitosSentados.get(x).paintSentado(g, aux, this);
+                try {
+                    if (aux.isOcupada()) {
+                        monitosSentados.get(x).paintSentado(g, aux, this);
+                    }
+                } catch (NullPointerException ex) {
+                    System.out.println("Error en " + ex.toString());
                 }
             }
         } else if (tipo == 6) {
             for (int x = 0; x < sillas.size(); x++) {
                 Silla aux = (Silla) sillas.get(x);
-                if (aux.isOcupada()) {
-                    monitosSentados.get(x).paintSentado(g, aux, this);
+                try {
+                    if (aux.isOcupada()) {
+                        monitosSentados.get(x).paintSentado(g, aux, this);
+                    }
+                } catch (NullPointerException ex) {
+                    System.out.println("Error en " + ex.toString());
                 }
             }
         }
@@ -276,13 +284,22 @@ public class Mesa extends Base implements Constantes {
     public void paintMonitoArriba(Graphics g) {
         if (tipo == 2 && sentados > 0) {
             monitosSentados.get(0).paintBillar(g, this, 0);
-            if (sentados > 1) {
-                monitosSentados.get(1).paintBillar(g, this, 1);
+            try {
+                if (sentados > 1) {
+                    monitosSentados.get(1).paintBillar(g, this, 1);
+                }
+            } catch (NullPointerException ex) {
+                System.out.println("Error en " + ex.toString());
             }
+
         } else if (tipo == 1 || tipo == 3 || tipo == 4 || tipo == 5 || tipo == 7 && monitosSentados.size() > 2) {
             Silla aux = (Silla) sillas.get(2);
-            if (aux.isOcupada()) {
-                monitosSentados.get(2).paintSentado(g, aux, this);
+            try {
+                if (aux.isOcupada()) {
+                    monitosSentados.get(2).paintSentado(g, aux, this);
+                }
+            } catch (NullPointerException ex) {
+                System.out.println("Error en " + ex.toString());
             }
         }
     }
@@ -295,8 +312,12 @@ public class Mesa extends Base implements Constantes {
     public void paintMonitoAbajo(Graphics g) {
         if (tipo == 1 || tipo == 3 || tipo == 4 || tipo == 5 || tipo == 7 && monitosSentados.size() > 3) {
             Silla aux = (Silla) sillas.get(3);
-            if (aux.isOcupada()) {
-                monitosSentados.get(3).paintSentado(g, aux, this);
+            try {
+                if (aux.isOcupada()) {
+                    monitosSentados.get(3).paintSentado(g, aux, this);
+                }
+            } catch (NullPointerException ex) {
+                System.out.println("Error en " + ex.toString());
             }
         }
     }
@@ -610,7 +631,7 @@ public class Mesa extends Base implements Constantes {
 
                 sillas.add(auxLeft);
                 sillas.add(auxRight);
-            } 
+            }
         }
     }
 

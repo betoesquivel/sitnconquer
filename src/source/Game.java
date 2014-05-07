@@ -92,6 +92,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private Image imgMPlaya;
     private Image imgMCasino;
     private Image imgMapaT;
+    private Image imgCreditos;
 
     //rectangle
     private Rectangle rec;
@@ -113,7 +114,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private int escenario;
 
     // Music
-    private String[] trackList = {songOne, songTwo, songThree};
+    private String[] trackList = {songOne, songTwo, songThree, songFour, songFive, songIntro};
     private AudioInputStream audio;
     private Clip clip;
 
@@ -233,6 +234,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private URL imgMPlayaURL = this.getClass().getResource(iUrlMPlaya);
     private URL imgMCasinoURL = this.getClass().getResource(iUrlMCasino);
     private URL imgMapaTURL = this.getClass().getResource(iUrlMapaT);
+    private URL imgCreditosURL = this.getClass().getResource(iUrlCreditos);
 
     //Estados del juego (Para saber cuando estoy jugando on menus)
     private enum STATE {
@@ -364,6 +366,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         imgMPlaya = Toolkit.getDefaultToolkit().getImage(imgMPlayaURL);
         imgMCasino = Toolkit.getDefaultToolkit().getImage(imgMCasinoURL);
         imgMapaT = Toolkit.getDefaultToolkit().getImage(imgMapaTURL);
+        imgCreditos = Toolkit.getDefaultToolkit().getImage(imgCreditosURL);
 
         //Sounds
         sitClip = new SoundClip(sSentar);
@@ -416,9 +419,10 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
 
         // Se inicializa con escenario = 1... y el metodo a continuacion te lleva a centrales.
         // Comentar la siguiente linea te regresa al bar.
-        if (escenario == 1) {
-            playMusic(trackList, 0, 1);
+        if (clip != null) {
+            clip.close();
         }
+        playMusic(trackList, 0, 6);
 //        playMusic(trackList, 0, 3); //0 means that I want music, 1 means I dont want music; 1 means first song; 
 
     }
@@ -453,6 +457,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         fondo = Toolkit.getDefaultToolkit().getImage(fondoURL);
         listaTables = new LinkedList<Mesa>();
         crearMesasYSillas();
+        clip.close();
+        playMusic(trackList, 0, 1);
         hacerJugador2();
     }
 
@@ -465,6 +471,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         fondo = Toolkit.getDefaultToolkit().getImage(fondoURL2);
         listaTables = new LinkedList<Mesa>();
         crearMesasYSillas();
+        clip.close();
         playMusic(trackList, 0, 2);
         hacerJugador2();
     }
@@ -482,6 +489,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         moverOla2 = - 900;
         listaTables = new LinkedList<Mesa>();
         crearMesasYSillas();
+        clip.close();
+        playMusic(trackList, 0, 3);
         hacerJugador2();
     }
 
@@ -490,6 +499,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         fondo = Toolkit.getDefaultToolkit().getImage(fondoURL4);
         listaTables = new LinkedList<Mesa>();
         crearMesasYSillas();
+        clip.close();
+        playMusic(trackList, 0, 4);
         hacerJugador2();
     }
 
@@ -498,6 +509,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         fondo = Toolkit.getDefaultToolkit().getImage(fondoURL5);
         listaTables = new LinkedList<Mesa>();
         crearMesasYSillas();
+        clip.close();
+        playMusic(trackList, 0, 5);
         hacerJugador2();
     }
 
@@ -665,7 +678,9 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         tiempoActual = System.currentTimeMillis();
 
         while (true) {
-            actualizaRumIntro();
+            if (state == state.MENU_MAIN) {
+                actualizaRumIntro();
+            }
             if (state == state.GAME) {
                 Actualiza();
                 ChecaColision();
@@ -686,11 +701,11 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     public void actualizaRumIntro() {
         //Determina el tiempo que ha transcurrido desde que el Applet 
         //inicio su ejecución
-        long tiempoTranscurrido = System.currentTimeMillis() - tiempoActual;
+        long tiempoTrans = System.currentTimeMillis() - tiempoActual;
         //Guarda el tiempo actual
-        tiempoActual += tiempoTranscurrido;
+        tiempoActual += tiempoTrans;
         //Actualiza la animación en base al tiempo transcurrido
-        RumIntro.actualiza(tiempoTranscurrido);
+        RumIntro.actualiza(tiempoTrans);
     }
 
     /**
@@ -1100,7 +1115,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         }
 
         if (state == state.CREDITS) {
-            g.drawImage(imgLogoGrande, 200, 20, this);
+            /*g.drawImage(imgLogoGrande, 200, 20, this);
             Font helvetica = new Font("Helvetica", Font.BOLD, 20);
             g.setFont(helvetica);
             g.setColor(Color.WHITE);
@@ -1110,7 +1125,8 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             g.drawString("Hugo León ", 300, 440);
             g.drawString("Bernardo Treviño", 300, 460);
             g.drawString("José Alberto Esquivel", 300, 480);
-            g.drawString("Gustavo Ferrufino", 300, 500);
+            g.drawString("Gustavo Ferrufino", 300, 500);*/
+            g.drawImage(imgCreditos, 0, 0, this);
             g.drawImage(bBack.getImageIcon().getImage(), bBack.getPosX(), bBack.getPosY(), this);
         }
 
