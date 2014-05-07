@@ -86,6 +86,7 @@ public interface Constantes {
     public static final String iUrlMPlaya = "images/miniBeach.png";
     public static final String iUrlMCasino = "images/miniCasino.png";
     public static final String iUrlMapaT = "images/mapa_titulo.png";
+    public static final String iUrlCreditos = "images/credits.png";
     
 
     //Colores
