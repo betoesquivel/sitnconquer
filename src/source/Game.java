@@ -430,22 +430,22 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         th.start();
 
     }
-    
+
     public void hacerJugador2() {
         switch (colorJ2) {
-                case 1:
-                    j1 = new Jugador(1, Color.red, nameJ2, listaTables.size() - 1);
-                    break;
-                case 2:
-                    j1 = new Jugador(1, Color.gray, nameJ2, listaTables.size() - 1);
-                    break;
-                case 3:
-                    j1 = new Jugador(1, Color.blue, nameJ2, listaTables.size() - 1);
-                    break;
-                case 4:
-                    j1 = new Jugador(1, Color.green, nameJ2, listaTables.size() - 1);
-                    break;
-            }
+            case 1:
+                j1 = new Jugador(1, Color.red, nameJ2, listaTables.size() - 1);
+                break;
+            case 2:
+                j1 = new Jugador(1, Color.gray, nameJ2, listaTables.size() - 1);
+                break;
+            case 3:
+                j1 = new Jugador(1, Color.blue, nameJ2, listaTables.size() - 1);
+                break;
+            case 4:
+                j1 = new Jugador(1, Color.green, nameJ2, listaTables.size() - 1);
+                break;
+        }
     }
 
     public void escenario() {
@@ -453,6 +453,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         fondo = Toolkit.getDefaultToolkit().getImage(fondoURL);
         listaTables = new LinkedList<Mesa>();
         crearMesasYSillas();
+        playMusic(trackList, 0, 1);
         hacerJugador2();
     }
 
@@ -482,6 +483,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         moverOla2 = - 900;
         listaTables = new LinkedList<Mesa>();
         crearMesasYSillas();
+        playMusic(trackList, 0, 3);
         hacerJugador2();
     }
 
@@ -490,6 +492,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         fondo = Toolkit.getDefaultToolkit().getImage(fondoURL4);
         listaTables = new LinkedList<Mesa>();
         crearMesasYSillas();
+//        playMusic(trackList, 0, 4);
         hacerJugador2();
     }
 
@@ -498,6 +501,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         fondo = Toolkit.getDefaultToolkit().getImage(fondoURL5);
         listaTables = new LinkedList<Mesa>();
         crearMesasYSillas();
+//        playMusic(trackList, 0, 5);
         hacerJugador2();
     }
 
@@ -762,7 +766,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             puntajes.add(fila);
             System.out.println(parts[0] + "," + parts[1]);
         }
-        
+
     }
 
     public void guardarHighscore(String nombre) throws FileNotFoundException, IOException {
@@ -1620,9 +1624,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 back = false;
                 //this.remove(jugador2);
             }
-        }
-
-        else if (state == state.SELECT_MAP) {
+        } else if (state == state.SELECT_MAP) {
             if (bBar.clicked(e)) {
                 escenario();
                 state = state.GAME;
@@ -1639,7 +1641,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 escenario5();
                 state = state.GAME;
             }
-            
+
         }
 
     }
