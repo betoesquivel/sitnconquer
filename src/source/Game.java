@@ -1251,7 +1251,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
             level = 1;
         }
         try {
-            audio = AudioSystem.getAudioInputStream(new File(songs[level - 1]).getAbsoluteFile());
+            audio = AudioSystem.getAudioInputStream(this.getClass().getResource(songs[level-1]));
             clip = AudioSystem.getClip();
             clip.open(audio);
             clip.loop(Clip.LOOP_CONTINUOUSLY);

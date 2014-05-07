@@ -115,13 +115,13 @@ public interface Constantes {
     public static final int GAME_HEIGHT = 600;
 
     //Musica
-    String songThree = "src/source/music/heisapirate.wav";
-    String songTwo = "src/source/music/goldontheceiling.wav";
-    String songOne = "src/source/music/rickrolled.wav";
-//    String songFour2 = "src/source/music/atlantica.wav";
-    String songFour = "src/source/music/destinyislands.wav";
-    String songIntro = "src/source/music/ugachakaintro.wav";
-    String songFive = "src/source/music/thriftshop.wav";
+    String songThree = "music/heisapirate.wav";
+    String songTwo = "music/goldontheceiling.wav";
+    String songOne = "music/rickrolled.wav";
+//    String songFour2 = "music/atlantica.wav";
+    String songFour = "music/destinyislands.wav";
+    String songIntro = "music/ugachakaintro.wav";
+    String songFive = "music/thriftshop.wav";
 
     //Sounds
     String sParar = "sounds/pararse.wav";
