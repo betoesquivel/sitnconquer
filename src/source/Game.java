@@ -783,7 +783,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         }
     }
 
-    public void leerHighscore() throws FileNotFoundException, IOException {
+    public LinkedList<ScoreRow> leerHighscore() throws FileNotFoundException, IOException {
         BufferedReader reader = new BufferedReader(new FileReader("src/source/score.txt"));
         String line = null;
         LinkedList<ScoreRow> puntajes = new LinkedList<ScoreRow>();
@@ -796,6 +796,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         }
 
         reader.close();
+        return puntajes;
 
     }
 
@@ -830,7 +831,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         BufferedWriter eraser = new BufferedWriter(new FileWriter("src/source/score.txt", false));
         eraser.write("");
         eraser.close();
-        
+
         //print file
         BufferedWriter writer = new BufferedWriter(new FileWriter("src/source/score.txt", true));
         for (ScoreRow p : puntajes) {
@@ -1143,17 +1144,33 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
              g.drawString("Hugo León ", 300, 440);
              g.drawString("Bernardo Treviño", 300, 460);
              g.drawString("José Alberto Esquivel", 300, 480);
-             g.drawString("Gustavo Ferrufino", 300, 500);*/
+             g.drawString("Gustavo Ferrufino", 300, 500);
+             */
             g.drawImage(imgCreditos, 0, 0, this);
             g.drawImage(bBack.getImageIcon().getImage(), bBack.getPosX(), bBack.getPosY(), this);
         }
 
         if (state == state.HIGHSCORE) {
             g.drawImage(imgLogoGrande, 200, 20, this);
-            g.drawString("HIGH SCORE: ", 350, 420);
-            g.drawString("1.- ", 300, 435);
-            g.drawString("2.- ", 300, 450);
-            g.drawString("3.- ", 300, 465);
+            Font helvetica = new Font("Helvetica", Font.BOLD, 20);
+            g.setFont(helvetica);
+            g.setColor(Color.BLACK);
+            g.drawString("HIGH SCORE", 350, 420);
+            try {
+                helvetica = new Font("Helvetica", Font.BOLD, 20);
+                g.setColor(Color.WHITE);
+                g.setFont(helvetica);
+                LinkedList<ScoreRow> ps = leerHighscore();
+                int i = 1;
+                for (ScoreRow p : ps) {
+                    String row = i + ".- " + p.getNombre() + "  Won: " + p.getScore();
+                    g.drawString(row, 300, 420 + i * 22);
+                    i++;
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
             g.drawImage(bBack.getImageIcon().getImage(), bBack.getPosX(), bBack.getPosY(), this);
 
         }
