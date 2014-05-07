@@ -74,9 +74,9 @@ public class Jugador implements Constantes {
     public void crearPersonaje() {
         int tipo;
         if (cambia == 0) {
-            tipo = (int) (Math.random() * 4) + 1;
+            tipo = (int) (Math.random() * 6) + 1;
         } else {
-            tipo = cambia;
+            tipo = (int) (Math.random() * 3) + cambia;
         }
         int col = 0;
         if (color == Color.blue) {
@@ -107,9 +107,9 @@ public class Jugador implements Constantes {
     public void crearPersonajeSentado(Mesa m) {
         int tipo;
         if (cambia == 0) {
-            tipo = (int) (Math.random() * 4) + 1;
+            tipo = (int) (Math.random() * 6) + 1;
         } else {
-            tipo = cambia;
+            tipo = (int) (Math.random() * 3) + cambia;
         }
         int col = 0;
         if (color == Color.blue) {
@@ -353,7 +353,7 @@ public class Jugador implements Constantes {
         cambia = t;
         for (int x = 0; x < personajes.size(); x++) {
             Personaje aux = (Personaje) personajes.get(x);
-            aux.setTipo(4);
+            aux.setTipo((int) (Math.random() % 3) + cambia);
             aux.crearAnimaciones();
         }
     }
@@ -365,7 +365,7 @@ public class Jugador implements Constantes {
         cambia = 0;
         for (int x = 0; x < personajes.size(); x++) {
             Personaje aux = (Personaje) personajes.get(x);
-            aux.setTipo((int) (Math.random() * 4) + 1);
+            aux.setTipo((int) (Math.random() * 6) + 1);
             aux.crearAnimaciones();
         }
     }
