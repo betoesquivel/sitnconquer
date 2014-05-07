@@ -14,7 +14,6 @@ import java.awt.Image;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Rectangle;
-import java.awt.TextField;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -27,6 +26,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -113,7 +113,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     private int escenario;
 
     // Music
-    private String[] trackList = {songOne, songTwo, songThree};
+    private String[] trackList = {songOne, songTwo, songThree, songFour};
     private AudioInputStream audio;
     private Clip clip;
 
@@ -453,6 +453,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         fondo = Toolkit.getDefaultToolkit().getImage(fondoURL);
         listaTables = new LinkedList<Mesa>();
         crearMesasYSillas();
+        playMusic(trackList, 0, 1);
         hacerJugador2();
     }
 
@@ -482,6 +483,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         moverOla2 = - 900;
         listaTables = new LinkedList<Mesa>();
         crearMesasYSillas();
+        playMusic(trackList, 0, 3);
         hacerJugador2();
     }
 
@@ -490,6 +492,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         fondo = Toolkit.getDefaultToolkit().getImage(fondoURL4);
         listaTables = new LinkedList<Mesa>();
         crearMesasYSillas();
+        playMusic(trackList, 0, 4);
         hacerJugador2();
     }
 
@@ -498,6 +501,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         fondo = Toolkit.getDefaultToolkit().getImage(fondoURL5);
         listaTables = new LinkedList<Mesa>();
         crearMesasYSillas();
+//        playMusic(trackList, 0, 5);
         hacerJugador2();
     }
 
@@ -756,15 +760,46 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     public void leerHighscore() throws FileNotFoundException, IOException {
         BufferedReader reader = new BufferedReader(new FileReader("src/source/score.txt"));
         String line = null;
+        LinkedList<ScoreRow> puntajes = new LinkedList<ScoreRow>();
         while ((line = reader.readLine()) != null) {
             // ...
-            String[] parts = line.split(" ");
-            System.out.println(parts[0] + "  " + parts[1]);
+            String[] parts = line.split(",");
+            ScoreRow fila = new ScoreRow(parts[0], Integer.parseInt(parts[1]));
+            puntajes.add(fila);
+            System.out.println(parts[0] + "," + parts[1]);
         }
+
     }
 
-    public void guardarHighscore(String nombre, int jGanados) {
+    public void guardarHighscore(String nombre) throws FileNotFoundException, IOException {
+        BufferedReader reader = new BufferedReader(new FileReader("src/source/score.txt"));
+        String line = null;
+        LinkedList<ScoreRow> puntajes = new LinkedList<ScoreRow>();
+        while ((line = reader.readLine()) != null) {
+            // ...
+            String[] parts = line.split(",");
+            ScoreRow fila = new ScoreRow(parts[0], Integer.parseInt(parts[1]));
+            puntajes.add(fila);
+//            System.out.println(parts[0] + "," + parts[1]);
+        }
+        ScoreRow nuevo = new ScoreRow(nombre, 1);
+        boolean found = false;
+        //checo si está en la lista
+        for (ScoreRow p : puntajes) {
+            if (nuevo.getNombre() == p.getNombre()) {
+                p.setScore(p.getScore() + nuevo.getScore());
+                found = true;
+            }
+        }
 
+        if (!found) {
+            puntajes.add(nuevo);
+        }
+
+        //sort the LinkedList
+        Collections.sort(puntajes, Collections.reverseOrder());
+
+        System.out.println(puntajes);
     }
 
     /**
