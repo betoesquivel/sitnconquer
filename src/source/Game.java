@@ -430,22 +430,22 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         th.start();
 
     }
-    
+
     public void hacerJugador2() {
         switch (colorJ2) {
-                case 1:
-                    j1 = new Jugador(1, Color.red, nameJ2, listaTables.size() - 1);
-                    break;
-                case 2:
-                    j1 = new Jugador(1, Color.gray, nameJ2, listaTables.size() - 1);
-                    break;
-                case 3:
-                    j1 = new Jugador(1, Color.blue, nameJ2, listaTables.size() - 1);
-                    break;
-                case 4:
-                    j1 = new Jugador(1, Color.green, nameJ2, listaTables.size() - 1);
-                    break;
-            }
+            case 1:
+                j1 = new Jugador(1, Color.red, nameJ2, listaTables.size() - 1);
+                break;
+            case 2:
+                j1 = new Jugador(1, Color.gray, nameJ2, listaTables.size() - 1);
+                break;
+            case 3:
+                j1 = new Jugador(1, Color.blue, nameJ2, listaTables.size() - 1);
+                break;
+            case 4:
+                j1 = new Jugador(1, Color.green, nameJ2, listaTables.size() - 1);
+                break;
+        }
     }
 
     public void escenario() {
@@ -665,7 +665,9 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         tiempoActual = System.currentTimeMillis();
 
         while (true) {
-            actualizaRumIntro();
+            if (state == state.MENU_MAIN) {
+                actualizaRumIntro();
+            }
             if (state == state.GAME) {
                 Actualiza();
                 ChecaColision();
@@ -686,11 +688,11 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
     public void actualizaRumIntro() {
         //Determina el tiempo que ha transcurrido desde que el Applet 
         //inicio su ejecución
-        long tiempoTranscurrido = System.currentTimeMillis() - tiempoActual;
+        long tiempoTrans = System.currentTimeMillis() - tiempoActual;
         //Guarda el tiempo actual
-        tiempoActual += tiempoTranscurrido;
+        tiempoActual += tiempoTrans;
         //Actualiza la animación en base al tiempo transcurrido
-        RumIntro.actualiza(tiempoTranscurrido);
+        RumIntro.actualiza(tiempoTrans);
     }
 
     /**
@@ -1589,9 +1591,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 back = false;
                 //this.remove(jugador2);
             }
-        }
-
-        else if (state == state.SELECT_MAP) {
+        } else if (state == state.SELECT_MAP) {
             if (bBar.clicked(e)) {
                 escenario();
                 state = state.GAME;
@@ -1608,7 +1608,7 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 escenario5();
                 state = state.GAME;
             }
-            
+
         }
 
     }
