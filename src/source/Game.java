@@ -816,9 +816,11 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
         boolean found = false;
         //checo si está en la lista
         for (ScoreRow p : puntajes) {
-            if (nuevo.getNombre() == p.getNombre()) {
-                p.setScore(p.getScore() + nuevo.getScore());
+            if (nuevo.getNombre().equalsIgnoreCase(p.getNombre())) {
+                System.out.println("Agregando 1 a: " + p.getNombre());
+                p.setScore(p.getScore() + 1);
                 found = true;
+                break;
             }
         }
 
@@ -1176,6 +1178,9 @@ public class Game extends JFrame implements Constantes, Runnable, KeyListener, M
                 LinkedList<ScoreRow> ps = leerHighscore();
                 int i = 1;
                 for (ScoreRow p : ps) {
+                    if (i>6) {
+                        break;
+                    }
                     String row = i + ".- " + p.getNombre() + "  Won: " + p.getScore();
                     g.drawString(row, 300, 420 + i * 22);
                     i++;

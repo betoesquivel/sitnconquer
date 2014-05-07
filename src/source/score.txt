@@ -1,6 +1,7 @@
 betiox,5
 bernard,3
-lukas,1
+lukas,2
+bernardss,2
 alesso,1
 bravo,1
 nuevo,1

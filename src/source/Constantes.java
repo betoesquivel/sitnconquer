@@ -18,7 +18,7 @@ public interface Constantes {
     public static final String iUrlFondo2 = "images/cafeterias.png";
     public static final String iUrlFondo3 = "images/bahia.png";
     public static final String iUrlFondo4 = "images/playa.png";
-    public static final String iUrlFondo5 = "images/casino_royal_red (1).jpg";
+    public static final String iUrlFondo5 = "images/casinoroyalred.jpg";
     public static final String iUrlola = "images/waves1.png";
     public static final String iUrlola2 = "images/waves2.png";
     public static final String iUrlCerveza = "images/beers.png";
@@ -27,7 +27,7 @@ public interface Constantes {
     public static final String iUrlSilla2 = "images/chair2.png";
     public static final String iUrlSilla3 = "images/chair3.png";
     public static final String iUrlSilla4 = "images/chair4.png";
-    public static final String iUrlBarraInfo = "images/infoBar2.png";
+    public static final String iUrlBarraInfo = "images/infobar2.png";
     public static final String iUrlPausa = "images/pause.png";
     public static final String iUrlPlato1 = "images/plate1.png";
     //
@@ -69,7 +69,7 @@ public interface Constantes {
     public static final String iUrlInstruccionesMenuNombre = "images/instruccionesMenuNombre.png";
     public static final String iUrlInstruccionesMovimiento = "images/instruccionesMovimiento.png";
     public static final String iUrlLetreroPausado = "images/letreroPausado.png";
-    public static final String iUrlBarra = "images/infoBar2.png";
+    public static final String iUrlBarra = "images/infobar2.png";
     public static final String iUrlRI1 = "images/Rum_intro/1.png";
     public static final String iUrlRI2 = "images/Rum_intro/2.png";
     public static final String iUrlRI3 = "images/Rum_intro/3.png";
